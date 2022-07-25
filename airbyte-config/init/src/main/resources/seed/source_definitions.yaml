@@ -1,3 +1,11 @@
+- name: Adjust
+  sourceDefinitionId: b048c971-8e72-4dc0-903a-75ee08eae8be
+  dockerRepository: stepanchatalyanphiture/source-adjust
+  dockerImageTag: dev
+  documentationUrl: https://docs.airbyte.io/integrations/sources/adjust
+  icon: adjust.svg
+  sourceType: api
+  releaseStage: alpha
 - name: Airtable
   sourceDefinitionId: 14c6e7ea-97ed-4f5e-a7b5-25e9a80b8212
   dockerRepository: airbyte/source-airtable
