@@ -133,12 +133,13 @@ class SourceAdjust(AbstractSource):
         if input_start_date < date_before:
             return False, "Start date must be after 2020-01-01"
 
-        input_end_date = datetime.strptime(config["end_date"], "%Y-%m-%d").date()
-        if input_end_date < date_before:
-            return False, "End date must be after 2020-01-01"
+        if config.get("end_date"):
+            input_end_date = datetime.strptime(config["end_date"], "%Y-%m-%d").date()
+            if input_end_date < date_before:
+                return False, "End date must be after 2020-01-01"
 
-        if input_start_date > input_end_date:
-            return False, "Start date must be before end date"
+            if input_start_date > input_end_date:
+                return False, "Start date must be before end date"
 
         return True, None
 
