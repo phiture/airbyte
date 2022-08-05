@@ -8,6 +8,7 @@ import airbyte_cdk.sources.declarative.requesters.error_handlers.response_status
 import pytest
 import requests
 from airbyte_cdk.models import SyncMode
+from airbyte_cdk.sources.declarative.read_exception import ReadException
 from airbyte_cdk.sources.declarative.requesters.error_handlers.response_action import ResponseAction
 from airbyte_cdk.sources.declarative.requesters.error_handlers.response_status import ResponseStatus
 from airbyte_cdk.sources.declarative.requesters.request_option import RequestOptionType
@@ -16,9 +17,10 @@ from airbyte_cdk.sources.declarative.retrievers.simple_retriever import SimpleRe
 
 primary_key = "pk"
 records = [{"id": 1}, {"id": 2}]
+config = {}
 
 
-def test_simple_retriever():
+def test_simple_retriever_full():
     requester = MagicMock()
     request_params = {"param": "value"}
     requester.request_params.return_value = request_params
@@ -37,9 +39,8 @@ def test_simple_retriever():
 
     response = requests.Response()
 
-    state = MagicMock()
     underlying_state = {"date": "2021-01-01"}
-    state.get_stream_state.return_value = underlying_state
+    iterator.get_stream_state.return_value = underlying_state
 
     url_base = "https://airbyte.io"
     requester.get_url_base.return_value = url_base
@@ -68,11 +69,7 @@ def test_simple_retriever():
         paginator=paginator,
         record_selector=record_selector,
         stream_slicer=iterator,
-        state=state,
     )
-
-    # hack because we clone the state...
-    retriever._state = state
 
     assert retriever.primary_key == primary_key
     assert retriever.url_base == url_base
@@ -136,7 +133,7 @@ def test_parse_response(test_name, status_code, response_status, len_expected_re
         try:
             retriever.parse_response(response, stream_state={})
             assert False
-        except requests.exceptions.HTTPError:
+        except ReadException:
             pass
     else:
         records = retriever.parse_response(response, stream_state={})
@@ -171,29 +168,40 @@ def test_backoff_time(test_name, response_action, retry_in, expected_backoff_tim
 
 
 @pytest.mark.parametrize(
-    "test_name, paginator_mapping, expected_mapping",
+    "test_name, paginator_mapping, stream_slicer_mapping, expected_mapping",
     [
-        ("test_only_base_headers", {}, {"key": "value"}),
-        ("test_header_from_pagination", {"offset": 1000}, {"key": "value", "offset": 1000}),
-        ("test_duplicate_header", {"key": 1000}, None),
+        ("test_only_base_headers", {}, {}, {"key": "value"}),
+        ("test_header_from_pagination", {"offset": 1000}, {}, {"key": "value", "offset": 1000}),
+        ("test_header_from_stream_slicer", {}, {"slice": "slice_value"}, {"key": "value", "slice": "slice_value"}),
+        ("test_duplicate_header_slicer", {}, {"key": "slice_value"}, None),
+        ("test_duplicate_header_slicer_paginator", {"k": "v"}, {"k": "slice_value"}, None),
+        ("test_duplicate_header_paginator", {"key": 1000}, {}, None),
     ],
 )
-def test_get_request_options_from_pagination(test_name, paginator_mapping, expected_mapping):
+def test_get_request_options_from_pagination(test_name, paginator_mapping, stream_slicer_mapping, expected_mapping):
     paginator = MagicMock()
     paginator.request_headers.return_value = paginator_mapping
     paginator.request_params.return_value = paginator_mapping
     paginator.request_body_data.return_value = paginator_mapping
     paginator.request_body_json.return_value = paginator_mapping
-    requester = MagicMock()
+
+    stream_slicer = MagicMock()
+    stream_slicer.request_headers.return_value = stream_slicer_mapping
+    stream_slicer.request_params.return_value = stream_slicer_mapping
+    stream_slicer.request_body_data.return_value = stream_slicer_mapping
+    stream_slicer.request_body_json.return_value = stream_slicer_mapping
 
     base_mapping = {"key": "value"}
+    requester = MagicMock()
     requester.request_headers.return_value = base_mapping
     requester.request_params.return_value = base_mapping
     requester.request_body_data.return_value = base_mapping
     requester.request_body_json.return_value = base_mapping
 
     record_selector = MagicMock()
-    retriever = SimpleRetriever("stream_name", primary_key, requester=requester, record_selector=record_selector, paginator=paginator)
+    retriever = SimpleRetriever(
+        "stream_name", primary_key, requester=requester, record_selector=record_selector, paginator=paginator, stream_slicer=stream_slicer
+    )
 
     request_option_type_to_method = {
         RequestOptionType.header: retriever.request_headers,
