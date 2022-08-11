@@ -13,13 +13,12 @@ import io.airbyte.db.factory.DatabaseDriver;
 import io.airbyte.db.jdbc.JdbcUtils;
 import io.airbyte.integrations.standardtest.source.TestDestinationEnv;
 import io.airbyte.integrations.util.HostPortResolver;
-import io.airbyte.protocol.models.JsonSchemaType;
 import java.util.List;
 import org.jooq.SQLDialect;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.MountableFile;
 
-public class CdcPostgresSourceDatatypeTest extends AbstractPostgresSourceDatatypeTest {
+public class CdcInitialSnapshotPostgresSourceDatatypeTest extends AbstractPostgresSourceDatatypeTest {
 
   private static final String SCHEMA_NAME = "test";
   private static final String SLOT_NAME_BASE = "debezium_slot";
@@ -56,6 +55,7 @@ public class CdcPostgresSourceDatatypeTest extends AbstractPostgresSourceDatatyp
         .put("replication_method", replicationMethod)
         .put("is_test", true)
         .put(JdbcUtils.SSL_KEY, false)
+        .put("snapshot_mode", "initial_only")
         .build());
 
     dslContext = DSLContextFactory.create(
@@ -98,4 +98,5 @@ public class CdcPostgresSourceDatatypeTest extends AbstractPostgresSourceDatatyp
   public boolean testCatalog() {
     return true;
   }
+
 }
