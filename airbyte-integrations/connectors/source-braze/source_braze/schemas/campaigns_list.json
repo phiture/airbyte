@@ -1,0 +1,20 @@
+{
+  "type" : "object",
+  "properties" : {
+    "campaign_id" : {
+      "type" : "string"
+    },
+    "name" : {
+      "type" : "string"
+    },
+    "is_api_campaign" : {
+      "type" : "boolean"
+    },
+    "tags" : {
+      "type" : "array"
+    },
+    "last_edited" : {
+      "type" : "string"
+    }
+  }
+}

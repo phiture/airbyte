@@ -1,12 +1,16 @@
-documentationUrl: https://docsurl.com
+documentationUrl: https://www.braze.com/docs/api/basics/
 connectionSpecification:
-  $schema: http://json-schema.org/draft-07/schema#
   title: Braze Spec
   type: object
   required:
-    - TODO
+    - instance_url
+    - api_key
+    - start_date
   properties:
-    # 'TODO: This schema defines the configuration required for the source. This usually involves metadata such as database and/or authentication information.':
-    TODO:
+    instance_url:
       type: string
-      description: describe me
+      description: The URL of the Braze instance.
+    api_key:
+        type: string
+        description: The API key for the Braze instance.
+        airbyte_secret: true

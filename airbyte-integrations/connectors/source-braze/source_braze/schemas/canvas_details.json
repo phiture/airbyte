@@ -1,0 +1,193 @@
+{
+  "type" : "object",
+  "properties" : {
+    "canvas_id" : {
+      "type" : "string"
+    },
+    "created_at" : {
+      "type" : "string"
+    },
+    "updated_at" : {
+      "type" : "string"
+    },
+    "name" : {
+      "type" : "string"
+    },
+    "description" : {
+      "type" : "string"
+    },
+    "archived" : {
+      "type" : "boolean"
+    },
+    "draft" : {
+      "type" : "boolean"
+    },
+    "schedule_type" : {
+      "type" : "string"
+    },
+    "first_entry" : {
+      "type" : "string"
+    },
+    "last_entry" : {
+      "type" : "string"
+    },
+    "channels" : {
+      "type" : "array",
+      "items" : {
+        "type" : "string"
+      }
+    },
+    "variants" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "variant_id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "first_step_ids" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "first_step_id" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "tags" : {
+      "type" : "array",
+      "items" : {
+        "type" : "string"
+      }
+    },
+    "steps" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "step_id" : {
+            "type" : "string"
+          },
+          "next_step_ids" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "channels" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "messages" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "message_id" : {
+                  "type" : "string"
+                },
+                "alert" : {
+                  "type" : "string"
+                },
+                "body" : {
+                  "type" : "string"
+                },
+                "channel" : {
+                  "type" : "string"
+                },
+                "extras" : {
+                  "type" : "string"
+                },
+                "from" : {
+                  "type" : "string"
+                },
+                "headers" : {
+                  "type" : "string"
+                },
+                "method" : {
+                  "type" : "string"
+                },
+                "name" : {
+                  "type" : "string"
+                },
+                "reply_to" : {
+                  "type" : "string"
+                },
+                "subject" : {
+                  "type" : "string"
+                },
+                "title" : {
+                  "type" : "string"
+                },
+                "type" : {
+                  "type" : "string"
+                },
+                "url" : {
+                  "type" : "string"
+                },
+                "message" : {
+                  "type" : "string"
+                },
+                "data" : {
+                  "type" : "object",
+                  "properties" : {
+                    "pages" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "header" : {
+                            "type" : "object",
+                            "properties" : {
+                              "text" : {
+                                "type" : "string"
+                              }
+                            }
+                          },
+                          "choices" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "choice_id" : {
+                                  "type" : "string"
+                                },
+                                "text" : {
+                                  "type" : "string"
+                                },
+                                "custom_attribute_key" : {
+                                  "type" : "string"
+                                },
+                                "custom_attribute_value" : {
+                                  "type" : "string"
+                                },
+                                "deleted" : {
+                                  "type" : "boolean"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

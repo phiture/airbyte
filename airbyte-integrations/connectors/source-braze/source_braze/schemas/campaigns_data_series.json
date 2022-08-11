@@ -1,0 +1,175 @@
+{
+  "type" : "object",
+  "properties" : {
+    "campaign_id" : {
+      "type" : "string"
+    },
+    "time" : {
+      "type" : "string"
+    },
+    "messages" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "body_clicks" : {
+            "type" : "integer"
+          },
+          "bounces" : {
+            "type" : "integer"
+          },
+          "carousel_slide_[NUM]_[TITLE]_click" : {
+            "type" : "integer"
+          },
+          "clicks" : {
+            "type" : "integer"
+          },
+          "conversions" : {
+            "type" : "integer"
+          },
+          "conversions1" : {
+            "type" : "integer"
+          },
+          "conversions1_by_send_time" : {
+            "type" : "integer"
+          },
+          "conversions2" : {
+            "type" : "integer"
+          },
+          "conversions2_by_send_time" : {
+            "type" : "integer"
+          },
+          "conversions3" : {
+            "type" : "integer"
+          },
+          "conversions3_by_send_time" : {
+            "type" : "integer"
+          },
+          "conversions_by_send_time" : {
+            "type" : "integer"
+          },
+          "delivered" : {
+            "type" : "integer"
+          },
+          "delivery_failed" : {
+            "type" : "integer"
+          },
+          "direct_opens" : {
+            "type" : "integer"
+          },
+          "enrolled" : {
+            "type" : "integer"
+          },
+          "errors" : {
+            "type" : "integer"
+          },
+          "first_button_clicks" : {
+            "type" : "integer"
+          },
+          "help" : {
+            "type" : "integer"
+          },
+          "impressions" : {
+            "type" : "integer"
+          },
+          "notif_button_[NUM]_[TITLE]_click" : {
+            "type" : "integer"
+          },
+          "opens" : {
+            "type" : "integer"
+          },
+          "opt_out" : {
+            "type" : "integer"
+          },
+          "rejected" : {
+            "type" : "integer"
+          },
+          "reported_spam" : {
+            "type" : "integer"
+          },
+          "revenue" : {
+            "type" : "number"
+          },
+          "second_button_clicks" : {
+            "type" : "integer"
+          },
+          "sent" : {
+            "type" : "integer"
+          },
+          "sent_to_carrier" : {
+            "type" : "integer"
+          },
+          "total_clicks" : {
+            "type" : "integer"
+          },
+          "total_dismissals" : {
+            "type" : "integer"
+          },
+          "total_impressions" : {
+            "type" : "integer"
+          },
+          "total_opens" : {
+            "type" : "integer"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "unique_clicks" : {
+            "type" : "integer"
+          },
+          "unique_dismissals" : {
+            "type" : "integer"
+          },
+          "unique_impressions" : {
+            "type" : "integer"
+          },
+          "unique_opens" : {
+            "type" : "integer"
+          },
+          "unique_recipients" : {
+            "type" : "integer"
+          },
+          "unsubscribes" : {
+            "type" : "integer"
+          },
+          "variation_api_id" : {
+            "type" : "string"
+          },
+          "variation_name" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "conversions_by_send_time" : {
+      "type" : "integer"
+    },
+    "conversions1_by_send_time" : {
+      "type" : "integer"
+    },
+    "conversions2_by_send_time" : {
+      "type" : "integer"
+    },
+    "conversions3_by_send_time" : {
+      "type" : "integer"
+    },
+    "conversions" : {
+      "type" : "integer"
+    },
+    "conversions1" : {
+      "type" : "integer"
+    },
+    "conversions2" : {
+      "type" : "integer"
+    },
+    "conversions3" : {
+      "type" : "integer"
+    },
+    "unique_recipients" : {
+      "type" : "integer"
+    },
+    "revenue" : {
+      "type" : "number"
+    }
+  }
+}
