@@ -14,3 +14,6 @@ connectionSpecification:
         type: string
         description: The API key for the Braze instance.
         airbyte_secret: true
+    start_date:
+      type: string
+      description: The start date for the data to be retrieved.
