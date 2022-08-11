@@ -1,0 +1,259 @@
+{
+  "type" : "object",
+  "properties" : {
+    "canvas_id" : {
+      "type" : "string"
+    },
+    "time" : {
+      "type" : "string"
+    },
+    "total_stats" : {
+      "type" : "object",
+      "properties" : {
+        "revenue" : {
+          "type" : "number"
+        },
+        "entries" : {
+          "type" : "integer"
+        },
+        "conversions" : {
+          "type" : "integer"
+        },
+        "conversions_by_entry_time" : {
+          "type" : "integer"
+        },
+        "conversions1" : {
+          "type" : "integer"
+        },
+        "conversions1_by_entry_time" : {
+          "type" : "integer"
+        },
+        "conversions2" : {
+          "type" : "integer"
+        },
+        "conversions2_by_entry_time" : {
+          "type" : "integer"
+        },
+        "conversions3" : {
+          "type" : "integer"
+        },
+        "conversions3_by_entry_time" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "variant_stats" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "variant_id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "revenue" : {
+            "type" : "number"
+          },
+          "entries" : {
+            "type" : "integer"
+          },
+          "conversions" : {
+            "type" : "integer"
+          },
+          "conversions_by_entry_time" : {
+            "type" : "integer"
+          },
+          "conversions1" : {
+            "type" : "integer"
+          },
+          "conversions1_by_entry_time" : {
+            "type" : "integer"
+          },
+          "conversions2" : {
+            "type" : "integer"
+          },
+          "conversions2_by_entry_time" : {
+            "type" : "integer"
+          },
+          "conversions3" : {
+            "type" : "integer"
+          },
+          "conversions3_by_entry_time" : {
+            "type" : "integer"
+          }
+        }
+      }
+    },
+    "step_stats" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "step_id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "revenue" : {
+            "type" : "number"
+          },
+          "conversions" : {
+            "type" : "integer"
+          },
+          "conversions_by_entry_time" : {
+            "type" : "integer"
+          },
+          "conversions1" : {
+            "type" : "integer"
+          },
+          "conversions1_by_entry_time" : {
+            "type" : "integer"
+          },
+          "conversions2" : {
+            "type" : "integer"
+          },
+          "conversions2_by_entry_time" : {
+            "type" : "integer"
+          },
+          "conversions3" : {
+            "type" : "integer"
+          },
+          "conversions3_by_entry_time" : {
+            "type" : "integer"
+          },
+          "messages" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "body_clicks" : {
+                  "type" : "integer"
+                },
+                "bounces" : {
+                  "type" : "integer"
+                },
+                "clicks" : {
+                  "type" : "integer"
+                },
+                "conversions" : {
+                  "type" : "integer"
+                },
+                "conversions1" : {
+                  "type" : "integer"
+                },
+                "conversions1_by_send_time" : {
+                  "type" : "integer"
+                },
+                "conversions2" : {
+                  "type" : "integer"
+                },
+                "conversions2_by_send_time" : {
+                  "type" : "integer"
+                },
+                "conversions3" : {
+                  "type" : "integer"
+                },
+                "conversions3_by_send_time" : {
+                  "type" : "integer"
+                },
+                "conversions_by_send_time" : {
+                  "type" : "integer"
+                },
+                "delivered" : {
+                  "type" : "integer"
+                },
+                "delivery_failed" : {
+                  "type" : "integer"
+                },
+                "direct_opens" : {
+                  "type" : "integer"
+                },
+                "enrolled" : {
+                  "type" : "integer"
+                },
+                "errors" : {
+                  "type" : "integer"
+                },
+                "first_button_clicks" : {
+                  "type" : "integer"
+                },
+                "help" : {
+                  "type" : "integer"
+                },
+                "impressions" : {
+                  "type" : "integer"
+                },
+                "opens" : {
+                  "type" : "integer"
+                },
+                "opt_out" : {
+                  "type" : "integer"
+                },
+                "rejected" : {
+                  "type" : "integer"
+                },
+                "reported_spam" : {
+                  "type" : "integer"
+                },
+                "revenue" : {
+                  "type" : "number"
+                },
+                "second_button_clicks" : {
+                  "type" : "integer"
+                },
+                "sent" : {
+                  "type" : "integer"
+                },
+                "sent_to_carrier" : {
+                  "type" : "integer"
+                },
+                "total_clicks" : {
+                  "type" : "integer"
+                },
+                "total_dismissals" : {
+                  "type" : "integer"
+                },
+                "total_impressions" : {
+                  "type" : "integer"
+                },
+                "total_opens" : {
+                  "type" : "integer"
+                },
+                "type" : {
+                  "type" : "string"
+                },
+                "unique_clicks" : {
+                  "type" : "integer"
+                },
+                "unique_dismissals" : {
+                  "type" : "integer"
+                },
+                "unique_impressions" : {
+                  "type" : "integer"
+                },
+                "unique_opens" : {
+                  "type" : "integer"
+                },
+                "unique_recipients" : {
+                  "type" : "integer"
+                },
+                "unsubscribes" : {
+                  "type" : "integer"
+                },
+                "variation_api_id" : {
+                  "type" : "string"
+                },
+                "variation_name" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,173 @@
+{
+  "type" : "object",
+  "properties" : {
+    "campaign_id" : {
+      "type" : "string"
+    },
+    "created_at" : {
+      "type" : "string"
+    },
+    "updated_at" : {
+      "type" : "string"
+    },
+    "name" : {
+      "type" : "string"
+    },
+    "description" : {
+      "type" : "string"
+    },
+    "archived" : {
+      "type" : "boolean"
+    },
+    "draft" : {
+      "type" : "boolean"
+    },
+    "schedule_type" : {
+      "type" : "string"
+    },
+    "channels" : {
+      "type" : "array",
+      "items" : {
+        "type" : "string"
+      }
+    },
+    "first_sent" : {
+      "type" : "string"
+    },
+    "last_sent" : {
+      "type" : "string"
+    },
+    "tags" : {
+      "type" : "array",
+      "items" : {
+        "type" : "string"
+      }
+    },
+    "messages" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "message_id" : {
+            "type" : "string"
+          },
+          "alert" : {
+            "type" : "string"
+          },
+          "body" : {
+            "type" : "string"
+          },
+          "channel" : {
+            "type" : "string"
+          },
+          "extras" : {
+            "type" : "string"
+          },
+          "from" : {
+            "type" : "string"
+          },
+          "headers" : {
+            "type" : "string"
+          },
+          "method" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "reply_to" : {
+            "type" : "string"
+          },
+          "subject" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "url" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "pages" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "header" : {
+                      "type" : "object",
+                      "properties" : {
+                        "text" : {
+                          "type" : "string"
+                        }
+                      }
+                    },
+                    "choices" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "choice_id" : {
+                            "type" : "string"
+                          },
+                          "text" : {
+                            "type" : "string"
+                          },
+                          "custom_attribute_key" : {
+                            "type" : "string"
+                          },
+                          "custom_attribute_value" : {
+                            "type" : "string"
+                          },
+                          "deleted" : {
+                            "type" : "boolean"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "conversion_behaviors" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string"
+          },
+          "window" : {
+            "type" : "integer"
+          },
+          "product" : {
+            "type" : "string"
+          },
+          "custom_event_name" : {
+            "type" : "string"
+          },
+          "app_ids" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      }
+    },
+    "message" : {
+      "type" : "string"
+    }
+  }
+}

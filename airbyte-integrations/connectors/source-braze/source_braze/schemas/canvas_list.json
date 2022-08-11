@@ -1,0 +1,17 @@
+{
+  "type" : "object",
+  "properties" : {
+    "canvas_id" : {
+      "type" : "string"
+    },
+    "name" : {
+      "type" : "string"
+    },
+    "tags" : {
+      "type" : "array"
+    },
+    "last_edited" : {
+      "type" : "string"
+    }
+  }
+}
