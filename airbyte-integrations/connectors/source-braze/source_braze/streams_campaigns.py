@@ -92,6 +92,11 @@ class CampaignsDetails(HttpSubStream, BrazeStream):
             messages.append(message)
         data["messages"] = messages
 
+        order = 1
+        for conversion_behavior in data.get("conversion_behaviors", []):
+            conversion_behavior["order"] = order
+            order += 1
+
         yield data
 
     def request_params(

@@ -162,12 +162,12 @@
             "items" : {
               "type" : "string"
             }
+          },
+          "order" : {
+            "type" : "integer"
           }
         }
       }
-    },
-    "message" : {
-      "type" : "string"
     }
   }
 }
