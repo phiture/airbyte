@@ -49,7 +49,7 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
   worker:
-    image: airbyte/worker:${VERSION}
+    image: stepanchatalyanphiture/airbyte-worker:${VERSION}
     logging: *default-logging
     container_name: airbyte-worker
     restart: unless-stopped
