@@ -166,15 +166,15 @@ class CanvasDataSeries(HttpSubStream, BrazeStream):
 
     def stream_slices(self, stream_state: Mapping[str, Any] = None, **kwargs) -> Iterable[Optional[Mapping[str, Any]]]:
         for parent_slice in super().stream_slices(sync_mode=SyncMode.full_refresh):
-            # start_date = self._start_date
-            # end_date = pendulum.now()
-            # get the start date from the parent slice
-
-            # FIXME: uncomment this if you want a use first_entry and last_entry as start and end date
             if parent_slice["parent"]["first_entry"] is not None \
                     and parent_slice["parent"]["last_entry"] is not None:
                 start_date = pendulum.parse(parent_slice["parent"]["first_entry"])
                 end_date = pendulum.parse(parent_slice["parent"]["last_entry"])
+
+                # if the campaign has as start date 1970, ignore it and continue
+                if start_date == pendulum.parse("1970-01-01"):
+                    continue
+
                 if start_date.strftime(self.date_template) == end_date.strftime(self.date_template):
                     end_date = end_date.add(days=1)
             else:
