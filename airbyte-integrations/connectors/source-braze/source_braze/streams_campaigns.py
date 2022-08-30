@@ -151,19 +151,21 @@ class CampaignsDataSeries(HttpSubStream, BrazeStream):
 
     def stream_slices(self, stream_state: Mapping[str, Any] = None, **kwargs) -> Iterable[Optional[Mapping[str, Any]]]:
         for parent_slice in super().stream_slices(sync_mode=SyncMode.full_refresh):
-            if parent_slice["parent"]["first_sent"] is not None \
-                    and parent_slice["parent"]["last_sent"] is not None:
+            if parent_slice["parent"]["first_sent"] is None \
+                    and parent_slice["parent"]["last_sent"] is None:
+                continue
+            else:
                 start_date = pendulum.parse(parent_slice["parent"]["first_sent"])
                 end_date = pendulum.parse(parent_slice["parent"]["last_sent"])
 
-                # if the campaign has as start date 1970, ignore it and continue
-                if start_date == pendulum.parse("1970-01-01"):
-                    continue
+                # if the campaign start date is before the created date,
+                #  use created_at as start_date
+                created_date = pendulum.parse(parent_slice["parent"]["created_at"])
+                if start_date < created_date:
+                    start_date = created_date
 
                 if start_date.strftime(self.date_template) == end_date.strftime(self.date_template):
                     end_date = end_date.add(days=1)
-            else:
-                continue
 
             while start_date <= end_date:
                 starting_at = start_date
