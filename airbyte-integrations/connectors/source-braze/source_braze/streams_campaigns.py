@@ -150,7 +150,7 @@ class CampaignsDataSeries(HttpSubStream, IncrementalMixin, BrazeStream):
         # iterate over the data series and add the campaign id to the data series object
         for data_series_item in data_series:
             # adding the campaign id to the campaign data series object
-            data_series_item[self.primary_key] = stream_slice["parent"][self.parent.primary_key]
+            data_series_item[self.parent.primary_key] = stream_slice["parent"][self.parent.primary_key]
 
             # convert the messages object to a list
             new_messages = []
