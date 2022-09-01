@@ -112,7 +112,7 @@ class CanvasDetails(HttpSubStream, BrazeStream):
 
 
 class CanvasDataSeries(HttpSubStream, IncrementalMixin, BrazeStream):
-    primary_key = "canvas_id"
+    primary_key = ["canvas_id", "time"]
     cursor_field = "time"
     time_interval = {"days": 14}
 
@@ -151,7 +151,7 @@ class CanvasDataSeries(HttpSubStream, IncrementalMixin, BrazeStream):
         # iterate through the stats
         for stat in data["stats"]:
             # adding the campaign id to the canvas data series object
-            stat["canvas_id"] = stream_slice["parent"][self.parent.primary_key]
+            stat[self.parent.primary_key] = stream_slice["parent"][self.parent.primary_key]
 
             # convert the variant_stats object of a step to a list
             variant_stats = []
