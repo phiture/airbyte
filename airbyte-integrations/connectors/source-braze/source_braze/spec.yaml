@@ -1,0 +1,15 @@
+documentationUrl: https://www.braze.com/docs/api/basics/
+connectionSpecification:
+  title: Braze Spec
+  type: object
+  required:
+    - instance_url
+    - api_key
+  properties:
+    instance_url:
+      type: string
+      description: The URL of the Braze instance.
+    api_key:
+        type: string
+        description: The API key for the Braze instance.
+        airbyte_secret: true

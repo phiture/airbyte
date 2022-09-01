@@ -164,7 +164,11 @@ class DestinationNameTransformer:
         if truncate:
             result = self.truncate_identifier_name(input_name=result, conflict=conflict, conflict_level=conflict_level)
         if self.needs_quotes(result):
-            if self.destination_type.value != DestinationType.MYSQL.value:
+            if self.destination_type.value == DestinationType.CLICKHOUSE.value:
+                result = result.replace('"', "_")
+                result = result.replace("`", "_")
+                result = result.replace("'", "_")
+            elif self.destination_type.value != DestinationType.MYSQL.value:
                 result = result.replace('"', '""')
             else:
                 result = result.replace("`", "_")
@@ -181,13 +185,15 @@ class DestinationNameTransformer:
             return f"'{result}'"
         return result
 
-    def apply_quote(self, input: str) -> str:
+    def apply_quote(self, input: str, literal=True) -> str:
+        if literal:
+            input = f"'{input}'"
         if self.destination_type == DestinationType.ORACLE:
             # Oracle dbt lib doesn't implemented adapter quote yet.
-            return f"quote('{input}')"
+            return f"quote({input})"
         elif self.destination_type == DestinationType.CLICKHOUSE:
-            return f"quote('{input}')"
-        return f"adapter.quote('{input}')"
+            return f"quote({input})"
+        return f"adapter.quote({input})"
 
     def __normalize_naming_conventions(self, input_name: str, is_column: bool = False) -> str:
         result = input_name

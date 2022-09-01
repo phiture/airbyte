@@ -54,6 +54,7 @@ case "${CONTAINS_PROFILES_DIR}-${CONTAINS_PROJECT_DIR}" in
     ;;
   *)
     echo "Running: dbt $@ --profiles-dir=${CWD} --project-dir=${CWD}/git_repo"
+    dbt deps
     dbt $@ "--profiles-dir=${CWD}" "--project-dir=${CWD}/git_repo" --profile normalize
     ;;
 esac

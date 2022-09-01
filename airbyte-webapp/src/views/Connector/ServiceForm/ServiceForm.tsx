@@ -33,7 +33,7 @@ const FormikPatch: React.FC = () => {
   return null;
 };
 
-/***
+/**
  * This function sets all initial const values in the form to current values
  * @param schema
  * @constructor
@@ -66,6 +66,21 @@ const PatchInitialValuesWithWidgetConfig: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [schema]);
 
+  return null;
+};
+
+/**
+ * Formik does not revalidate the form in case the validationSchema it's using changes.
+ * This component just forces a revalidation of the form whenever the validation schema changes.
+ */
+const RevalidateOnValidationSchemaChange: React.FC<{ validationSchema: unknown }> = ({ validationSchema }) => {
+  // The validationSchema is passed into this component instead of pulled from the FormikContext, since
+  // due to https://github.com/jaredpalmer/formik/issues/2092 the validationSchema from the formik context will
+  // always be undefined.
+  const { validateForm } = useFormikContext();
+  useEffect(() => {
+    validateForm();
+  }, [validateForm, validationSchema]);
   return null;
 };
 
@@ -204,7 +219,11 @@ const ServiceForm: React.FC<ServiceFormProps> = (props) => {
     [formType, props.onServiceSelect, props.availableServices, props.isEditMode, toggleOpenRequestModal]
   );
 
-  const { uiWidgetsInfo, setUiWidgetsInfo } = useBuildUiWidgetsContext(formFields, initialValues, uiOverrides);
+  const { uiWidgetsInfo, setUiWidgetsInfo, resetUiWidgetsInfo } = useBuildUiWidgetsContext(
+    formFields,
+    initialValues,
+    uiOverrides
+  );
 
   const validationSchema = useConstructValidationSchema(jsonSchema, uiWidgetsInfo);
 
@@ -240,13 +259,16 @@ const ServiceForm: React.FC<ServiceFormProps> = (props) => {
           widgetsInfo={uiWidgetsInfo}
           getValues={getValues}
           setUiWidgetsInfo={setUiWidgetsInfo}
+          resetUiWidgetsInfo={resetUiWidgetsInfo}
           formType={formType}
           selectedConnector={selectedConnectorDefinitionSpecification}
           availableServices={props.availableServices}
           isEditMode={props.isEditMode}
           isLoadingSchema={props.isLoading}
+          validationSchema={validationSchema}
         >
           {!props.isEditMode && <SetDefaultName />}
+          <RevalidateOnValidationSchemaChange validationSchema={validationSchema} />
           <FormikPatch />
           <FormChangeTracker changed={dirty} formId={formId} />
           <PatchInitialValuesWithWidgetConfig schema={jsonSchema} initialValues={initialValues} />

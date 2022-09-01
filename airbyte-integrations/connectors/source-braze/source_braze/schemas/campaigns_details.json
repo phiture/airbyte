@@ -1,0 +1,173 @@
+{
+  "type" : "object",
+  "properties" : {
+    "campaign_id" : {
+      "type" : ["null", "string"]
+    },
+    "created_at" : {
+      "type" : ["null", "string"]
+    },
+    "updated_at" : {
+      "type" : ["null", "string"]
+    },
+    "name" : {
+      "type" : ["null", "string"]
+    },
+    "description" : {
+      "type" : ["null", "string"]
+    },
+    "archived" : {
+      "type" : ["null", "boolean"]
+    },
+    "draft" : {
+      "type" : ["null", "boolean"]
+    },
+    "schedule_type" : {
+      "type" : ["null", "string"]
+    },
+    "channels" : {
+      "type" : ["null", "array"],
+      "items" : {
+        "type" : ["null", "string"]
+      }
+    },
+    "first_sent" : {
+      "type" : ["null", "string"]
+    },
+    "last_sent" : {
+      "type" : ["null", "string"]
+    },
+    "tags" : {
+      "type" : ["null", "array"],
+      "items" : {
+        "type" : ["null", "string"]
+      }
+    },
+    "messages" : {
+      "type" : ["null", "array"],
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "message_id" : {
+            "type" : ["null", "string"]
+          },
+          "alert" : {
+            "type" : ["null", "string"]
+          },
+          "body" : {
+            "type" : ["null", "string"]
+          },
+          "channel" : {
+            "type" : ["null", "string"]
+          },
+          "extras" : {
+            "type" : ["null", "string"]
+          },
+          "from" : {
+            "type" : ["null", "string"]
+          },
+          "headers" : {
+            "type" : ["null", "string"]
+          },
+          "method" : {
+            "type" : ["null", "string"]
+          },
+          "name" : {
+            "type" : ["null", "string"]
+          },
+          "reply_to" : {
+            "type" : ["null", "string"]
+          },
+          "subject" : {
+            "type" : ["null", "string"]
+          },
+          "title" : {
+            "type" : ["null", "string"]
+          },
+          "type" : {
+            "type" : ["null", "string"]
+          },
+          "url" : {
+            "type" : ["null", "string"]
+          },
+          "message" : {
+            "type" : ["null", "string"]
+          },
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "pages" : {
+                "type" : ["null", "array"],
+                "items" : {
+                  "type" : "object",
+                  "properties" : {
+                    "header" : {
+                      "type" : "object",
+                      "properties" : {
+                        "text" : {
+                          "type" : ["null", "string"]
+                        }
+                      }
+                    },
+                    "choices" : {
+                      "type" : ["null", "array"],
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "choice_id" : {
+                            "type" : ["null", "string"]
+                          },
+                          "text" : {
+                            "type" : ["null", "string"]
+                          },
+                          "custom_attribute_key" : {
+                            "type" : ["null", "string"]
+                          },
+                          "custom_attribute_value" : {
+                            "type" : ["null", "string"]
+                          },
+                          "deleted" : {
+                            "type" : ["null", "boolean"]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "conversion_behaviors" : {
+      "type" : ["null", "array"],
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : ["null", "string"]
+          },
+          "window" : {
+            "type" : ["null", "integer"]
+          },
+          "product" : {
+            "type" : ["null", "string"]
+          },
+          "custom_event_name" : {
+            "type" : ["null", "string"]
+          },
+          "app_ids" : {
+            "type" : ["null", "array"],
+            "items" : {
+              "type" : ["null", "string"]
+            }
+          },
+          "order" : {
+            "type" : ["null", "integer"]
+          }
+        }
+      }
+    }
+  }
+}
