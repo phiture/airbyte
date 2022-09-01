@@ -112,7 +112,7 @@ class CanvasDetails(HttpSubStream, BrazeStream):
 
 
 class CanvasDataSeries(HttpSubStream, IncrementalMixin, BrazeStream):
-    primary_key = "canvas_id"
+    primary_key = ["canvas_id", "time"]
     cursor_field = "time"
     time_interval = {"days": 14}
 
