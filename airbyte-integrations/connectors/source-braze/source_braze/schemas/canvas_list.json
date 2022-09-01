@@ -2,16 +2,16 @@
   "type" : "object",
   "properties" : {
     "canvas_id" : {
-      "type" : "string"
+      "type" : ["null", "string"]
     },
     "name" : {
-      "type" : "string"
+      "type" : ["null", "string"]
     },
     "tags" : {
-      "type" : "array"
+      "type" : ["null", "array"]
     },
     "last_edited" : {
-      "type" : "string"
+      "type" : ["null", "string"]
     }
   }
 }

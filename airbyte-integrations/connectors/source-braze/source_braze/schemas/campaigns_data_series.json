@@ -2,174 +2,174 @@
   "type" : "object",
   "properties" : {
     "campaign_id" : {
-      "type" : "string"
+      "type" : ["null", "string"]
     },
     "time" : {
-      "type" : "string"
+      "type" : ["null", "string"]
     },
     "messages" : {
-      "type" : "array",
+      "type" : ["null", "array"],
       "items" : {
         "type" : "object",
         "properties" : {
           "body_clicks" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "bounces" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "carousel_slide_[NUM]_[TITLE]_click" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "clicks" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "conversions" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "conversions1" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "conversions1_by_send_time" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "conversions2" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "conversions2_by_send_time" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "conversions3" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "conversions3_by_send_time" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "conversions_by_send_time" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "delivered" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "delivery_failed" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "direct_opens" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "enrolled" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "errors" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "first_button_clicks" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "help" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "impressions" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "notif_button_[NUM]_[TITLE]_click" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "opens" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "opt_out" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "rejected" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "reported_spam" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "revenue" : {
-            "type" : "number"
+            "type" : ["null", "number"]
           },
           "second_button_clicks" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "sent" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "sent_to_carrier" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "total_clicks" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "total_dismissals" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "total_impressions" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "total_opens" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "type" : {
-            "type" : "string"
+            "type" : ["null", "string"]
           },
           "unique_clicks" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "unique_dismissals" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "unique_impressions" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "unique_opens" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "unique_recipients" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "unsubscribes" : {
-            "type" : "integer"
+            "type" : ["null", "integer"]
           },
           "variation_api_id" : {
-            "type" : "string"
+            "type" : ["null", "string"]
           },
           "variation_name" : {
-            "type" : "string"
+            "type" : ["null", "string"]
           }
         }
       }
     },
     "conversions_by_send_time" : {
-      "type" : "integer"
+      "type" : ["null", "integer"]
     },
     "conversions1_by_send_time" : {
-      "type" : "integer"
+      "type" : ["null", "integer"]
     },
     "conversions2_by_send_time" : {
-      "type" : "integer"
+      "type" : ["null", "integer"]
     },
     "conversions3_by_send_time" : {
-      "type" : "integer"
+      "type" : ["null", "integer"]
     },
     "conversions" : {
-      "type" : "integer"
+      "type" : ["null", "integer"]
     },
     "conversions1" : {
-      "type" : "integer"
+      "type" : ["null", "integer"]
     },
     "conversions2" : {
-      "type" : "integer"
+      "type" : ["null", "integer"]
     },
     "conversions3" : {
-      "type" : "integer"
+      "type" : ["null", "integer"]
     },
     "unique_recipients" : {
-      "type" : "integer"
+      "type" : ["null", "integer"]
     },
     "revenue" : {
-      "type" : "number"
+      "type" : ["null", "number"]
     }
   }
 }

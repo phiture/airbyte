@@ -1,16 +1,13 @@
 #
 # Copyright (c) 2022 Airbyte, Inc., all rights reserved.
 #
-
-
 from typing import Any, List, Mapping, Tuple
 
 from airbyte_cdk.sources import AbstractSource
 from airbyte_cdk.sources.streams import Stream
 from airbyte_cdk.sources.streams.http.auth import TokenAuthenticator
-
-from source_braze.streams_campaigns import CampaignsList, CampaignsDetails, CampaignsDataSeries
-from source_braze.streams_canvas import CanvasList, CanvasDetails, CanvasDataSeries
+from source_braze.streams_campaigns import CampaignsDataSeries, CampaignsDetails, CampaignsList
+from source_braze.streams_canvas import CanvasDataSeries, CanvasDetails, CanvasList
 
 
 class SourceBraze(AbstractSource):
@@ -31,12 +28,12 @@ class SourceBraze(AbstractSource):
 
         :param config: A Mapping of the user input configuration as defined in the connector spec.
         """
-        auth = TokenAuthenticator(token=config['api_key'])
+        auth = TokenAuthenticator(token=config["api_key"])
         return [
             CampaignsList(authenticator=auth, config=config),
             CampaignsDetails(authenticator=auth, config=config),
             CampaignsDataSeries(authenticator=auth, config=config),
             CanvasList(authenticator=auth, config=config),
             CanvasDetails(authenticator=auth, config=config),
-            CanvasDataSeries(authenticator=auth, config=config)
+            CanvasDataSeries(authenticator=auth, config=config),
         ]

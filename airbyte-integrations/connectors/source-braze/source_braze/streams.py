@@ -3,7 +3,7 @@
 #
 import time
 from abc import ABC
-from typing import Any, Iterable, Mapping, Union, Optional
+from typing import Any, Iterable, Mapping, Optional, Union
 
 import requests
 from airbyte_cdk.sources.streams.http import HttpStream
@@ -11,11 +11,11 @@ from airbyte_cdk.sources.streams.http import HttpStream
 
 class BrazeStream(HttpStream, ABC):
     _url_base = None
-    _pages = 100
+    _pages = 300
 
     def __init__(self, config: Mapping[str, Any], **kwargs):
         super().__init__(**kwargs)
-        self.url_base = config['instance_url']
+        self.url_base = config["instance_url"]
 
     @property
     def url_base(self) -> str:
@@ -30,11 +30,11 @@ class BrazeStream(HttpStream, ABC):
         self._url_base = value
 
     def parse_response(
-            self,
-            response: requests.Response,
-            stream_state: Mapping[str, Any],
-            stream_slice: Mapping[str, Any] = None,
-            next_page_token: Mapping[str, Any] = None,
+        self,
+        response: requests.Response,
+        stream_state: Mapping[str, Any],
+        stream_slice: Mapping[str, Any] = None,
+        next_page_token: Mapping[str, Any] = None,
     ) -> Iterable[Mapping]:
         # The response is a simple JSON whose schema matches our stream's schema exactly,
         # so we just return a list containing the response
