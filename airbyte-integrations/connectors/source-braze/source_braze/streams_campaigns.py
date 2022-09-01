@@ -111,7 +111,7 @@ class CampaignsDetails(HttpSubStream, BrazeStream):
 
 
 class CampaignsDataSeries(HttpSubStream, IncrementalMixin, BrazeStream):
-    primary_key = ["canvas_id", "time"]
+    primary_key = ["campaign_id", "time"]
     cursor_field = "time"
     time_interval = {"days": 100}
 
