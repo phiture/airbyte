@@ -1,119 +1,114 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "type": "object",
+  "$schema": "http://json-schema.org/schema#",
   "properties": {
     "result_parameters": {
-      "type": "object",
       "properties": {
-        "kpis": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+        "attribution_source": {
+          "type": "string"
         },
-        "start_date": {
+        "attribution_type": {
           "type": "string"
         },
         "end_date": {
           "type": "string"
         },
+        "events": {
+          "items": {
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "token": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "grouping": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "kpis": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "sandbox": {
           "type": "boolean"
         },
+        "start_date": {
+          "type": "string"
+        },
         "trackers": {
-          "type": "array",
           "items": {
-            "type": "object",
             "properties": {
-              "token": {
-                "type": "string"
+              "has_subtrackers": {
+                "type": "boolean"
               },
               "name": {
                 "type": "string"
               },
-              "has_subtrackers": {
-                "type": "boolean"
+              "token": {
+                "type": "string"
               }
             },
-            "required": [
-              "token",
-              "name",
-              "has_subtrackers"
-            ]
-          }
-        },
-        "grouping": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "attribution_type": {
-          "type": "string"
+            "type": "object"
+          },
+          "type": "array"
         },
         "utc_offset": {
           "type": "string"
-        },
-        "attribution_source": {
-          "type": "string"
         }
       },
-      "required": [
-        "kpis",
-        "start_date",
-        "end_date",
-        "sandbox",
-        "trackers",
-        "grouping",
-        "attribution_type",
-        "utc_offset",
-        "attribution_source"
-      ]
+      "type": "object"
     },
     "result_set": {
-      "type": "object",
       "properties": {
-        "token": {
+        "currency": {
           "type": "string"
         },
         "name": {
           "type": "string"
         },
-        "currency": {
+        "token": {
           "type": "string"
         },
         "trackers": {
-          "type": "array",
           "items": {
-            "type": "object",
             "properties": {
+              "countries": {
+                "items": {
+                  "properties": {
+                    "country": {
+                      "type": "string"
+                    },
+                    "kpi_values": {
+                      "items": {
+                        "type": "number"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
               "token": {
                 "type": "string"
-              },
-              "kpi_values": {
-                "type": "array",
-                "items": {
-                  "type": "number"
-                }
               }
             },
-            "required": [
-              "token",
-              "kpi_values"
-            ]
-          }
+            "type": "object"
+          },
+          "type": "array"
         }
       },
-      "required": [
-        "token",
-        "name",
-        "currency",
-        "trackers"
-      ]
+      "type": "object"
     }
   },
-  "required": [
-    "result_parameters",
-    "result_set"
-  ]
+  "type": "object"
 }
