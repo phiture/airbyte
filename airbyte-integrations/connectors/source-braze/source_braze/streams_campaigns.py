@@ -113,7 +113,10 @@ class CampaignsDetails(HttpSubStream, BrazeStream):
 class CampaignsDataSeries(HttpSubStream, IncrementalMixin, BrazeStream):
     primary_key = ["canvas_id", "time"]
     cursor_field = "time"
-    time_interval = {"days": 100}
+    time_interval = {"days": 30}
+    # the window attribution is used to re-fetch the last 30 days of data
+    #  only if the last state day is in the range of the last 30 days
+    window_attribution = {"days": 30}
 
     def __init__(self, **kwargs):
         super().__init__(CampaignsDetails(**kwargs), **kwargs)
@@ -171,9 +174,9 @@ class CampaignsDataSeries(HttpSubStream, IncrementalMixin, BrazeStream):
             campaign_id = parent_slice["parent"][self.parent.primary_key]
 
             if stream_state.get(campaign_id):
-                start_date = pendulum.parse(stream_state[campaign_id].get(self.cursor_field)) or pendulum.parse(
-                    parent_slice["parent"]["first_sent"]
-                )
+                start_date = pendulum.parse(stream_state[campaign_id].get(self.cursor_field))
+                if pendulum.now().subtract(**self.window_attribution) < start_date < pendulum.now():
+                    start_date = pendulum.parse(parent_slice["parent"]["last_sent"]).subtract(**self.window_attribution)
             else:
                 start_date = pendulum.parse(parent_slice["parent"]["first_sent"])
 
