@@ -33,7 +33,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@SuppressWarnings({"PMD.LongVariable", "PMD.CyclomaticComplexity", "PMD.AvoidReassigningParameters"})
+@SuppressWarnings({"PMD.LongVariable", "PMD.CyclomaticComplexity", "PMD.AvoidReassigningParameters", "PMD.ConstructorCallsOverridableMethod"})
 public class EnvConfigs implements Configs {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(EnvConfigs.class);
@@ -227,7 +227,7 @@ public class EnvConfigs implements Configs {
   public EnvConfigs(final Map<String, String> envMap) {
     this.getEnv = envMap::get;
     this.getAllEnvKeys = envMap::keySet;
-    this.logConfigs = new LogConfigs(getLogConfiguration().orElse(null));
+    this.logConfigs = new LogConfigs(getLogConfiguration());
     this.stateStorageCloudConfigs = getStateStorageConfiguration().orElse(null);
 
     validateSyncWorkflowConfigs();
