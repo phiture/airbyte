@@ -8,6 +8,7 @@ from airbyte_cdk.sources.streams import Stream
 from airbyte_cdk.sources.streams.http.auth import TokenAuthenticator
 from source_braze.streams_campaigns import CampaignsDataSeries, CampaignsDetails, CampaignsList
 from source_braze.streams_canvas import CanvasDataSeries, CanvasDetails, CanvasList
+from source_braze.streams_segments import SegmentsDataSeries, SegmentsDetails, SegmentsList
 
 
 class SourceBraze(AbstractSource):
@@ -36,4 +37,7 @@ class SourceBraze(AbstractSource):
             CanvasList(authenticator=auth, config=config),
             CanvasDetails(authenticator=auth, config=config),
             CanvasDataSeries(authenticator=auth, config=config),
+            SegmentsList(authenticator=auth, config=config),
+            SegmentsDetails(authenticator=auth, config=config),
+            SegmentsDataSeries(authenticator=auth, config=config),
         ]
