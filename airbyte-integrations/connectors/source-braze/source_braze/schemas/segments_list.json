@@ -1,0 +1,23 @@
+{
+  "properties": {
+    "analytics_tracking_enabled": {
+      "type": "boolean"
+    },
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "segment_id": {
+      "type": "string"
+    },
+    "tags": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "type": "object"
+}

@@ -153,7 +153,7 @@ class CanvasDataSeries(HttpSubStream, IncrementalMixin, BrazeStream):
 
         # iterate through the stats
         for stat in data["stats"]:
-            # adding the campaign id to the canvas data series object
+            # adding the canvas id to the canvas data series object
             stat[self.parent.primary_key] = stream_slice["parent"][self.parent.primary_key]
 
             # convert the variant_stats object of a step to a list

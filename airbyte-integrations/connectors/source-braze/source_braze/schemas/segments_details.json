@@ -1,0 +1,32 @@
+{
+  "properties": {
+    "created_at": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "segment_id": {
+      "type": "string"
+    },
+    "tags": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "text_description": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": "string"
+    }
+  },
+  "type": "object"
+}
