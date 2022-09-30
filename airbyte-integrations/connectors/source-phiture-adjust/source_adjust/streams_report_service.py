@@ -8,7 +8,7 @@ import requests
 from airbyte_cdk.models import SyncMode
 
 from source_adjust.streams import AdjustStream
-from source_adjust.util_report_service import dimensions, metrics
+from source_adjust.util_report_service import dimensions, metrics, custom_metrics
 
 
 class ReportService(AdjustStream):
@@ -24,6 +24,10 @@ class ReportService(AdjustStream):
         self._app_token = config['app_token']
         self._start_date = config['start_date']
         self._end_date = config.get('end_date')
+        self._attribution_type = config.get('attribution_type')
+        self._ad_spend_mode = config.get('ad_spend_mode')
+        self._currency = config.get('currency')
+        self._custom_metrics = config.get('custom_metrics')
         self._state = {}
 
     @property
@@ -52,11 +56,19 @@ class ReportService(AdjustStream):
             stream_slice: Mapping[str, Any] = None,
             next_page_token: Mapping[str, Any] = None,
     ) -> MutableMapping[str, Any]:
+        all_metrics = ",".join(metrics)
+        if self._custom_metrics:
+            all_metrics += f",{self._custom_metrics}"
+        if custom_metrics:
+            all_metrics += f",{custom_metrics}"
         return {
             "app_token__in": self._app_token,
             "date_period": f'{stream_slice["start_date"]}:{stream_slice["end_date"]}',
             "dimensions": ",".join(dimensions),
             "metrics": ",".join(metrics),
+            "attribution_type": self._attribution_type,
+            "ad_spend_mode": self._ad_spend_mode,
+            "currency": self._currency,
         }
 
     def parse_response(

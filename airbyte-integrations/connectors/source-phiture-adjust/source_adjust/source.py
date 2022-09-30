@@ -42,9 +42,7 @@ class SourceAdjust(AbstractSource):
 
         :param config: A Mapping of the user input configuration as defined in the connector spec.
         """
-        # auth = TokenAuthenticator(token=f"token={config['user_token']}", auth_method="Token")
         auth_report_service = TokenAuthenticator(token=config['user_token'])
         return [
-            # Kpis(authenticator=auth, config=config)
             ReportService(authenticator=auth_report_service, config=config)
         ]
