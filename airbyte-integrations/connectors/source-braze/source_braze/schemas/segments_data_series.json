@@ -1,0 +1,14 @@
+{
+  "properties": {
+    "segment_id": {
+      "type": "string"
+    },
+    "size": {
+      "type": "integer"
+    },
+    "time": {
+      "type": "string"
+    }
+  },
+  "type": "object"
+}
