@@ -5,5 +5,5 @@ plugins {
 }
 
 airbytePython {
-    moduleDirectory 'source_adjust'
+    moduleDirectory 'source_phiture_adjust'
 }

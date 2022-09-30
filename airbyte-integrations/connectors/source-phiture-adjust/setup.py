@@ -16,7 +16,7 @@ TEST_REQUIREMENTS = [
 ]
 
 setup(
-    name="source_adjust",
+    name="source_phiture_adjust",
     description="Source implementation for Adjust.",
     author="Airbyte",
     author_email="contact@airbyte.io",

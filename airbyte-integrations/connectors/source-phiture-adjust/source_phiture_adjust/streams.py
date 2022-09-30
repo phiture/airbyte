@@ -1,17 +1,18 @@
 #
 # Copyright (c) 2022 Airbyte, Inc., all rights reserved.
 #
-from typing import Any, Iterable, Mapping, MutableMapping, Optional, List
+from abc import ABC
+from typing import Any, Iterable, List, Mapping, MutableMapping, Optional
 
 import pendulum
 import requests
 from airbyte_cdk.models import SyncMode
+from airbyte_cdk.sources.streams.http import HttpStream
 
-from source_adjust.streams import AdjustStream
-from source_adjust.util_report_service import dimensions, metrics, custom_metrics
+from source_phiture_adjust.util_report_service import custom_metrics, dimensions, metrics
 
 
-class ReportService(AdjustStream):
+class ReportService(HttpStream, ABC):
     url_base = "https://dash.adjust.com"
 
     primary_key = dimensions
@@ -21,13 +22,13 @@ class ReportService(AdjustStream):
 
     def __init__(self, config: Mapping[str, Any], **kwargs):
         super().__init__(**kwargs)
-        self._app_token = config['app_token']
-        self._start_date = config['start_date']
-        self._end_date = config.get('end_date')
-        self._attribution_type = config.get('attribution_type')
-        self._ad_spend_mode = config.get('ad_spend_mode')
-        self._currency = config.get('currency')
-        self._custom_metrics = config.get('custom_metrics')
+        self._app_token = config["app_token"]
+        self._start_date = config["start_date"]
+        self._end_date = config.get("end_date")
+        self._attribution_type = config.get("attribution_type")
+        self._ad_spend_mode = config.get("ad_spend_mode")
+        self._currency = config.get("currency")
+        self._custom_metrics = config.get("custom_metrics")
         self._state = {}
 
     @property
@@ -38,15 +39,26 @@ class ReportService(AdjustStream):
     def state(self, value: MutableMapping[str, Any]):
         self._state.update(value)
 
+    def next_page_token(self, response: requests.Response) -> Optional[Mapping[str, Any]]:
+        """
+        TODO: Override this method to define a pagination strategy. If you will not be using pagination, no action is required - just return None.
+        This method should return a Mapping (e.g: dict) containing whatever information required to make paginated requests. This dict is passed
+        to most other methods in this class to help you form headers, request bodies, query params, etc..
+        For example, if the API accepts a 'page' parameter to determine which page of the result to return, and a response from the API contains a
+        'page' number, then this method should probably return a dict {'page': response.json()['page'] + 1} to increment the page count by 1.
+        The request_params method should then read the input next_page_token and set the 'page' param to next_page_token['page'].
+        :param response: the most recent response from the API
+        :return If there is another page in the result, a mapping (e.g: dict) containing information needed to query the next page in the response.
+                If there are no more pages in the result, return None.
+        """
+        return None
+
     def current_state(self, canvas_id, default=None):
         default = default or self.state.get(self.cursor_field)
         return self.state.get(canvas_id, {}).get(self.cursor_field) or default
 
     def path(
-            self,
-            stream_state: Mapping[str, Any] = None,
-            stream_slice: Mapping[str, Any] = None,
-            next_page_token: Mapping[str, Any] = None
+            self, stream_state: Mapping[str, Any] = None, stream_slice: Mapping[str, Any] = None, next_page_token: Mapping[str, Any] = None
     ) -> str:
         return "control-center/reports-service/report"
 
@@ -79,14 +91,14 @@ class ReportService(AdjustStream):
             next_page_token: Mapping[str, Any] = None,
     ) -> Iterable[Mapping]:
         data = response.json()
-        for row in data['rows']:
+        for row in data["rows"]:
             yield row
 
     def stream_slices(self, sync_mode: SyncMode, stream_state: Mapping[str, Any] = None, **kwargs) -> Iterable[Optional[Mapping[str, Any]]]:
         stream_state = stream_state or {}
 
-        if stream_state.get('last_sync'):
-            start_date = pendulum.parse(stream_state['last_sync'].get(self.cursor_field))
+        if stream_state.get("last_sync"):
+            start_date = pendulum.parse(stream_state["last_sync"].get(self.cursor_field))
         else:
             start_date = pendulum.parse(self._start_date)
 
@@ -96,9 +108,7 @@ class ReportService(AdjustStream):
             starting_at = start_date
             ending_at = start_date
 
-            self.logger.info(
-                f"Fetching {self.name} ; time range: {starting_at.to_date_string()} - {ending_at.to_date_string()}"
-            )
+            self.logger.info(f"Fetching {self.name} ; time range: {starting_at.to_date_string()} - {ending_at.to_date_string()}")
 
             yield {
                 "start_date": starting_at.to_date_string(),

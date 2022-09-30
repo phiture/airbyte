@@ -4,7 +4,7 @@
 
 from unittest.mock import MagicMock
 
-from source_adjust.source import SourceAdjust
+from source_phiture_adjust.source import SourceAdjust
 
 
 def test_check_connection(mocker):

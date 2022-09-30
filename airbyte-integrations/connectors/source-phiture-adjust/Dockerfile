@@ -29,7 +29,7 @@ RUN apk --no-cache add bash
 
 # copy payload code only
 COPY main.py ./
-COPY source_adjust ./source_adjust
+COPY source_phiture_adjust ./source_phiture_adjust
 
 ENV AIRBYTE_ENTRYPOINT "python /airbyte/integration_code/main.py"
 ENTRYPOINT ["python", "/airbyte/integration_code/main.py"]

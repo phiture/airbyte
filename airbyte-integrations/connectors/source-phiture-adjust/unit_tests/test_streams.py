@@ -6,7 +6,7 @@ from http import HTTPStatus
 from unittest.mock import MagicMock
 
 import pytest
-from source_adjust.source import AdjustStream
+from source_phiture_adjust.source import AdjustStream
 
 
 @pytest.fixture
