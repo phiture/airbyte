@@ -111,7 +111,7 @@ class CampaignsDetails(HttpSubStream, BrazeStream):
 
 
 class CampaignsDataSeries(HttpSubStream, IncrementalMixin, BrazeStream):
-    primary_key = ["canvas_id", "time"]
+    primary_key = ["campaign_id", "time"]
     cursor_field = "time"
     time_interval = {"days": 30}
     # the window attribution is used to re-fetch the last 30 days of data

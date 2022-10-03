@@ -1,0 +1,133 @@
+{
+  "streams": [
+    {
+      "stream": {
+        "name": "kpis",
+        "json_schema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "result_parameters": {
+              "type": "object",
+              "properties": {
+                "kpis": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "start_date": {
+                  "type": "string"
+                },
+                "end_date": {
+                  "type": "string"
+                },
+                "sandbox": {
+                  "type": "boolean"
+                },
+                "trackers": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "token": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "has_subtrackers": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "token",
+                      "name",
+                      "has_subtrackers"
+                    ]
+                  }
+                },
+                "grouping": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "attribution_type": {
+                  "type": "string"
+                },
+                "utc_offset": {
+                  "type": "string"
+                },
+                "attribution_source": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kpis",
+                "start_date",
+                "end_date",
+                "sandbox",
+                "trackers",
+                "grouping",
+                "attribution_type",
+                "utc_offset",
+                "attribution_source"
+              ]
+            },
+            "result_set": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "currency": {
+                  "type": "string"
+                },
+                "trackers": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "token": {
+                        "type": "string"
+                      },
+                      "kpi_values": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "required": [
+                      "token",
+                      "kpi_values"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "token",
+                "name",
+                "currency",
+                "trackers"
+              ]
+            }
+          },
+          "required": [
+            "result_parameters",
+            "result_set"
+          ]
+        },
+        "supported_sync_modes": [
+          "full_refresh"
+        ]
+      },
+      "sync_mode": "full_refresh",
+      "destination_sync_mode": "overwrite"
+    }
+  ]
+}
