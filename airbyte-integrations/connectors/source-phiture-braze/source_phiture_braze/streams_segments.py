@@ -8,7 +8,7 @@ import requests
 from airbyte_cdk.models import SyncMode
 from airbyte_cdk.sources.streams import IncrementalMixin
 from airbyte_cdk.sources.streams.http import HttpSubStream
-from source_braze.streams import BrazeStream
+from source_phiture_braze.streams import BrazeStream
 
 
 class SegmentsList(BrazeStream):

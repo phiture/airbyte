@@ -16,7 +16,7 @@ TEST_REQUIREMENTS = [
 ]
 
 setup(
-    name="source_braze",
+    name="source_phiture_braze",
     description="Source implementation for Braze.",
     author="Airbyte",
     author_email="contact@airbyte.io",

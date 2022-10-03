@@ -6,7 +6,7 @@ from http import HTTPStatus
 from unittest.mock import MagicMock
 
 import pytest
-from source_braze.source import BrazeStream
+from source_phiture_braze.source import BrazeStream
 
 
 @pytest.fixture

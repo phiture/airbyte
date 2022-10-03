@@ -5,7 +5,7 @@
 
 from airbyte_cdk.models import SyncMode
 from pytest import fixture
-from source_braze.source import IncrementalBrazeStream
+from source_phiture_braze.source import IncrementalBrazeStream
 
 
 @fixture

@@ -6,12 +6,12 @@ from typing import Any, List, Mapping, Tuple
 from airbyte_cdk.sources import AbstractSource
 from airbyte_cdk.sources.streams import Stream
 from airbyte_cdk.sources.streams.http.auth import TokenAuthenticator
-from source_braze.streams_campaigns import CampaignsDataSeries, CampaignsDetails, CampaignsList
-from source_braze.streams_canvas import CanvasDataSeries, CanvasDetails, CanvasList
-from source_braze.streams_segments import SegmentsDataSeries, SegmentsDetails, SegmentsList
+from source_phiture_braze.streams_campaigns import CampaignsDataSeries, CampaignsDetails, CampaignsList
+from source_phiture_braze.streams_canvas import CanvasDataSeries, CanvasDetails, CanvasList
+from source_phiture_braze.streams_segments import SegmentsDataSeries, SegmentsDetails, SegmentsList
 
 
-class SourceBraze(AbstractSource):
+class SourcePhitureBraze(AbstractSource):
     def check_connection(self, logger, config) -> Tuple[bool, any]:
         """
         See https://github.com/airbytehq/airbyte/blob/master/airbyte-integrations/connectors/source-stripe/source_stripe/source.py#L232

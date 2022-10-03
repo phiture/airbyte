@@ -4,17 +4,17 @@
 
 from unittest.mock import MagicMock
 
-from source_braze.source import SourceBraze
+from source_phiture_braze.source import SourcePhitureBraze
 
 
 def test_check_connection(mocker):
-    source = SourceBraze()
+    source = SourcePhitureBraze()
     logger_mock, config_mock = MagicMock(), MagicMock()
     assert source.check_connection(logger_mock, config_mock) == (True, None)
 
 
 def test_streams(mocker):
-    source = SourceBraze()
+    source = SourcePhitureBraze()
     config_mock = MagicMock()
     streams = source.streams(config_mock)
     # TODO: replace this with your streams number

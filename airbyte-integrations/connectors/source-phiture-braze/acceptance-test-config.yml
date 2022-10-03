@@ -1,9 +1,9 @@
 # See [Source Acceptance Tests](https://docs.airbyte.io/connector-development/testing-connectors/source-acceptance-tests-reference)
 # for more information about how to configure these tests
-connector_image: airbyte/source-braze:dev
+connector_image: airbyte/source-phiture-braze:dev
 tests:
   spec:
-    - spec_path: "source_braze/spec.yaml"
+    - spec_path: "source_phiture_braze/spec.yaml"
   connection:
     - config_path: "secrets/config.json"
       status: "succeed"

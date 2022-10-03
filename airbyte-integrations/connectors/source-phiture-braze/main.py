@@ -6,8 +6,8 @@
 import sys
 
 from airbyte_cdk.entrypoint import launch
-from source_braze import SourceBraze
+from source_phiture_braze import SourcePhitureBraze
 
 if __name__ == "__main__":
-    source = SourceBraze()
+    source = SourcePhitureBraze()
     launch(source, sys.argv[1:])

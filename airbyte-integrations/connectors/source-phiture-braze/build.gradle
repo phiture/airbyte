@@ -5,5 +5,5 @@ plugins {
 }
 
 airbytePython {
-    moduleDirectory 'source_braze'
+    moduleDirectory 'source_phiture_braze'
 }
