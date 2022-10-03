@@ -61,26 +61,25 @@ metrics = [
 ]
 
 custom_metrics = [
-    "sign_up",
-    "sign_up_first_events",
-    "sport_selected",
-    "sports_first_events",
     "onboarding_completed",
-    "onboarding_completed_first_events",
     "purchase_maps",
-    "purchase_maps_first_events",
-    "purchase_maps_revenue",
-    "purchase_maps_revenue_events",
-    "purchase_maps_revenue_per_event",
-    "purchase_maps_revenue_per_revenue_event",
     "purchase_premium",
-    "purchase_premium_first_events",
-    "purchase_premium_revenue",
-    "purchase_premium_revenue_events",
-    "purchase_premium_revenue_per_event",
-    "purchase_premium_revenue_per_revenue_event",
+    "sign_up",
+    "sports_selected",
     "use_route",
-    "use_route_first_events",
+]
+custom_metrics_skad_metrics = [
+    "events",
+    "events_min",
+    "events_max",
+    "events_est",
+    "revenue",
+    "revenue_min",
+    "revenue_max",
+    "revenue_est",
+]
+
+conversion_metrics = [
     "conversion_1",
     "conversion_2",
     "conversion_3",

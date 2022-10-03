@@ -1,6 +1,6 @@
 # See [Source Acceptance Tests](https://docs.airbyte.io/connector-development/testing-connectors/source-acceptance-tests-reference)
 # for more information about how to configure these tests
-connector_image: airbyte/source-adjust:dev
+connector_image: airbyte/source-phiture-adjust:dev
 tests:
   spec:
     - spec_path: "source_phiture_adjust/spec.yaml"

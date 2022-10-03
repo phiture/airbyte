@@ -10,7 +10,7 @@ from airbyte_cdk.sources.streams.http.auth import TokenAuthenticator
 from source_phiture_adjust.streams import ReportService
 
 
-class SourceAdjust(AbstractSource):
+class SourcePhitureAdjust(AbstractSource):
     def check_connection(self, logger, config) -> Tuple[bool, any]:
         """
         See https://github.com/airbytehq/airbyte/blob/master/airbyte-integrations/connectors/source-stripe/source_stripe/source.py#L232

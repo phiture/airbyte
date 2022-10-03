@@ -9,7 +9,7 @@ import requests
 from airbyte_cdk.models import SyncMode
 from airbyte_cdk.sources.streams.http import HttpStream
 
-from source_phiture_adjust.util_report_service import custom_metrics, dimensions, metrics
+from source_phiture_adjust.util_report_service import custom_metrics, dimensions, metrics, conversion_metrics, custom_metrics_skad_metrics
 
 
 class ReportService(HttpStream, ABC):
@@ -68,16 +68,24 @@ class ReportService(HttpStream, ABC):
             stream_slice: Mapping[str, Any] = None,
             next_page_token: Mapping[str, Any] = None,
     ) -> MutableMapping[str, Any]:
-        all_metrics = ",".join(metrics)
+        all_metrics = metrics
         if self._custom_metrics:
-            all_metrics += f",{self._custom_metrics}"
+            if isinstance(self._custom_metrics, str):
+                self._custom_metrics = self._custom_metrics.replace(" ", "").split(",")
+            if not isinstance(self._custom_metrics, list):
+                raise Exception("custom_metrics must be a list of strings")
+            all_metrics += self._custom_metrics
         if custom_metrics:
-            all_metrics += f",{custom_metrics}"
+            for metric in custom_metrics:
+                for skad_metric in custom_metrics_skad_metrics:
+                    all_metrics.append(f"{metric}_{skad_metric}")
+        if conversion_metrics:
+            all_metrics += conversion_metrics
         return {
             "app_token__in": self._app_token,
             "date_period": f'{stream_slice["start_date"]}:{stream_slice["end_date"]}',
             "dimensions": ",".join(dimensions),
-            "metrics": ",".join(metrics),
+            "metrics": ",".join(all_metrics),
             "attribution_type": self._attribution_type,
             "ad_spend_mode": self._ad_spend_mode,
             "currency": self._currency,

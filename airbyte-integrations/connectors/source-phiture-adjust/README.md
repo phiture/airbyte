@@ -35,7 +35,7 @@ You can also build the connector in Gradle. This is typically used in CI and not
 
 To build using Gradle, from the Airbyte repository root, run:
 ```
-./gradlew :airbyte-integrations:connectors:source-adjust:build
+./gradlew :airbyte-integrations:connectors:source-phiture-adjust:build
 ```
 
 #### Create credentials
@@ -60,12 +60,12 @@ python main.py read --config secrets/config.json --catalog integration_tests/con
 #### Build
 First, make sure you build the latest Docker image:
 ```
-docker build . -t airbyte/source-adjust:dev
+docker build . -t airbyte/source-phiture-adjust:dev
 ```
 
 You can also build the connector image via Gradle:
 ```
-./gradlew :airbyte-integrations:connectors:source-adjust:airbyteDocker
+./gradlew :airbyte-integrations:connectors:source-phiture-adjust:airbyteDocker
 ```
 When building via Gradle, the docker image name and tag, respectively, are the values of the `io.airbyte.name` and `io.airbyte.version` `LABEL`s in
 the Dockerfile.
@@ -73,10 +73,10 @@ the Dockerfile.
 #### Run
 Then run any of the connector commands as follows:
 ```
-docker run --rm airbyte/source-adjust:dev spec
-docker run --rm -v $(pwd)/secrets:/secrets airbyte/source-adjust:dev check --config /secrets/config.json
-docker run --rm -v $(pwd)/secrets:/secrets airbyte/source-adjust:dev discover --config /secrets/config.json
-docker run --rm -v $(pwd)/secrets:/secrets -v $(pwd)/integration_tests:/integration_tests airbyte/source-adjust:dev read --config /secrets/config.json --catalog /integration_tests/configured_catalog.json
+docker run --rm airbyte/source-phiture-adjust:dev spec
+docker run --rm -v $(pwd)/secrets:/secrets airbyte/source-phiture-adjust:dev check --config /secrets/config.json
+docker run --rm -v $(pwd)/secrets:/secrets airbyte/source-phiture-adjust:dev discover --config /secrets/config.json
+docker run --rm -v $(pwd)/secrets:/secrets -v $(pwd)/integration_tests:/integration_tests airbyte/source-phiture-adjust:dev read --config /secrets/config.json --catalog /integration_tests/configured_catalog.json
 ```
 ## Testing
 Make sure to familiarize yourself with [pytest test discovery](https://docs.pytest.org/en/latest/goodpractices.html#test-discovery) to know how your test files and methods should be named.
@@ -110,11 +110,11 @@ To run your integration tests with docker
 All commands should be run from airbyte project root.
 To run unit tests:
 ```
-./gradlew :airbyte-integrations:connectors:source-adjust:unitTest
+./gradlew :airbyte-integrations:connectors:source-phiture-adjust:unitTest
 ```
 To run acceptance and custom integration tests:
 ```
-./gradlew :airbyte-integrations:connectors:source-adjust:integrationTest
+./gradlew :airbyte-integrations:connectors:source-phiture-adjust:integrationTest
 ```
 
 ## Dependency Management

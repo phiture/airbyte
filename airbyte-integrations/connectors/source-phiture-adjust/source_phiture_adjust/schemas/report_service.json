@@ -78,6 +78,216 @@
     "cohort_revenue": {
       "type": "string"
     },
+    "conversion_1": {
+      "type": "string"
+    },
+    "conversion_2": {
+      "type": "string"
+    },
+    "conversion_3": {
+      "type": "string"
+    },
+    "conversion_4": {
+      "type": "string"
+    },
+    "conversion_5": {
+      "type": "string"
+    },
+    "conversion_6": {
+      "type": "string"
+    },
+    "conversion_value_0": {
+      "type": "string"
+    },
+    "conversion_value_1": {
+      "type": "string"
+    },
+    "conversion_value_10": {
+      "type": "string"
+    },
+    "conversion_value_11": {
+      "type": "string"
+    },
+    "conversion_value_12": {
+      "type": "string"
+    },
+    "conversion_value_13": {
+      "type": "string"
+    },
+    "conversion_value_14": {
+      "type": "string"
+    },
+    "conversion_value_15": {
+      "type": "string"
+    },
+    "conversion_value_16": {
+      "type": "string"
+    },
+    "conversion_value_17": {
+      "type": "string"
+    },
+    "conversion_value_18": {
+      "type": "string"
+    },
+    "conversion_value_19": {
+      "type": "string"
+    },
+    "conversion_value_2": {
+      "type": "string"
+    },
+    "conversion_value_20": {
+      "type": "string"
+    },
+    "conversion_value_21": {
+      "type": "string"
+    },
+    "conversion_value_22": {
+      "type": "string"
+    },
+    "conversion_value_23": {
+      "type": "string"
+    },
+    "conversion_value_24": {
+      "type": "string"
+    },
+    "conversion_value_25": {
+      "type": "string"
+    },
+    "conversion_value_26": {
+      "type": "string"
+    },
+    "conversion_value_27": {
+      "type": "string"
+    },
+    "conversion_value_28": {
+      "type": "string"
+    },
+    "conversion_value_29": {
+      "type": "string"
+    },
+    "conversion_value_3": {
+      "type": "string"
+    },
+    "conversion_value_30": {
+      "type": "string"
+    },
+    "conversion_value_31": {
+      "type": "string"
+    },
+    "conversion_value_32": {
+      "type": "string"
+    },
+    "conversion_value_33": {
+      "type": "string"
+    },
+    "conversion_value_34": {
+      "type": "string"
+    },
+    "conversion_value_35": {
+      "type": "string"
+    },
+    "conversion_value_36": {
+      "type": "string"
+    },
+    "conversion_value_37": {
+      "type": "string"
+    },
+    "conversion_value_38": {
+      "type": "string"
+    },
+    "conversion_value_39": {
+      "type": "string"
+    },
+    "conversion_value_4": {
+      "type": "string"
+    },
+    "conversion_value_40": {
+      "type": "string"
+    },
+    "conversion_value_41": {
+      "type": "string"
+    },
+    "conversion_value_42": {
+      "type": "string"
+    },
+    "conversion_value_43": {
+      "type": "string"
+    },
+    "conversion_value_44": {
+      "type": "string"
+    },
+    "conversion_value_45": {
+      "type": "string"
+    },
+    "conversion_value_46": {
+      "type": "string"
+    },
+    "conversion_value_47": {
+      "type": "string"
+    },
+    "conversion_value_48": {
+      "type": "string"
+    },
+    "conversion_value_49": {
+      "type": "string"
+    },
+    "conversion_value_5": {
+      "type": "string"
+    },
+    "conversion_value_50": {
+      "type": "string"
+    },
+    "conversion_value_51": {
+      "type": "string"
+    },
+    "conversion_value_52": {
+      "type": "string"
+    },
+    "conversion_value_53": {
+      "type": "string"
+    },
+    "conversion_value_54": {
+      "type": "string"
+    },
+    "conversion_value_55": {
+      "type": "string"
+    },
+    "conversion_value_56": {
+      "type": "string"
+    },
+    "conversion_value_57": {
+      "type": "string"
+    },
+    "conversion_value_58": {
+      "type": "string"
+    },
+    "conversion_value_59": {
+      "type": "string"
+    },
+    "conversion_value_6": {
+      "type": "string"
+    },
+    "conversion_value_60": {
+      "type": "string"
+    },
+    "conversion_value_61": {
+      "type": "string"
+    },
+    "conversion_value_62": {
+      "type": "string"
+    },
+    "conversion_value_63": {
+      "type": "string"
+    },
+    "conversion_value_7": {
+      "type": "string"
+    },
+    "conversion_value_8": {
+      "type": "string"
+    },
+    "conversion_value_9": {
+      "type": "string"
+    },
     "conversion_value_total": {
       "type": "string"
     },
@@ -147,6 +357,30 @@
     "network": {
       "type": "string"
     },
+    "onboarding_completed_events": {
+      "type": "string"
+    },
+    "onboarding_completed_events_est": {
+      "type": "string"
+    },
+    "onboarding_completed_events_max": {
+      "type": "string"
+    },
+    "onboarding_completed_events_min": {
+      "type": "string"
+    },
+    "onboarding_completed_revenue": {
+      "type": "string"
+    },
+    "onboarding_completed_revenue_est": {
+      "type": "string"
+    },
+    "onboarding_completed_revenue_max": {
+      "type": "string"
+    },
+    "onboarding_completed_revenue_min": {
+      "type": "string"
+    },
     "os_name": {
       "type": "string"
     },
@@ -157,6 +391,54 @@
       "type": "string"
     },
     "paid_installs": {
+      "type": "string"
+    },
+    "purchase_maps_events": {
+      "type": "string"
+    },
+    "purchase_maps_events_est": {
+      "type": "string"
+    },
+    "purchase_maps_events_max": {
+      "type": "string"
+    },
+    "purchase_maps_events_min": {
+      "type": "string"
+    },
+    "purchase_maps_revenue": {
+      "type": "string"
+    },
+    "purchase_maps_revenue_est": {
+      "type": "string"
+    },
+    "purchase_maps_revenue_max": {
+      "type": "string"
+    },
+    "purchase_maps_revenue_min": {
+      "type": "string"
+    },
+    "purchase_premium_events": {
+      "type": "string"
+    },
+    "purchase_premium_events_est": {
+      "type": "string"
+    },
+    "purchase_premium_events_max": {
+      "type": "string"
+    },
+    "purchase_premium_events_min": {
+      "type": "string"
+    },
+    "purchase_premium_revenue": {
+      "type": "string"
+    },
+    "purchase_premium_revenue_est": {
+      "type": "string"
+    },
+    "purchase_premium_revenue_max": {
+      "type": "string"
+    },
+    "purchase_premium_revenue_min": {
       "type": "string"
     },
     "reattributions": {
@@ -183,6 +465,30 @@
     "roas": {
       "type": "string"
     },
+    "sign_up_events": {
+      "type": "string"
+    },
+    "sign_up_events_est": {
+      "type": "string"
+    },
+    "sign_up_events_max": {
+      "type": "string"
+    },
+    "sign_up_events_min": {
+      "type": "string"
+    },
+    "sign_up_revenue": {
+      "type": "string"
+    },
+    "sign_up_revenue_est": {
+      "type": "string"
+    },
+    "sign_up_revenue_max": {
+      "type": "string"
+    },
+    "sign_up_revenue_min": {
+      "type": "string"
+    },
     "skad_conversion_value_gt_0": {
       "type": "string"
     },
@@ -199,6 +505,54 @@
       "type": "string"
     },
     "skad_total_installs": {
+      "type": "string"
+    },
+    "sports_selected_events": {
+      "type": "string"
+    },
+    "sports_selected_events_est": {
+      "type": "string"
+    },
+    "sports_selected_events_max": {
+      "type": "string"
+    },
+    "sports_selected_events_min": {
+      "type": "string"
+    },
+    "sports_selected_revenue": {
+      "type": "string"
+    },
+    "sports_selected_revenue_est": {
+      "type": "string"
+    },
+    "sports_selected_revenue_max": {
+      "type": "string"
+    },
+    "sports_selected_revenue_min": {
+      "type": "string"
+    },
+    "use_route_events": {
+      "type": "string"
+    },
+    "use_route_events_est": {
+      "type": "string"
+    },
+    "use_route_events_max": {
+      "type": "string"
+    },
+    "use_route_events_min": {
+      "type": "string"
+    },
+    "use_route_revenue": {
+      "type": "string"
+    },
+    "use_route_revenue_est": {
+      "type": "string"
+    },
+    "use_route_revenue_max": {
+      "type": "string"
+    },
+    "use_route_revenue_min": {
       "type": "string"
     },
     "valid_conversions": {
