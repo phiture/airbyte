@@ -1,0 +1,116 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "properties": {
+    "adgroup_id_network": {
+      "type": "string"
+    },
+    "adgroup_network": {
+      "type": "string"
+    },
+    "app": {
+      "type": "string"
+    },
+    "app_token": {
+      "type": "string"
+    },
+    "attr_dependency": {
+      "properties": {
+        "adgroup_id_network": {
+          "type": "string"
+        },
+        "app_network": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "campaign_id_network": {
+          "type": "string"
+        },
+        "country_code": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "creative_id_network": {
+          "type": "string"
+        },
+        "network": {
+          "type": "string"
+        },
+        "partner": {
+          "type": "string"
+        },
+        "partner_id": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "campaign_id_network": {
+      "type": "string"
+    },
+    "campaign_network": {
+      "type": "string"
+    },
+    "click_cost": {
+      "type": "string"
+    },
+    "cost": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "country_code": {
+      "type": "string"
+    },
+    "creative_id_network": {
+      "type": "string"
+    },
+    "creative_network": {
+      "type": "string"
+    },
+    "currency": {
+      "type": "string"
+    },
+    "currency_code": {
+      "type": "string"
+    },
+    "day": {
+      "type": "string"
+    },
+    "ecpc": {
+      "type": "string"
+    },
+    "ecpi": {
+      "type": "string"
+    },
+    "ecpm": {
+      "type": "string"
+    },
+    "impression_cost": {
+      "type": "string"
+    },
+    "install_cost": {
+      "type": "string"
+    },
+    "network": {
+      "type": "string"
+    },
+    "os_name": {
+      "type": "string"
+    },
+    "paid_clicks": {
+      "type": "string"
+    },
+    "paid_impressions": {
+      "type": "string"
+    },
+    "paid_installs": {
+      "type": "string"
+    }
+  },
+  "type": "object"
+}

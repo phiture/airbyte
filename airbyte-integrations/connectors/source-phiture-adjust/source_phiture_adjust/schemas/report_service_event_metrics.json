@@ -1,0 +1,233 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "properties": {
+    "adgroup_id_network": {
+      "type": "string"
+    },
+    "adgroup_network": {
+      "type": "string"
+    },
+    "app": {
+      "type": "string"
+    },
+    "app_token": {
+      "type": "string"
+    },
+    "attr_dependency": {
+      "properties": {
+        "adgroup_id_network": {
+          "type": "string"
+        },
+        "app_network": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "campaign_id_network": {
+          "type": "string"
+        },
+        "country_code": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "creative_id_network": {
+          "type": "string"
+        },
+        "network": {
+          "type": "string"
+        },
+        "partner": {
+          "type": "string"
+        },
+        "partner_id": {
+          "type": "string"
+        },
+        "source_id_network": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "campaign_id_network": {
+      "type": "string"
+    },
+    "campaign_network": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "country_code": {
+      "type": "string"
+    },
+    "creative_id_network": {
+      "type": "string"
+    },
+    "creative_network": {
+      "type": "string"
+    },
+    "currency": {
+      "type": "string"
+    },
+    "currency_code": {
+      "type": "string"
+    },
+    "day": {
+      "type": "string"
+    },
+    "network": {
+      "type": "string"
+    },
+    "onboarding_completed_events": {
+      "type": "string"
+    },
+    "onboarding_completed_events_est": {
+      "type": "string"
+    },
+    "onboarding_completed_events_max": {
+      "type": "string"
+    },
+    "onboarding_completed_events_min": {
+      "type": "string"
+    },
+    "onboarding_completed_revenue": {
+      "type": "string"
+    },
+    "onboarding_completed_revenue_est": {
+      "type": "string"
+    },
+    "onboarding_completed_revenue_max": {
+      "type": "string"
+    },
+    "onboarding_completed_revenue_min": {
+      "type": "string"
+    },
+    "os_name": {
+      "type": "string"
+    },
+    "purchase_maps_events": {
+      "type": "string"
+    },
+    "purchase_maps_events_est": {
+      "type": "string"
+    },
+    "purchase_maps_events_max": {
+      "type": "string"
+    },
+    "purchase_maps_events_min": {
+      "type": "string"
+    },
+    "purchase_maps_revenue": {
+      "type": "string"
+    },
+    "purchase_maps_revenue_est": {
+      "type": "string"
+    },
+    "purchase_maps_revenue_max": {
+      "type": "string"
+    },
+    "purchase_maps_revenue_min": {
+      "type": "string"
+    },
+    "purchase_premium_events": {
+      "type": "string"
+    },
+    "purchase_premium_events_est": {
+      "type": "string"
+    },
+    "purchase_premium_events_max": {
+      "type": "string"
+    },
+    "purchase_premium_events_min": {
+      "type": "string"
+    },
+    "purchase_premium_revenue": {
+      "type": "string"
+    },
+    "purchase_premium_revenue_est": {
+      "type": "string"
+    },
+    "purchase_premium_revenue_max": {
+      "type": "string"
+    },
+    "purchase_premium_revenue_min": {
+      "type": "string"
+    },
+    "sign_up_events": {
+      "type": "string"
+    },
+    "sign_up_events_est": {
+      "type": "string"
+    },
+    "sign_up_events_max": {
+      "type": "string"
+    },
+    "sign_up_events_min": {
+      "type": "string"
+    },
+    "sign_up_revenue": {
+      "type": "string"
+    },
+    "sign_up_revenue_est": {
+      "type": "string"
+    },
+    "sign_up_revenue_max": {
+      "type": "string"
+    },
+    "sign_up_revenue_min": {
+      "type": "string"
+    },
+    "sports_selected_events": {
+      "type": "string"
+    },
+    "sports_selected_events_est": {
+      "type": "string"
+    },
+    "sports_selected_events_max": {
+      "type": "string"
+    },
+    "sports_selected_events_min": {
+      "type": "string"
+    },
+    "sports_selected_revenue": {
+      "type": "string"
+    },
+    "sports_selected_revenue_est": {
+      "type": "string"
+    },
+    "sports_selected_revenue_max": {
+      "type": "string"
+    },
+    "sports_selected_revenue_min": {
+      "type": "string"
+    },
+    "use_route_events": {
+      "type": "string"
+    },
+    "use_route_events_est": {
+      "type": "string"
+    },
+    "use_route_events_max": {
+      "type": "string"
+    },
+    "use_route_events_min": {
+      "type": "string"
+    },
+    "use_route_revenue": {
+      "type": "string"
+    },
+    "use_route_revenue_est": {
+      "type": "string"
+    },
+    "use_route_revenue_max": {
+      "type": "string"
+    },
+    "use_route_revenue_min": {
+      "type": "string"
+    }
+  },
+  "type": "object"
+}

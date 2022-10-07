@@ -7,7 +7,9 @@ from typing import Any, List, Mapping, Tuple
 from airbyte_cdk.sources import AbstractSource
 from airbyte_cdk.sources.streams import Stream
 from airbyte_cdk.sources.streams.http.auth import TokenAuthenticator
-from source_phiture_adjust.streams import ReportService
+
+from source_phiture_adjust.streams import ReportServiceConversionMetrics, ReportServiceEventMetrics, ReportServiceAdSpendMetrics, \
+    ReportServiceRevenueMetrics, ReportServiceSkadMetrics
 
 
 class SourcePhitureAdjust(AbstractSource):
@@ -43,4 +45,10 @@ class SourcePhitureAdjust(AbstractSource):
         :param config: A Mapping of the user input configuration as defined in the connector spec.
         """
         auth_report_service = TokenAuthenticator(token=config["user_token"])
-        return [ReportService(authenticator=auth_report_service, config=config)]
+        return [
+            ReportServiceConversionMetrics(authenticator=auth_report_service, config=config),
+            ReportServiceAdSpendMetrics(authenticator=auth_report_service, config=config),
+            ReportServiceRevenueMetrics(authenticator=auth_report_service, config=config),
+            ReportServiceSkadMetrics(authenticator=auth_report_service, config=config),
+            ReportServiceEventMetrics(authenticator=auth_report_service, config=config),
+        ]

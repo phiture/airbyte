@@ -8,28 +8,39 @@ import pendulum
 import requests
 from airbyte_cdk.models import SyncMode
 from airbyte_cdk.sources.streams.http import HttpStream
-
-from source_phiture_adjust.util_report_service import custom_metrics, dimensions, metrics, conversion_metrics, custom_metrics_skad_metrics
+from source_phiture_adjust.util_report_service import (
+    ad_spend_metrics_list,
+    conversion_metrics_list,
+    dimensions,
+    event_metrics_list,
+    revenue_metrics_list,
+    skad_metrics_list,
+)
 
 
 class ReportService(HttpStream, ABC):
     url_base = "https://dash.adjust.com"
 
-    primary_key = dimensions
+    primary_key = None
     cursor_field = "day"
     time_interval = {"days": 1}
     state_checkpoint_interval = 1000
+    _metrics = None
 
-    def __init__(self, config: Mapping[str, Any], **kwargs):
+    def __init__(self, config: Mapping[str, Any], dimensions: List[str], metrics: List[str], **kwargs):
         super().__init__(**kwargs)
+        self._state = {}
+
         self._app_token = config["app_token"]
         self._start_date = config["start_date"]
         self._end_date = config.get("end_date")
         self._attribution_type = config.get("attribution_type")
         self._ad_spend_mode = config.get("ad_spend_mode")
         self._currency = config.get("currency")
-        self._custom_metrics = config.get("custom_metrics")
-        self._state = {}
+        self._dimensions = dimensions
+        self._metrics = metrics
+
+        self.primary_key = dimensions
 
     @property
     def state(self) -> MutableMapping[str, Any]:
@@ -58,45 +69,32 @@ class ReportService(HttpStream, ABC):
         return self.state.get(canvas_id, {}).get(self.cursor_field) or default
 
     def path(
-            self, stream_state: Mapping[str, Any] = None, stream_slice: Mapping[str, Any] = None, next_page_token: Mapping[str, Any] = None
+        self, stream_state: Mapping[str, Any] = None, stream_slice: Mapping[str, Any] = None, next_page_token: Mapping[str, Any] = None
     ) -> str:
         return "control-center/reports-service/report"
 
     def request_params(
-            self,
-            stream_state: Mapping[str, Any],
-            stream_slice: Mapping[str, Any] = None,
-            next_page_token: Mapping[str, Any] = None,
+        self,
+        stream_state: Mapping[str, Any],
+        stream_slice: Mapping[str, Any] = None,
+        next_page_token: Mapping[str, Any] = None,
     ) -> MutableMapping[str, Any]:
-        all_metrics = metrics
-        if self._custom_metrics:
-            if isinstance(self._custom_metrics, str):
-                self._custom_metrics = self._custom_metrics.replace(" ", "").split(",")
-            if not isinstance(self._custom_metrics, list):
-                raise Exception("custom_metrics must be a list of strings")
-            all_metrics += self._custom_metrics
-        if custom_metrics:
-            for metric in custom_metrics:
-                for skad_metric in custom_metrics_skad_metrics:
-                    all_metrics.append(f"{metric}_{skad_metric}")
-        if conversion_metrics:
-            all_metrics += conversion_metrics
         return {
             "app_token__in": self._app_token,
             "date_period": f'{stream_slice["start_date"]}:{stream_slice["end_date"]}',
-            "dimensions": ",".join(dimensions),
-            "metrics": ",".join(all_metrics),
+            "dimensions": ",".join(self._dimensions),
+            "metrics": ",".join(self._metrics),
             "attribution_type": self._attribution_type,
             "ad_spend_mode": self._ad_spend_mode,
             "currency": self._currency,
         }
 
     def parse_response(
-            self,
-            response: requests.Response,
-            stream_state: Mapping[str, Any],
-            stream_slice: Mapping[str, Any] = None,
-            next_page_token: Mapping[str, Any] = None,
+        self,
+        response: requests.Response,
+        stream_state: Mapping[str, Any],
+        stream_slice: Mapping[str, Any] = None,
+        next_page_token: Mapping[str, Any] = None,
     ) -> Iterable[Mapping]:
         data = response.json()
         for row in data["rows"]:
@@ -125,7 +123,7 @@ class ReportService(HttpStream, ABC):
             start_date = start_date.add(**self.time_interval)
 
     def read_records(
-            self, sync_mode: SyncMode, cursor_field: List[str] = None, stream_slice: MutableMapping[str, Any] = None, **kwargs
+        self, sync_mode: SyncMode, cursor_field: List[str] = None, stream_slice: MutableMapping[str, Any] = None, **kwargs
     ) -> Iterable[Mapping[str, Any]]:
         for record in super().read_records(sync_mode=sync_mode, stream_slice=stream_slice):
             current_state = self.current_state(self._app_token)
@@ -138,3 +136,28 @@ class ReportService(HttpStream, ABC):
                 continue
             self.state = {self._app_token: {self.cursor_field: record[self.cursor_field]}}
             yield record
+
+
+class ReportServiceConversionMetrics(ReportService):
+    def __init__(self, config: Mapping[str, Any], **kwargs):
+        super().__init__(config, dimensions=dimensions, metrics=conversion_metrics_list, **kwargs)
+
+
+class ReportServiceAdSpendMetrics(ReportService):
+    def __init__(self, config: Mapping[str, Any], **kwargs):
+        super().__init__(config, dimensions=dimensions, metrics=ad_spend_metrics_list, **kwargs)
+
+
+class ReportServiceRevenueMetrics(ReportService):
+    def __init__(self, config: Mapping[str, Any], **kwargs):
+        super().__init__(config, dimensions=dimensions, metrics=revenue_metrics_list, **kwargs)
+
+
+class ReportServiceSkadMetrics(ReportService):
+    def __init__(self, config: Mapping[str, Any], **kwargs):
+        super().__init__(config, dimensions=dimensions, metrics=skad_metrics_list, **kwargs)
+
+
+class ReportServiceEventMetrics(ReportService):
+    def __init__(self, config: Mapping[str, Any], **kwargs):
+        super().__init__(config, dimensions=dimensions, metrics=event_metrics_list, **kwargs)

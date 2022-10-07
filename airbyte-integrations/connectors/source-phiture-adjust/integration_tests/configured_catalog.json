@@ -9,7 +9,271 @@
           "day"
         ],
         "json_schema": {},
-        "name": "report_service",
+        "name": "report_service_conversion_metrics",
+        "namespace": null,
+        "source_defined_cursor": true,
+        "source_defined_primary_key": [
+          [
+            "day"
+          ],
+          [
+            "app"
+          ],
+          [
+            "app_token"
+          ],
+          [
+            "country_code"
+          ],
+          [
+            "country"
+          ],
+          [
+            "currency_code"
+          ],
+          [
+            "currency"
+          ],
+          [
+            "os_name"
+          ],
+          [
+            "campaign_id_network"
+          ],
+          [
+            "campaign_network"
+          ],
+          [
+            "adgroup_id_network"
+          ],
+          [
+            "adgroup_network"
+          ],
+          [
+            "creative_id_network"
+          ],
+          [
+            "creative_network"
+          ],
+          [
+            "network"
+          ]
+        ],
+        "supported_sync_modes": [
+          "full_refresh",
+          "incremental"
+        ]
+      },
+      "sync_mode": "full_refresh"
+    },
+    {
+      "cursor_field": null,
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": [
+          "day"
+        ],
+        "json_schema": {},
+        "name": "report_service_ad_spend_metrics",
+        "namespace": null,
+        "source_defined_cursor": true,
+        "source_defined_primary_key": [
+          [
+            "day"
+          ],
+          [
+            "app"
+          ],
+          [
+            "app_token"
+          ],
+          [
+            "country_code"
+          ],
+          [
+            "country"
+          ],
+          [
+            "currency_code"
+          ],
+          [
+            "currency"
+          ],
+          [
+            "os_name"
+          ],
+          [
+            "campaign_id_network"
+          ],
+          [
+            "campaign_network"
+          ],
+          [
+            "adgroup_id_network"
+          ],
+          [
+            "adgroup_network"
+          ],
+          [
+            "creative_id_network"
+          ],
+          [
+            "creative_network"
+          ],
+          [
+            "network"
+          ]
+        ],
+        "supported_sync_modes": [
+          "full_refresh",
+          "incremental"
+        ]
+      },
+      "sync_mode": "full_refresh"
+    },
+    {
+      "cursor_field": null,
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": [
+          "day"
+        ],
+        "json_schema": {},
+        "name": "report_service_revenue_metrics",
+        "namespace": null,
+        "source_defined_cursor": true,
+        "source_defined_primary_key": [
+          [
+            "day"
+          ],
+          [
+            "app"
+          ],
+          [
+            "app_token"
+          ],
+          [
+            "country_code"
+          ],
+          [
+            "country"
+          ],
+          [
+            "currency_code"
+          ],
+          [
+            "currency"
+          ],
+          [
+            "os_name"
+          ],
+          [
+            "campaign_id_network"
+          ],
+          [
+            "campaign_network"
+          ],
+          [
+            "adgroup_id_network"
+          ],
+          [
+            "adgroup_network"
+          ],
+          [
+            "creative_id_network"
+          ],
+          [
+            "creative_network"
+          ],
+          [
+            "network"
+          ]
+        ],
+        "supported_sync_modes": [
+          "full_refresh",
+          "incremental"
+        ]
+      },
+      "sync_mode": "full_refresh"
+    },
+    {
+      "cursor_field": null,
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": [
+          "day"
+        ],
+        "json_schema": {},
+        "name": "report_service_skad_metrics",
+        "namespace": null,
+        "source_defined_cursor": true,
+        "source_defined_primary_key": [
+          [
+            "day"
+          ],
+          [
+            "app"
+          ],
+          [
+            "app_token"
+          ],
+          [
+            "country_code"
+          ],
+          [
+            "country"
+          ],
+          [
+            "currency_code"
+          ],
+          [
+            "currency"
+          ],
+          [
+            "os_name"
+          ],
+          [
+            "campaign_id_network"
+          ],
+          [
+            "campaign_network"
+          ],
+          [
+            "adgroup_id_network"
+          ],
+          [
+            "adgroup_network"
+          ],
+          [
+            "creative_id_network"
+          ],
+          [
+            "creative_network"
+          ],
+          [
+            "network"
+          ]
+        ],
+        "supported_sync_modes": [
+          "full_refresh",
+          "incremental"
+        ]
+      },
+      "sync_mode": "full_refresh"
+    },
+    {
+      "cursor_field": null,
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": [
+          "day"
+        ],
+        "json_schema": {},
+        "name": "report_service_event_metrics",
         "namespace": null,
         "source_defined_cursor": true,
         "source_defined_primary_key": [
