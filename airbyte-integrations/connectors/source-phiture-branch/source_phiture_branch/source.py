@@ -12,10 +12,10 @@ from airbyte_cdk.sources.streams.http.requests_native_auth import TokenAuthentic
 from .streams import (
     AggregateExportDownload_1,
     AggregateExportDownload_2,
+    AggregateExportDownload_3,
     AggregateExportDownload_4,
     AggregateExportDownload_5,
     AggregateExportDownload_6,
-    AggregateExportDownload_3,
     AggregateExportDownload_7,
 )
 

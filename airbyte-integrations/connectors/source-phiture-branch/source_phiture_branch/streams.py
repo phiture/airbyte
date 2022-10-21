@@ -204,8 +204,8 @@ class AggregateExportDownload(PhitureBranchStream):
         return ""
 
     def get_updated_state(self, current_stream_state: MutableMapping[str, Any], latest_record: Mapping[str, Any]) -> Mapping[str, Any]:
-        date_in_current_stream = pendulum.parse(current_stream_state.get(self.cursor_field, '1970-01-01'))
-        date_in_latest_record = pendulum.parse(latest_record.get(self.cursor_field, '1970-01-01'))
+        date_in_current_stream = pendulum.parse(current_stream_state.get(self.cursor_field, "1970-01-01"))
+        date_in_latest_record = pendulum.parse(latest_record.get(self.cursor_field, "1970-01-01"))
         cursor_value = (max(date_in_current_stream, date_in_latest_record)).to_date_string()
         return {self.cursor_field: cursor_value}
 
