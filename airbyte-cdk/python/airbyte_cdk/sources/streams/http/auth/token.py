@@ -32,7 +32,9 @@ class MultipleTokenAuthenticator(HttpAuthenticator):
         self._tokens_iter = cycle(self._tokens)
 
     def get_auth_header(self) -> Mapping[str, Any]:
-        return {self.auth_header: f"{self.auth_method} {next(self._tokens_iter)}"}
+        if self.auth_method:
+            return {self.auth_header: f"{self.auth_method} {next(self._tokens_iter)}"}
+        return {self.auth_header: f"{next(self._tokens_iter)}"}
 
 
 class BasicHttpAuthenticator(TokenAuthenticator):

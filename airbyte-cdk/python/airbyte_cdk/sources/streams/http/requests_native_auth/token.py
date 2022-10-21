@@ -22,7 +22,9 @@ class MultipleTokenAuthenticator(AbstractHeaderAuthenticator):
 
     @property
     def token(self) -> str:
-        return f"{self._auth_method} {next(self._tokens_iter)}"
+        if self._auth_method:
+            return f"{self._auth_method} {next(self._tokens_iter)}"
+        return f"{next(self._tokens_iter)}"
 
     def __init__(self, tokens: List[str], auth_method: str = "Bearer", auth_header: str = "Authorization"):
         self._auth_method = auth_method
@@ -43,7 +45,9 @@ class TokenAuthenticator(AbstractHeaderAuthenticator):
 
     @property
     def token(self) -> str:
-        return f"{self._auth_method} {self._token}"
+        if self._auth_method:
+            return f"{self._auth_method} {self._token}"
+        return f"{self._token}"
 
     def __init__(self, token: str, auth_method: str = "Bearer", auth_header: str = "Authorization"):
         self._auth_header = auth_header
@@ -63,7 +67,9 @@ class BasicHttpAuthenticator(AbstractHeaderAuthenticator):
 
     @property
     def token(self) -> str:
-        return f"{self._auth_method} {self._token}"
+        if self._auth_method:
+            return f"{self._auth_method} {self._token}"
+        return f"{self._token}"
 
     def __init__(self, username: str, password: str = "", auth_method: str = "Basic", auth_header: str = "Authorization"):
         auth_string = f"{username}:{password}".encode("utf8")

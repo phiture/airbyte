@@ -1,0 +1,256 @@
+{
+  "streams": [
+    {
+      "cursor_field": null,
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": null,
+        "json_schema": {},
+        "name": "aggregate_export_download_1",
+        "namespace": null,
+        "source_defined_cursor": null,
+        "source_defined_primary_key": [
+          [
+            "app_id"
+          ],
+          [
+            "start_date"
+          ],
+          [
+            "end_date"
+          ],
+          [
+            "data_source"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "dimensions"
+          ]
+        ],
+        "supported_sync_modes": [
+          "full_refresh"
+        ]
+      },
+      "sync_mode": "full_refresh"
+    },
+    {
+      "cursor_field": null,
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": null,
+        "json_schema": {},
+        "name": "aggregate_export_download_2",
+        "namespace": null,
+        "source_defined_cursor": null,
+        "source_defined_primary_key": [
+          [
+            "app_id"
+          ],
+          [
+            "start_date"
+          ],
+          [
+            "end_date"
+          ],
+          [
+            "data_source"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "dimensions"
+          ]
+        ],
+        "supported_sync_modes": [
+          "full_refresh"
+        ]
+      },
+      "sync_mode": "full_refresh"
+    },
+    {
+      "cursor_field": null,
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": null,
+        "json_schema": {},
+        "name": "aggregate_export_download_3",
+        "namespace": null,
+        "source_defined_cursor": null,
+        "source_defined_primary_key": [
+          [
+            "app_id"
+          ],
+          [
+            "start_date"
+          ],
+          [
+            "end_date"
+          ],
+          [
+            "data_source"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "dimensions"
+          ]
+        ],
+        "supported_sync_modes": [
+          "full_refresh"
+        ]
+      },
+      "sync_mode": "full_refresh"
+    },
+    {
+      "cursor_field": null,
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": null,
+        "json_schema": {},
+        "name": "aggregate_export_download_4",
+        "namespace": null,
+        "source_defined_cursor": null,
+        "source_defined_primary_key": [
+          [
+            "app_id"
+          ],
+          [
+            "start_date"
+          ],
+          [
+            "end_date"
+          ],
+          [
+            "data_source"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "dimensions"
+          ]
+        ],
+        "supported_sync_modes": [
+          "full_refresh"
+        ]
+      },
+      "sync_mode": "full_refresh"
+    },
+    {
+      "cursor_field": null,
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": null,
+        "json_schema": {},
+        "name": "aggregate_export_download_5",
+        "namespace": null,
+        "source_defined_cursor": null,
+        "source_defined_primary_key": [
+          [
+            "app_id"
+          ],
+          [
+            "start_date"
+          ],
+          [
+            "end_date"
+          ],
+          [
+            "data_source"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "dimensions"
+          ]
+        ],
+        "supported_sync_modes": [
+          "full_refresh"
+        ]
+      },
+      "sync_mode": "full_refresh"
+    },
+    {
+      "cursor_field": null,
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": null,
+        "json_schema": {},
+        "name": "aggregate_export_download_6",
+        "namespace": null,
+        "source_defined_cursor": null,
+        "source_defined_primary_key": [
+          [
+            "app_id"
+          ],
+          [
+            "start_date"
+          ],
+          [
+            "end_date"
+          ],
+          [
+            "data_source"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "dimensions"
+          ]
+        ],
+        "supported_sync_modes": [
+          "full_refresh"
+        ]
+      },
+      "sync_mode": "full_refresh"
+    },
+    {
+      "cursor_field": null,
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": null,
+        "json_schema": {},
+        "name": "aggregate_export_download_7",
+        "namespace": null,
+        "source_defined_cursor": null,
+        "source_defined_primary_key": [
+          [
+            "app_id"
+          ],
+          [
+            "start_date"
+          ],
+          [
+            "end_date"
+          ],
+          [
+            "data_source"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "dimensions"
+          ]
+        ],
+        "supported_sync_modes": [
+          "full_refresh"
+        ]
+      },
+      "sync_mode": "full_refresh"
+    }
+  ]
+}

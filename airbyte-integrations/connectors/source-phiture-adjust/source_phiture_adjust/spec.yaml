@@ -13,7 +13,8 @@ connectionSpecification:
       order: 0
       type: string
       title: User Token
-      description: The user token for the user of the application. ((https://help.adjust.com/en/article/kpi-service#authentication)
+      description: The user token for the user of the application. (https://help.adjust.com/en/article/kpi-service#authentication)
+      airbyte_secret: true
     app_token:
       order: 1
       type: string
