@@ -26,6 +26,9 @@ class ReportService(HttpStream, ABC):
     time_interval = {"days": 1}
     state_checkpoint_interval = 1000
     _metrics = None
+    # the window attribution is used to re-fetch the last 30 days of data
+    #  only if the last state day is in the range of the last 30 days
+    window_attribution = {"days": 30}
 
     def __init__(self, config: Mapping[str, Any], dimensions: List[str], metrics: List[str], **kwargs):
         super().__init__(**kwargs)
@@ -105,6 +108,8 @@ class ReportService(HttpStream, ABC):
 
         if stream_state.get("last_sync"):
             start_date = pendulum.parse(stream_state["last_sync"].get(self.cursor_field))
+            if pendulum.now().subtract(**self.window_attribution) < start_date < pendulum.now():
+                start_date = pendulum.parse(stream_state["last_sync"].get(self.cursor_field)).subtract(**self.window_attribution)
         else:
             start_date = pendulum.parse(self._start_date)
 
