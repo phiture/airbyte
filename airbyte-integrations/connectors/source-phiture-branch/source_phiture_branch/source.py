@@ -10,13 +10,20 @@ from airbyte_cdk.sources.streams import Stream
 from airbyte_cdk.sources.streams.http.requests_native_auth import TokenAuthenticator
 
 from .streams import (
-    AggregateExportDownload_1,
-    AggregateExportDownload_2,
-    AggregateExportDownload_3,
-    AggregateExportDownload_4,
-    AggregateExportDownload_5,
-    AggregateExportDownload_6,
-    AggregateExportDownload_7,
+    AggregateExportAdPartnerNameTotalCount,
+    AggregateExportAdPartnerNameUniqueCount,
+    AggregateExportAdsSetsTotalCount,
+    AggregateExportAdsSetsUniqueCount,
+    AggregateExportCampaignsTotalCount,
+    AggregateExportCampaignsUniqueCount,
+    AggregateExportCreativesTotalCount,
+    AggregateExportCreativesUniqueCount,
+    AggregateExportGeneralUserDimensionsTotalCount,
+    AggregateExportGeneralUserDimensionsUniqueCount,
+    AggregateExportKeywordTotalCount,
+    AggregateExportKeywordUniqueCount,
+    AggregateExportTouchTypeTotalCount,
+    AggregateExportTouchTypeUniqueCount,
 )
 
 
@@ -42,11 +49,18 @@ class SourcePhitureBranch(AbstractSource):
         """
         auth = TokenAuthenticator(token=config["api_key"], auth_method="", auth_header="Access-Token")
         return [
-            AggregateExportDownload_1(authenticator=auth, config=config),
-            AggregateExportDownload_2(authenticator=auth, config=config),
-            AggregateExportDownload_3(authenticator=auth, config=config),
-            AggregateExportDownload_4(authenticator=auth, config=config),
-            AggregateExportDownload_5(authenticator=auth, config=config),
-            AggregateExportDownload_6(authenticator=auth, config=config),
-            AggregateExportDownload_7(authenticator=auth, config=config),
+            AggregateExportAdPartnerNameTotalCount(authenticator=auth, config=config),
+            AggregateExportAdPartnerNameUniqueCount(authenticator=auth, config=config),
+            AggregateExportAdsSetsTotalCount(authenticator=auth, config=config),
+            AggregateExportAdsSetsUniqueCount(authenticator=auth, config=config),
+            AggregateExportCampaignsTotalCount(authenticator=auth, config=config),
+            AggregateExportCampaignsUniqueCount(authenticator=auth, config=config),
+            AggregateExportCreativesTotalCount(authenticator=auth, config=config),
+            AggregateExportCreativesUniqueCount(authenticator=auth, config=config),
+            AggregateExportGeneralUserDimensionsTotalCount(authenticator=auth, config=config),
+            AggregateExportGeneralUserDimensionsUniqueCount(authenticator=auth, config=config),
+            AggregateExportKeywordTotalCount(authenticator=auth, config=config),
+            AggregateExportKeywordUniqueCount(authenticator=auth, config=config),
+            AggregateExportTouchTypeTotalCount(authenticator=auth, config=config),
+            AggregateExportTouchTypeUniqueCount(authenticator=auth, config=config),
         ]

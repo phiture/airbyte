@@ -5,14 +5,34 @@
       "destination_sync_mode": "append",
       "primary_key": null,
       "stream": {
-        "default_cursor_field": null,
+        "default_cursor_field": [
+          "start_date"
+        ],
         "json_schema": {},
-        "name": "aggregate_export_download_1",
+        "name": "aggregate_export_ad_partner_name_total_count",
         "namespace": null,
-        "source_defined_cursor": null,
+        "source_defined_cursor": true,
         "source_defined_primary_key": [
           [
             "app_id"
+          ],
+          [
+            "name"
+          ],
+          [
+            "origin"
+          ],
+          [
+            "from_desktop"
+          ],
+          [
+            "first_event_for_user"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "data_source"
           ],
           [
             "start_date"
@@ -21,17 +41,21 @@
             "end_date"
           ],
           [
-            "data_source"
+            "user_data_geo_country_code"
           ],
           [
-            "aggregation"
+            "user_data_language"
           ],
           [
-            "dimensions"
+            "user_data_os"
+          ],
+          [
+            "user_data_platform"
           ]
         ],
         "supported_sync_modes": [
-          "full_refresh"
+          "full_refresh",
+          "incremental"
         ]
       },
       "sync_mode": "full_refresh"
@@ -41,14 +65,34 @@
       "destination_sync_mode": "append",
       "primary_key": null,
       "stream": {
-        "default_cursor_field": null,
+        "default_cursor_field": [
+          "start_date"
+        ],
         "json_schema": {},
-        "name": "aggregate_export_download_2",
+        "name": "aggregate_export_ad_partner_name_unique_count",
         "namespace": null,
-        "source_defined_cursor": null,
+        "source_defined_cursor": true,
         "source_defined_primary_key": [
           [
             "app_id"
+          ],
+          [
+            "name"
+          ],
+          [
+            "origin"
+          ],
+          [
+            "from_desktop"
+          ],
+          [
+            "first_event_for_user"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "data_source"
           ],
           [
             "start_date"
@@ -57,17 +101,21 @@
             "end_date"
           ],
           [
-            "data_source"
+            "user_data_geo_country_code"
           ],
           [
-            "aggregation"
+            "user_data_language"
           ],
           [
-            "dimensions"
+            "user_data_os"
+          ],
+          [
+            "user_data_platform"
           ]
         ],
         "supported_sync_modes": [
-          "full_refresh"
+          "full_refresh",
+          "incremental"
         ]
       },
       "sync_mode": "full_refresh"
@@ -77,14 +125,34 @@
       "destination_sync_mode": "append",
       "primary_key": null,
       "stream": {
-        "default_cursor_field": null,
+        "default_cursor_field": [
+          "start_date"
+        ],
         "json_schema": {},
-        "name": "aggregate_export_download_3",
+        "name": "aggregate_export_ads_sets_total_count",
         "namespace": null,
-        "source_defined_cursor": null,
+        "source_defined_cursor": true,
         "source_defined_primary_key": [
           [
             "app_id"
+          ],
+          [
+            "name"
+          ],
+          [
+            "origin"
+          ],
+          [
+            "from_desktop"
+          ],
+          [
+            "first_event_for_user"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "data_source"
           ],
           [
             "start_date"
@@ -93,17 +161,21 @@
             "end_date"
           ],
           [
-            "data_source"
+            "user_data_geo_country_code"
           ],
           [
-            "aggregation"
+            "user_data_language"
           ],
           [
-            "dimensions"
+            "user_data_os"
+          ],
+          [
+            "user_data_platform"
           ]
         ],
         "supported_sync_modes": [
-          "full_refresh"
+          "full_refresh",
+          "incremental"
         ]
       },
       "sync_mode": "full_refresh"
@@ -113,14 +185,34 @@
       "destination_sync_mode": "append",
       "primary_key": null,
       "stream": {
-        "default_cursor_field": null,
+        "default_cursor_field": [
+          "start_date"
+        ],
         "json_schema": {},
-        "name": "aggregate_export_download_4",
+        "name": "aggregate_export_ads_sets_unique_count",
         "namespace": null,
-        "source_defined_cursor": null,
+        "source_defined_cursor": true,
         "source_defined_primary_key": [
           [
             "app_id"
+          ],
+          [
+            "name"
+          ],
+          [
+            "origin"
+          ],
+          [
+            "from_desktop"
+          ],
+          [
+            "first_event_for_user"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "data_source"
           ],
           [
             "start_date"
@@ -129,17 +221,21 @@
             "end_date"
           ],
           [
-            "data_source"
+            "user_data_geo_country_code"
           ],
           [
-            "aggregation"
+            "user_data_language"
           ],
           [
-            "dimensions"
+            "user_data_os"
+          ],
+          [
+            "user_data_platform"
           ]
         ],
         "supported_sync_modes": [
-          "full_refresh"
+          "full_refresh",
+          "incremental"
         ]
       },
       "sync_mode": "full_refresh"
@@ -149,14 +245,34 @@
       "destination_sync_mode": "append",
       "primary_key": null,
       "stream": {
-        "default_cursor_field": null,
+        "default_cursor_field": [
+          "start_date"
+        ],
         "json_schema": {},
-        "name": "aggregate_export_download_5",
+        "name": "aggregate_export_campaigns_total_count",
         "namespace": null,
-        "source_defined_cursor": null,
+        "source_defined_cursor": true,
         "source_defined_primary_key": [
           [
             "app_id"
+          ],
+          [
+            "name"
+          ],
+          [
+            "origin"
+          ],
+          [
+            "from_desktop"
+          ],
+          [
+            "first_event_for_user"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "data_source"
           ],
           [
             "start_date"
@@ -165,17 +281,21 @@
             "end_date"
           ],
           [
-            "data_source"
+            "user_data_geo_country_code"
           ],
           [
-            "aggregation"
+            "user_data_language"
           ],
           [
-            "dimensions"
+            "user_data_os"
+          ],
+          [
+            "user_data_platform"
           ]
         ],
         "supported_sync_modes": [
-          "full_refresh"
+          "full_refresh",
+          "incremental"
         ]
       },
       "sync_mode": "full_refresh"
@@ -185,14 +305,34 @@
       "destination_sync_mode": "append",
       "primary_key": null,
       "stream": {
-        "default_cursor_field": null,
+        "default_cursor_field": [
+          "start_date"
+        ],
         "json_schema": {},
-        "name": "aggregate_export_download_6",
+        "name": "aggregate_export_campaigns_unique_count",
         "namespace": null,
-        "source_defined_cursor": null,
+        "source_defined_cursor": true,
         "source_defined_primary_key": [
           [
             "app_id"
+          ],
+          [
+            "name"
+          ],
+          [
+            "origin"
+          ],
+          [
+            "from_desktop"
+          ],
+          [
+            "first_event_for_user"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "data_source"
           ],
           [
             "start_date"
@@ -201,17 +341,21 @@
             "end_date"
           ],
           [
-            "data_source"
+            "user_data_geo_country_code"
           ],
           [
-            "aggregation"
+            "user_data_language"
           ],
           [
-            "dimensions"
+            "user_data_os"
+          ],
+          [
+            "user_data_platform"
           ]
         ],
         "supported_sync_modes": [
-          "full_refresh"
+          "full_refresh",
+          "incremental"
         ]
       },
       "sync_mode": "full_refresh"
@@ -221,14 +365,34 @@
       "destination_sync_mode": "append",
       "primary_key": null,
       "stream": {
-        "default_cursor_field": null,
+        "default_cursor_field": [
+          "start_date"
+        ],
         "json_schema": {},
-        "name": "aggregate_export_download_7",
+        "name": "aggregate_export_creatives_total_count",
         "namespace": null,
-        "source_defined_cursor": null,
+        "source_defined_cursor": true,
         "source_defined_primary_key": [
           [
             "app_id"
+          ],
+          [
+            "name"
+          ],
+          [
+            "origin"
+          ],
+          [
+            "from_desktop"
+          ],
+          [
+            "first_event_for_user"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "data_source"
           ],
           [
             "start_date"
@@ -237,17 +401,441 @@
             "end_date"
           ],
           [
-            "data_source"
+            "user_data_geo_country_code"
+          ],
+          [
+            "user_data_language"
+          ],
+          [
+            "user_data_os"
+          ],
+          [
+            "user_data_platform"
+          ]
+        ],
+        "supported_sync_modes": [
+          "full_refresh",
+          "incremental"
+        ]
+      },
+      "sync_mode": "full_refresh"
+    },
+    {
+      "cursor_field": null,
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": [
+          "start_date"
+        ],
+        "json_schema": {},
+        "name": "aggregate_export_creatives_unique_count",
+        "namespace": null,
+        "source_defined_cursor": true,
+        "source_defined_primary_key": [
+          [
+            "app_id"
+          ],
+          [
+            "name"
+          ],
+          [
+            "origin"
+          ],
+          [
+            "from_desktop"
+          ],
+          [
+            "first_event_for_user"
           ],
           [
             "aggregation"
           ],
           [
-            "dimensions"
+            "data_source"
+          ],
+          [
+            "start_date"
+          ],
+          [
+            "end_date"
+          ],
+          [
+            "user_data_geo_country_code"
+          ],
+          [
+            "user_data_language"
+          ],
+          [
+            "user_data_os"
+          ],
+          [
+            "user_data_platform"
           ]
         ],
         "supported_sync_modes": [
-          "full_refresh"
+          "full_refresh",
+          "incremental"
+        ]
+      },
+      "sync_mode": "full_refresh"
+    },
+    {
+      "cursor_field": null,
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": [
+          "start_date"
+        ],
+        "json_schema": {},
+        "name": "aggregate_export_general_user_dimensions_total_count",
+        "namespace": null,
+        "source_defined_cursor": true,
+        "source_defined_primary_key": [
+          [
+            "app_id"
+          ],
+          [
+            "name"
+          ],
+          [
+            "origin"
+          ],
+          [
+            "from_desktop"
+          ],
+          [
+            "first_event_for_user"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "data_source"
+          ],
+          [
+            "start_date"
+          ],
+          [
+            "end_date"
+          ],
+          [
+            "user_data_geo_country_code"
+          ],
+          [
+            "user_data_language"
+          ],
+          [
+            "user_data_os"
+          ],
+          [
+            "user_data_platform"
+          ]
+        ],
+        "supported_sync_modes": [
+          "full_refresh",
+          "incremental"
+        ]
+      },
+      "sync_mode": "full_refresh"
+    },
+    {
+      "cursor_field": null,
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": [
+          "start_date"
+        ],
+        "json_schema": {},
+        "name": "aggregate_export_general_user_dimensions_unique_count",
+        "namespace": null,
+        "source_defined_cursor": true,
+        "source_defined_primary_key": [
+          [
+            "app_id"
+          ],
+          [
+            "name"
+          ],
+          [
+            "origin"
+          ],
+          [
+            "from_desktop"
+          ],
+          [
+            "first_event_for_user"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "data_source"
+          ],
+          [
+            "start_date"
+          ],
+          [
+            "end_date"
+          ],
+          [
+            "user_data_geo_country_code"
+          ],
+          [
+            "user_data_language"
+          ],
+          [
+            "user_data_os"
+          ],
+          [
+            "user_data_platform"
+          ]
+        ],
+        "supported_sync_modes": [
+          "full_refresh",
+          "incremental"
+        ]
+      },
+      "sync_mode": "full_refresh"
+    },
+    {
+      "cursor_field": null,
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": [
+          "start_date"
+        ],
+        "json_schema": {},
+        "name": "aggregate_export_keyword_total_count",
+        "namespace": null,
+        "source_defined_cursor": true,
+        "source_defined_primary_key": [
+          [
+            "app_id"
+          ],
+          [
+            "name"
+          ],
+          [
+            "origin"
+          ],
+          [
+            "from_desktop"
+          ],
+          [
+            "first_event_for_user"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "data_source"
+          ],
+          [
+            "start_date"
+          ],
+          [
+            "end_date"
+          ],
+          [
+            "user_data_geo_country_code"
+          ],
+          [
+            "user_data_language"
+          ],
+          [
+            "user_data_os"
+          ],
+          [
+            "user_data_platform"
+          ]
+        ],
+        "supported_sync_modes": [
+          "full_refresh",
+          "incremental"
+        ]
+      },
+      "sync_mode": "full_refresh"
+    },
+    {
+      "cursor_field": null,
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": [
+          "start_date"
+        ],
+        "json_schema": {},
+        "name": "aggregate_export_keyword_unique_count",
+        "namespace": null,
+        "source_defined_cursor": true,
+        "source_defined_primary_key": [
+          [
+            "app_id"
+          ],
+          [
+            "name"
+          ],
+          [
+            "origin"
+          ],
+          [
+            "from_desktop"
+          ],
+          [
+            "first_event_for_user"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "data_source"
+          ],
+          [
+            "start_date"
+          ],
+          [
+            "end_date"
+          ],
+          [
+            "user_data_geo_country_code"
+          ],
+          [
+            "user_data_language"
+          ],
+          [
+            "user_data_os"
+          ],
+          [
+            "user_data_platform"
+          ]
+        ],
+        "supported_sync_modes": [
+          "full_refresh",
+          "incremental"
+        ]
+      },
+      "sync_mode": "full_refresh"
+    },
+    {
+      "cursor_field": null,
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": [
+          "start_date"
+        ],
+        "json_schema": {},
+        "name": "aggregate_export_touch_type_total_count",
+        "namespace": null,
+        "source_defined_cursor": true,
+        "source_defined_primary_key": [
+          [
+            "app_id"
+          ],
+          [
+            "name"
+          ],
+          [
+            "origin"
+          ],
+          [
+            "from_desktop"
+          ],
+          [
+            "first_event_for_user"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "data_source"
+          ],
+          [
+            "start_date"
+          ],
+          [
+            "end_date"
+          ],
+          [
+            "user_data_geo_country_code"
+          ],
+          [
+            "user_data_language"
+          ],
+          [
+            "user_data_os"
+          ],
+          [
+            "user_data_platform"
+          ]
+        ],
+        "supported_sync_modes": [
+          "full_refresh",
+          "incremental"
+        ]
+      },
+      "sync_mode": "full_refresh"
+    },
+    {
+      "cursor_field": null,
+      "destination_sync_mode": "append",
+      "primary_key": null,
+      "stream": {
+        "default_cursor_field": [
+          "start_date"
+        ],
+        "json_schema": {},
+        "name": "aggregate_export_touch_type_unique_count",
+        "namespace": null,
+        "source_defined_cursor": true,
+        "source_defined_primary_key": [
+          [
+            "app_id"
+          ],
+          [
+            "name"
+          ],
+          [
+            "origin"
+          ],
+          [
+            "from_desktop"
+          ],
+          [
+            "first_event_for_user"
+          ],
+          [
+            "aggregation"
+          ],
+          [
+            "data_source"
+          ],
+          [
+            "start_date"
+          ],
+          [
+            "end_date"
+          ],
+          [
+            "user_data_geo_country_code"
+          ],
+          [
+            "user_data_language"
+          ],
+          [
+            "user_data_os"
+          ],
+          [
+            "user_data_platform"
+          ]
+        ],
+        "supported_sync_modes": [
+          "full_refresh",
+          "incremental"
         ]
       },
       "sync_mode": "full_refresh"

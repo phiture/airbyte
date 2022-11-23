@@ -7,8 +7,6 @@ connectionSpecification:
     - api_key
     - app_id
     - start_date
-    - data_sources
-    - aggregations
   additionalProperties: true
   properties:
     api_key:
@@ -36,59 +34,3 @@ connectionSpecification:
       description: The end of the interval time range represented as an ISO-8601 complete date.
       examples:
         - "%Y-%m-%d"
-    data_sources:
-      order: 4
-      type: array
-      title: Data Sources
-      minItems: 1
-      uniqueItems: true
-      description: The data source (NOTE If you are querying skadnetwork-valid-messages, be sure to set aggregation to total_count), to see complete list (https://help.branch.io/developers-hub/reference/aggregate-api#topics)
-      items:
-        type: string
-        enum:
-          - "eo_impression"
-          - "eo_click"
-          - "eo_web_to_app_auto_redirect"
-          - "eo_branch_cta_view"
-          - "eo_sms_sent"
-          - "eo_open"
-          - "eo_install"
-          - "eo_reinstall"
-          - "eo_web_session_start"
-          - "eo_pageview"
-          - "eo_commerce_event"
-          - "eo_custom_event"
-          - "eo_content_event"
-          - "eo_dismissal"
-          - "eo_user_lifecycle_event"
-          - "cost"
-          - "skadnetwork-valid-messages"
-          - "eo_click_blocked"
-          - "eo_impression_blocked"
-          - "eo_install_blocked"
-          - "eo_reinstall_blocked"
-          - "eo_open_blocked"
-          - "eo_web_session_start_blocked"
-          - "eo_pageview_blocked"
-          - "eo_sms_sent_blocked"
-          - "eo_custom_event_blocked"
-          - "eo_content_event_blocked"
-          - "eo_commerce_event_blocked"
-          - "eo_user_lifecycle_event_blocked"
-          - "eo_branch_cta_view_blocked"
-          - "eo_web_to_app_auto_redirect_blocked"
-    aggregations:
-      order: 5
-      type: array
-      title: Aggregations
-      minItems: 1
-      uniqueItems: true
-      description: How to count events towards the final result count. When querying with a data source of "eo_commerce_event", the aggregation may also be specified as "revenue", in which case the counts returned are the sum of revenue from matching events, and not the number of events themselves.
-      items:
-        type: string
-        enum:
-          - "unique_count"
-          - "total_count"
-          - "revenue"
-          - "cost"
-          - "cost-in-local-currency"

@@ -4,7 +4,7 @@
 
 
 from abc import ABC
-from typing import Any, Iterable, List, Mapping, MutableMapping, Optional, Type
+from typing import Any, Iterable, List, Mapping, MutableMapping, Optional
 
 import pendulum
 import requests
@@ -38,7 +38,6 @@ class PhitureBranchStream(HttpStream, ABC):
     def read_slices_from_records(self, stream, slice_field: str, **kwargs) -> Iterable[Optional[Mapping[str, Any]]]:
         """
         General function for getting parent stream (which should be passed through `stream_class`) slice.
-        Generates dicts with `gid` of parent streams.
         """
         stream_slices = stream.stream_slices(sync_mode=SyncMode.full_refresh, cursor_field=slice_field, stream_state={})
         for stream_slice in stream_slices:
@@ -54,7 +53,14 @@ class AggregateExportRequest(PhitureBranchStream):
     retry_factor = 30
 
     def __init__(
-        self, config: Mapping[str, Any], data_source: str, aggregation: str, start_date: str, end_date: str, dimensions: List[str], **kwargs
+        self,
+        config: Mapping[str, Any],
+        data_source: str = None,
+        aggregation: str = None,
+        start_date: str = None,
+        end_date: str = None,
+        dimensions: List[str] = None,
+        **kwargs,
     ):
         super().__init__(**kwargs)
         self._app_id = config["app_id"]
@@ -161,7 +167,10 @@ class AggregateExportStatus(HttpSubStream, PhitureBranchStream):
         stream_slice: Mapping[str, Any] = None,
         next_page_token: Mapping[str, Any] = None,
     ) -> Iterable[Mapping]:
-        return [response.json()]
+        data = response.json()
+        if data.get("response_url", None) is not None:
+            return [data]
+        return []
 
     def should_retry(self, response: requests.Response) -> bool:
         if response.status_code == 429 or 500 <= response.status_code < 600:
@@ -174,10 +183,26 @@ class AggregateExportStatus(HttpSubStream, PhitureBranchStream):
 
 
 class AggregateExportDownload(PhitureBranchStream):
-    primary_key = ["app_id", "start_date", "end_date", "data_source", "aggregation"]
+    primary_key = [
+        "app_id",
+        "name",
+        "origin",
+        "from_desktop",
+        "first_event_for_user",
+        "aggregation",
+        "data_source",
+        "start_date",
+        "end_date",
+        "user_data_geo_country_code",
+        "user_data_language",
+        "user_data_os",
+        "user_data_platform",
+    ]
     cursor_field = "start_date"
 
-    def __init__(self, config: Mapping[str, Any], dimensions: List[str], **kwargs):
+    def __init__(
+        self, config: Mapping[str, Any], dimensions: List[str], data_sources: List[str] = None, aggregations: List[str] = None, **kwargs
+    ):
         super().__init__(**kwargs)
         self.config = config
         self.kwargs = kwargs
@@ -185,8 +210,8 @@ class AggregateExportDownload(PhitureBranchStream):
         self._api_key = config["api_key"]
         self._start_date = config["start_date"]
         self._end_date = config.get("end_date")
-        self._data_sources = config["data_sources"]
-        self._aggregations = config["aggregations"]
+        self._data_sources = data_sources
+        self._aggregations = aggregations
         self._dimensions = dimensions
 
     @property
@@ -236,12 +261,12 @@ class AggregateExportDownload(PhitureBranchStream):
                         metadata={
                             "data_source": data_source,
                             "aggregation": aggregation,
-                            "start_date": start_date.to_date_string(),
-                            "end_date": end_date.to_date_string(),
+                            "start_date": starting_at,
+                            "end_date": ending_at,
                             "dimensions": self._dimensions,
                         },
                     )
-                    start_date = start_date.add(days=1)
+            start_date = start_date.add(days=1)
 
     def parse_response(
         self,
@@ -260,56 +285,81 @@ class AggregateExportDownload(PhitureBranchStream):
             yield record
 
 
-class AggregateExportDownload_1(AggregateExportDownload):
+class AggregateExportAdPartnerNameTotalCount(AggregateExportDownload):
     def __init__(self, config: Mapping[str, Any], **kwargs):
         super().__init__(
             config=config,
+            aggregations=[
+                "total_count",
+            ],
+            data_sources=[
+                "eo_install",
+                "eo_click",
+                "eo_open",
+                "eo_impression",
+                "eo_custom_event",
+            ],
             dimensions=[
                 "name",
                 "origin",
-                "timestamp",
                 "from_desktop",
                 "first_event_for_user",
                 "user_data_geo_country_code",
                 "user_data_language",
                 "user_data_os",
                 "user_data_platform",
-                "last_attributed_touch_type",
                 "last_attributed_touch_data_tilde_advertising_partner_name",
             ],
             **kwargs,
         )
 
 
-class AggregateExportDownload_2(AggregateExportDownload):
+class AggregateExportAdPartnerNameUniqueCount(AggregateExportDownload):
     def __init__(self, config: Mapping[str, Any], **kwargs):
         super().__init__(
             config=config,
+            aggregations=[
+                "unique_count",
+            ],
+            data_sources=[
+                "eo_install",
+                "eo_click",
+                "eo_open",
+                "eo_impression",
+                "eo_custom_event",
+            ],
             dimensions=[
                 "name",
                 "origin",
-                "timestamp",
                 "from_desktop",
                 "first_event_for_user",
                 "user_data_geo_country_code",
                 "user_data_language",
                 "user_data_os",
                 "user_data_platform",
-                "last_attributed_touch_data_tilde_ad_id",
-                "last_attributed_touch_data_tilde_ad_name",
+                "last_attributed_touch_data_tilde_advertising_partner_name",
             ],
             **kwargs,
         )
 
 
-class AggregateExportDownload_3(AggregateExportDownload):
+class AggregateExportAdsSetsTotalCount(AggregateExportDownload):
     def __init__(self, config: Mapping[str, Any], **kwargs):
         super().__init__(
             config=config,
+            aggregations=[
+                "total_count",
+            ],
+            data_sources=[
+                "eo_install",
+                "eo_click",
+                "eo_open",
+                "eo_impression",
+                "eo_custom_event",
+            ],
             dimensions=[
                 "name",
                 "origin",
-                "timestamp",
                 "from_desktop",
                 "first_event_for_user",
                 "user_data_geo_country_code",
@@ -323,14 +373,23 @@ class AggregateExportDownload_3(AggregateExportDownload):
         )
 
 
-class AggregateExportDownload_4(AggregateExportDownload):
+class AggregateExportAdsSetsUniqueCount(AggregateExportDownload):
     def __init__(self, config: Mapping[str, Any], **kwargs):
         super().__init__(
             config=config,
+            aggregations=[
+                "unique_count",
+            ],
+            data_sources=[
+                "eo_install",
+                "eo_click",
+                "eo_open",
+                "eo_impression",
+                "eo_custom_event",
+            ],
             dimensions=[
                 "name",
                 "origin",
-                "timestamp",
                 "from_desktop",
                 "first_event_for_user",
                 "user_data_geo_country_code",
@@ -344,14 +403,23 @@ class AggregateExportDownload_4(AggregateExportDownload):
         )
 
 
-class AggregateExportDownload_5(AggregateExportDownload):
+class AggregateExportCampaignsTotalCount(AggregateExportDownload):
     def __init__(self, config: Mapping[str, Any], **kwargs):
         super().__init__(
             config=config,
+            aggregations=[
+                "total_count",
+            ],
+            data_sources=[
+                "eo_install",
+                "eo_click",
+                "eo_open",
+                "eo_impression",
+                "eo_custom_event",
+            ],
             dimensions=[
                 "name",
                 "origin",
-                "timestamp",
                 "from_desktop",
                 "first_event_for_user",
                 "user_data_geo_country_code",
@@ -365,14 +433,53 @@ class AggregateExportDownload_5(AggregateExportDownload):
         )
 
 
-class AggregateExportDownload_6(AggregateExportDownload):
+class AggregateExportCampaignsUniqueCount(AggregateExportDownload):
     def __init__(self, config: Mapping[str, Any], **kwargs):
         super().__init__(
             config=config,
+            aggregations=[
+                "unique_count",
+            ],
+            data_sources=[
+                "eo_install",
+                "eo_click",
+                "eo_open",
+                "eo_impression",
+                "eo_custom_event",
+            ],
             dimensions=[
                 "name",
                 "origin",
-                "timestamp",
+                "from_desktop",
+                "first_event_for_user",
+                "user_data_geo_country_code",
+                "user_data_language",
+                "user_data_os",
+                "user_data_platform",
+                "last_attributed_touch_data_tilde_campaign",
+                "last_attributed_touch_data_tilde_campaign_id",
+            ],
+            **kwargs,
+        )
+
+
+class AggregateExportCreativesTotalCount(AggregateExportDownload):
+    def __init__(self, config: Mapping[str, Any], **kwargs):
+        super().__init__(
+            config=config,
+            aggregations=[
+                "total_count",
+            ],
+            data_sources=[
+                "eo_install",
+                "eo_click",
+                "eo_open",
+                "eo_impression",
+                "eo_custom_event",
+            ],
+            dimensions=[
+                "name",
+                "origin",
                 "from_desktop",
                 "first_event_for_user",
                 "user_data_geo_country_code",
@@ -386,22 +493,209 @@ class AggregateExportDownload_6(AggregateExportDownload):
         )
 
 
-class AggregateExportDownload_7(AggregateExportDownload):
+class AggregateExportCreativesUniqueCount(AggregateExportDownload):
     def __init__(self, config: Mapping[str, Any], **kwargs):
         super().__init__(
             config=config,
+            aggregations=[
+                "unique_count",
+            ],
+            data_sources=[
+                "eo_install",
+                "eo_click",
+                "eo_open",
+                "eo_impression",
+                "eo_custom_event",
+            ],
             dimensions=[
                 "name",
                 "origin",
-                "timestamp",
                 "from_desktop",
                 "first_event_for_user",
                 "user_data_geo_country_code",
                 "user_data_language",
                 "user_data_os",
                 "user_data_platform",
-                "last_attributed_touch_data_tilde_channel",
+                "last_attributed_touch_data_tilde_creative_id",
+                "last_attributed_touch_data_tilde_creative_name",
+            ],
+            **kwargs,
+        )
+
+
+class AggregateExportGeneralUserDimensionsTotalCount(AggregateExportDownload):
+    def __init__(self, config: Mapping[str, Any], **kwargs):
+        super().__init__(
+            config=config,
+            aggregations=[
+                "total_count",
+            ],
+            data_sources=[
+                "eo_install",
+                "eo_click",
+                "eo_open",
+                "eo_reinstall",
+                "eo_impression",
+                "eo_custom_event",
+                "eo_user_lifecycle_event",
+                "eo_commerce_event",
+            ],
+            dimensions=[
+                "name",
+                "origin",
+                "from_desktop",
+                "first_event_for_user",
+                "user_data_geo_country_code",
+                "user_data_language",
+                "user_data_os",
+                "user_data_platform",
+            ],
+            **kwargs,
+        )
+
+
+class AggregateExportGeneralUserDimensionsUniqueCount(AggregateExportDownload):
+    def __init__(self, config: Mapping[str, Any], **kwargs):
+        super().__init__(
+            config=config,
+            aggregations=[
+                "unique_count",
+            ],
+            data_sources=[
+                "eo_install",
+                "eo_click",
+                "eo_open",
+                "eo_reinstall",
+                "eo_impression",
+                "eo_custom_event",
+                "eo_user_lifecycle_event",
+                "eo_commerce_event",
+            ],
+            dimensions=[
+                "name",
+                "origin",
+                "from_desktop",
+                "first_event_for_user",
+                "user_data_geo_country_code",
+                "user_data_language",
+                "user_data_os",
+                "user_data_platform",
+            ],
+            **kwargs,
+        )
+
+
+class AggregateExportKeywordTotalCount(AggregateExportDownload):
+    def __init__(self, config: Mapping[str, Any], **kwargs):
+        super().__init__(
+            config=config,
+            aggregations=[
+                "total_count",
+            ],
+            data_sources=[
+                "eo_install",
+                "eo_click",
+                "eo_open",
+                "eo_impression",
+                "eo_custom_event",
+            ],
+            dimensions=[
+                "name",
+                "origin",
+                "from_desktop",
+                "first_event_for_user",
+                "user_data_geo_country_code",
+                "user_data_language",
+                "user_data_os",
+                "user_data_platform",
                 "last_attributed_touch_data_tilde_keyword",
+            ],
+            **kwargs,
+        )
+
+
+class AggregateExportKeywordUniqueCount(AggregateExportDownload):
+    def __init__(self, config: Mapping[str, Any], **kwargs):
+        super().__init__(
+            config=config,
+            aggregations=[
+                "unique_count",
+            ],
+            data_sources=[
+                "eo_install",
+                "eo_click",
+                "eo_open",
+                "eo_impression",
+                "eo_custom_event",
+            ],
+            dimensions=[
+                "name",
+                "origin",
+                "from_desktop",
+                "first_event_for_user",
+                "user_data_geo_country_code",
+                "user_data_language",
+                "user_data_os",
+                "user_data_platform",
+                "last_attributed_touch_data_tilde_keyword",
+            ],
+            **kwargs,
+        )
+
+
+class AggregateExportTouchTypeTotalCount(AggregateExportDownload):
+    def __init__(self, config: Mapping[str, Any], **kwargs):
+        super().__init__(
+            config=config,
+            aggregations=[
+                "total_count",
+            ],
+            data_sources=[
+                "eo_install",
+                "eo_click",
+                "eo_open",
+                "eo_impression",
+                "eo_custom_event",
+            ],
+            dimensions=[
+                "name",
+                "origin",
+                "from_desktop",
+                "first_event_for_user",
+                "user_data_geo_country_code",
+                "user_data_language",
+                "user_data_os",
+                "user_data_platform",
+                "last_attributed_touch_type",
+            ],
+            **kwargs,
+        )
+
+
+class AggregateExportTouchTypeUniqueCount(AggregateExportDownload):
+    def __init__(self, config: Mapping[str, Any], **kwargs):
+        super().__init__(
+            config=config,
+            aggregations=[
+                "unique_count",
+            ],
+            data_sources=[
+                "eo_install",
+                "eo_click",
+                "eo_open",
+                "eo_impression",
+                "eo_custom_event",
+            ],
+            dimensions=[
+                "name",
+                "origin",
+                "from_desktop",
+                "first_event_for_user",
+                "user_data_geo_country_code",
+                "user_data_language",
+                "user_data_os",
+                "user_data_platform",
+                "last_attributed_touch_type",
             ],
             **kwargs,
         )

@@ -1,0 +1,63 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "properties" : {
+    "app_id" : {
+      "type" : "string"
+    },
+    "name" : {
+      "type" : "string"
+    },
+    "origin" : {
+      "type" : "string"
+    },
+    "from_desktop" : {
+      "type" : "string"
+    },
+    "first_event_for_user" : {
+      "type" : "string"
+    },
+    "aggregation" : {
+      "type" : "string"
+    },
+    "data_source" : {
+      "type" : "string"
+    },
+    "start_date" : {
+      "type" : "string"
+    },
+    "end_date" : {
+      "type" : "string"
+    },
+    "user_data_geo_country_code" : {
+      "type" : [
+        "null",
+        "string"
+      ]
+    },
+    "user_data_language" : {
+      "type" : [
+        "null",
+        "string"
+      ]
+    },
+    "user_data_os" : {
+      "type" : [
+        "null",
+        "string"
+      ]
+    },
+    "user_data_platform" : {
+      "type" : [
+        "null",
+        "string"
+      ]
+    },
+    "unique_count" : {
+      "type" : [
+        "null",
+        "integer"
+      ]
+    }
+  },
+  "type" : "object"
+}
