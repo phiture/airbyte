@@ -37,8 +37,6 @@ class SourcePhitureBranch(AbstractSource):
         :param logger:  logger object
         :return Tuple[bool, any]: (True, None) if the input config can be used to connect to the API successfully, (False, error) otherwise.
         """
-        if "skadnetwork-valid-messages" in config["data_sources"] and "total_count" not in config["aggregations"]:
-            return False, "total_count must be selected when skadnetwork-valid-messages is selected"
         return True, None
 
     def streams(self, config: Mapping[str, Any]) -> List[Stream]:
