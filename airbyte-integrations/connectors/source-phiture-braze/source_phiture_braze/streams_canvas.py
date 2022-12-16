@@ -55,6 +55,7 @@ class CanvasList(BrazeStream):
         self.logger.info(f"Fetching {self.name} page: {self._current_page} of {self._pages}")
         return {
             "page": next_page_token["page"] if next_page_token else self._current_page,
+            "include_archived": self.include_archived,
         }
 
 
