@@ -90,7 +90,7 @@ class CanvasDetails(HttpSubStream, BrazeStream):
 
             # convert the messages object of a step to a list
             messages = []
-            for message_id, message in step["messages"].items():
+            for message_id, message in step.get("messages", {}).items():
                 message["message_id"] = message_id
                 # convert headers object to string
                 if "headers" in message:
