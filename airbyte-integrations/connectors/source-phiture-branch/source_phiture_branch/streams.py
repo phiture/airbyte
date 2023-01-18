@@ -294,6 +294,7 @@ class AggregateExportAdPartnerNameTotalCount(AggregateExportDownload):
             ],
             data_sources=[
                 "eo_install",
+                "eo_reinstall",
                 "eo_click",
                 "eo_open",
                 "eo_impression",
@@ -323,6 +324,7 @@ class AggregateExportAdPartnerNameUniqueCount(AggregateExportDownload):
             ],
             data_sources=[
                 "eo_install",
+                "eo_reinstall",
                 "eo_click",
                 "eo_open",
                 "eo_impression",
@@ -352,6 +354,7 @@ class AggregateExportAdsSetsTotalCount(AggregateExportDownload):
             ],
             data_sources=[
                 "eo_install",
+                "eo_reinstall",
                 "eo_click",
                 "eo_open",
                 "eo_impression",
@@ -382,6 +385,7 @@ class AggregateExportAdsSetsUniqueCount(AggregateExportDownload):
             ],
             data_sources=[
                 "eo_install",
+                "eo_reinstall",
                 "eo_click",
                 "eo_open",
                 "eo_impression",
@@ -412,6 +416,7 @@ class AggregateExportCampaignsTotalCount(AggregateExportDownload):
             ],
             data_sources=[
                 "eo_install",
+                "eo_reinstall",
                 "eo_click",
                 "eo_open",
                 "eo_impression",
@@ -442,6 +447,7 @@ class AggregateExportCampaignsUniqueCount(AggregateExportDownload):
             ],
             data_sources=[
                 "eo_install",
+                "eo_reinstall",
                 "eo_click",
                 "eo_open",
                 "eo_impression",
@@ -472,6 +478,7 @@ class AggregateExportCreativesTotalCount(AggregateExportDownload):
             ],
             data_sources=[
                 "eo_install",
+                "eo_reinstall",
                 "eo_click",
                 "eo_open",
                 "eo_impression",
@@ -502,6 +509,7 @@ class AggregateExportCreativesUniqueCount(AggregateExportDownload):
             ],
             data_sources=[
                 "eo_install",
+                "eo_reinstall",
                 "eo_click",
                 "eo_open",
                 "eo_impression",
@@ -594,6 +602,7 @@ class AggregateExportKeywordTotalCount(AggregateExportDownload):
             ],
             data_sources=[
                 "eo_install",
+                "eo_reinstall",
                 "eo_click",
                 "eo_open",
                 "eo_impression",
@@ -623,6 +632,7 @@ class AggregateExportKeywordUniqueCount(AggregateExportDownload):
             ],
             data_sources=[
                 "eo_install",
+                "eo_reinstall",
                 "eo_click",
                 "eo_open",
                 "eo_impression",
@@ -652,6 +662,7 @@ class AggregateExportTouchTypeTotalCount(AggregateExportDownload):
             ],
             data_sources=[
                 "eo_install",
+                "eo_reinstall",
                 "eo_click",
                 "eo_open",
                 "eo_impression",
@@ -681,6 +692,7 @@ class AggregateExportTouchTypeUniqueCount(AggregateExportDownload):
             ],
             data_sources=[
                 "eo_install",
+                "eo_reinstall",
                 "eo_click",
                 "eo_open",
                 "eo_impression",
