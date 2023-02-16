@@ -39,27 +39,45 @@ connectionSpecification:
       type: string
       title: Attribution Type
       description: The type of engagement the attribution awards.
-      default: "all"
+      default: "click"
       enum:
         - "all"
         - "click"
         - "impression"
-    ad_spend_mode:
+    attribution_source:
       order: 5
+      type: string
+      title: Attribution Source
+      description: Whether in-app activity is assigned to the user’s install source (first) or divided among the install source and subsequent sources of reattribution (dynamic).
+      default: "dynamic"
+      enum:
+        - "dynamic"
+        - "first"
+    ad_spend_mode:
+      order: 6
       type: string
       title: Ad Spend Mode
       description: Determines the ad spend source applied in calculations.
-      default: "mixed"
+      default: "network"
       enum:
         - "mixed"
         - "adjust"
         - "network"
+    cohort_maturity:
+      order: 7
+      type: string
+      title: Cohort Maturity
+      description: immature – displays current values of cumulative metrics for all cohorts, including immature cohorts; mature – displays the values of cumulative metrics only for mature cohorts and zeros for immature cohorts
+      default: "immature"
+      enum:
+        - "immature"
+        - "mature"
     currency:
-      order: 6
+      order: 8
       type: string
       title: Currency
       description: Currency used for conversion of money related metrics.
-      default: "USD"
+      default: "EUR"
       enum:
         - "USD"
         - "EUR"

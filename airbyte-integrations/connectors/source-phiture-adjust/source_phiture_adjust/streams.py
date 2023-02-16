@@ -38,7 +38,9 @@ class ReportService(HttpStream, ABC):
         self._start_date = config["start_date"]
         self._end_date = config.get("end_date")
         self._attribution_type = config.get("attribution_type")
+        self._attribution_source = config.get("attribution_source")
         self._ad_spend_mode = config.get("ad_spend_mode")
+        self._cohort_maturity = config.get("cohort_maturity")
         self._currency = config.get("currency")
         self._dimensions = dimensions
         self._metrics = metrics
@@ -90,6 +92,7 @@ class ReportService(HttpStream, ABC):
             "attribution_type": self._attribution_type,
             "ad_spend_mode": self._ad_spend_mode,
             "currency": self._currency,
+            "utc_offset": "+00:00",
         }
 
     def parse_response(
