@@ -1,0 +1,434 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "properties": {
+    "adGroupId": {
+      "type": "integer"
+    },
+    "adGroupName": {
+      "type": "string"
+    },
+    "adGroupStatus": {
+      "type": "string"
+    },
+    "age": {
+      "type": "string"
+    },
+    "appId": {
+      "type": "integer"
+    },
+    "appName": {
+      "type": "string"
+    },
+    "arpu": {
+      "type": "number"
+    },
+    "attrInstallRate": {
+      "type": "number"
+    },
+    "attrPlusLatOnInstalls": {
+      "type": "number"
+    },
+    "campaignId": {
+      "type": "integer"
+    },
+    "campaignName": {
+      "type": "string"
+    },
+    "campaignStatus": {
+      "type": "string"
+    },
+    "costPerGoal": {
+      "type": "number"
+    },
+    "countries": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "country": {
+      "type": "string"
+    },
+    "cpa": {
+      "type": "number"
+    },
+    "cpaGoal": {
+      "type": "number"
+    },
+    "cpi": {
+      "type": "number"
+    },
+    "cpm": {
+      "type": "number"
+    },
+    "cpt": {
+      "type": "number"
+    },
+    "cr": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string"
+    },
+    "customerType": {
+      "type": "string"
+    },
+    "day": {
+      "type": "string"
+    },
+    "defaultAmount": {
+      "type": "number"
+    },
+    "deviceClass": {
+      "type": "string"
+    },
+    "displayStatus": {
+      "type": "string"
+    },
+    "engagementCategory": {
+      "properties": {
+        "arpu": {
+          "type": "number"
+        },
+        "costPerGoal": {
+          "type": "number"
+        },
+        "goalsRate": {
+          "type": "number"
+        },
+        "numberOfGoal": {
+          "type": "number"
+        },
+        "revenue": {
+          "type": "number"
+        },
+        "revenuePerGoal": {
+          "type": "number"
+        },
+        "roas": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "gameEventCategory": {
+      "properties": {
+        "arpu": {
+          "type": "number"
+        },
+        "costPerGoal": {
+          "type": "number"
+        },
+        "goalsRate": {
+          "type": "number"
+        },
+        "numberOfGoal": {
+          "type": "number"
+        },
+        "revenue": {
+          "type": "number"
+        },
+        "revenuePerGoal": {
+          "type": "number"
+        },
+        "roas": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "gender": {
+      "type": "string"
+    },
+    "goalCount1": {
+      "type": "number"
+    },
+    "goalCount14": {
+      "type": "number"
+    },
+    "goalCount3": {
+      "type": "number"
+    },
+    "goalCount30": {
+      "type": "number"
+    },
+    "goalCount7": {
+      "type": "number"
+    },
+    "goalId": {
+      "type": "integer"
+    },
+    "goalRevenue": {
+      "type": "number"
+    },
+    "goalRevenue1": {
+      "type": "number"
+    },
+    "goalRevenue14": {
+      "type": "number"
+    },
+    "goalRevenue3": {
+      "type": "number"
+    },
+    "goalRevenue30": {
+      "type": "number"
+    },
+    "goalRevenue7": {
+      "type": "number"
+    },
+    "goalRoas": {
+      "type": "number"
+    },
+    "goalRoas1": {
+      "type": "number"
+    },
+    "goalRoas14": {
+      "type": "number"
+    },
+    "goalRoas3": {
+      "type": "number"
+    },
+    "goalRoas30": {
+      "type": "number"
+    },
+    "goalRoas7": {
+      "type": "number"
+    },
+    "goalsRate": {
+      "type": "number"
+    },
+    "impressions": {
+      "type": "integer"
+    },
+    "installs": {
+      "type": "integer"
+    },
+    "latOffInstalls": {
+      "type": "integer"
+    },
+    "latOnInstalls": {
+      "type": "integer"
+    },
+    "newDownloads": {
+      "type": "integer"
+    },
+    "numberOfGoal": {
+      "type": "number"
+    },
+    "numberOfInstall": {
+      "type": "number"
+    },
+    "orgId": {
+      "type": "integer"
+    },
+    "orgName": {
+      "type": "string"
+    },
+    "original": {
+      "properties": {
+        "arpu": {
+          "type": "number"
+        },
+        "costPerGoal": {
+          "type": "number"
+        },
+        "cpa": {
+          "type": "number"
+        },
+        "cpaGoal": {
+          "type": "number"
+        },
+        "cpi": {
+          "type": "number"
+        },
+        "cpt": {
+          "type": "number"
+        },
+        "defaultAmount": {
+          "type": "number"
+        },
+        "goalRevenue": {
+          "type": "number"
+        },
+        "goalRevenue1": {
+          "type": "number"
+        },
+        "goalRevenue14": {
+          "type": "number"
+        },
+        "goalRevenue3": {
+          "type": "number"
+        },
+        "goalRevenue30": {
+          "type": "number"
+        },
+        "goalRevenue7": {
+          "type": "number"
+        },
+        "goalRoas": {
+          "type": "number"
+        },
+        "goalRoas1": {
+          "type": "number"
+        },
+        "goalRoas14": {
+          "type": "number"
+        },
+        "goalRoas3": {
+          "type": "number"
+        },
+        "goalRoas30": {
+          "type": "number"
+        },
+        "goalRoas7": {
+          "type": "number"
+        },
+        "revenuePerGoal": {
+          "type": "number"
+        },
+        "spend": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "otherCategory": {
+      "properties": {
+        "arpu": {
+          "type": "number"
+        },
+        "costPerGoal": {
+          "type": "number"
+        },
+        "goalsRate": {
+          "type": "number"
+        },
+        "numberOfGoal": {
+          "type": "number"
+        },
+        "revenue": {
+          "type": "number"
+        },
+        "revenuePerGoal": {
+          "type": "number"
+        },
+        "roas": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "pricingModel": {
+      "type": "string"
+    },
+    "purchaseCategory": {
+      "properties": {
+        "arpu": {
+          "type": "number"
+        },
+        "costPerGoal": {
+          "type": "number"
+        },
+        "goalsRate": {
+          "type": "number"
+        },
+        "numberOfGoal": {
+          "type": "number"
+        },
+        "revenue": {
+          "type": "number"
+        },
+        "revenuePerGoal": {
+          "type": "number"
+        },
+        "roas": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "redownloads": {
+      "type": "integer"
+    },
+    "revenuePerGoal": {
+      "type": "number"
+    },
+    "searchMatch": {
+      "type": "boolean"
+    },
+    "servingStatusReasons": {
+      "type": "string"
+    },
+    "spend": {
+      "type": "number"
+    },
+    "startTime": {
+      "type": "string"
+    },
+    "subscriptionCategory": {
+      "properties": {
+        "arpu": {
+          "type": "number"
+        },
+        "costPerGoal": {
+          "type": "number"
+        },
+        "goalsRate": {
+          "type": "number"
+        },
+        "numberOfGoal": {
+          "type": "number"
+        },
+        "revenue": {
+          "type": "number"
+        },
+        "revenuePerGoal": {
+          "type": "number"
+        },
+        "roas": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "supplySources": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "taps": {
+      "type": "integer"
+    },
+    "trialCategory": {
+      "properties": {
+        "arpu": {
+          "type": "number"
+        },
+        "costPerGoal": {
+          "type": "number"
+        },
+        "goalsRate": {
+          "type": "number"
+        },
+        "numberOfGoal": {
+          "type": "number"
+        },
+        "revenue": {
+          "type": "number"
+        },
+        "revenuePerGoal": {
+          "type": "number"
+        },
+        "roas": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "ttr": {
+      "type": "number"
+    }
+  },
+  "type": "object"
+}

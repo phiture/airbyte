@@ -1,0 +1,56 @@
+documentationUrl: https://www.mobileaction.co/docs/api/searchads/#search-ads-services
+connectionSpecification:
+  $schema: http://json-schema.org/draft-07/schema#
+  title: Phiture Searchads Spec
+  type: object
+  required:
+    - api_token
+    - org_id
+    - start_date
+  properties:
+    api_token:
+      type: string
+      order: 0
+      title: API Token
+      description: The API token for the SearchAds.
+      airbyte_secret: true
+    org_id:
+      type: string
+      order: 1
+      title: Organization ID
+      description: You can find your organization ids from ../info/sa-integrations endpoint. (https://www.mobileaction.co/docs/api/searchads/#get-search-ads-integrations)
+    goals_ids:
+      type: string
+      order: 2
+      title: Goals IDs (comma separated)
+      description: (optional) The goal id for the MMP reports. You can find your goal ids from ../info/goals endpoint. If you don't provide the goal Id you can only fetch ASA reports.
+    start_date:
+      type: string
+      order: 3
+      title: Start Date
+      description: The start date for the data to be fetched.
+      examples:
+        - "%Y-%m-%d"
+    end_date:
+      type: string
+      order: 4
+      title: End Date
+      description: The end date for the data to be fetched.
+      examples:
+        - "%Y-%m-%d"
+    re_attr_type:
+      type: string
+      order: 5
+      title: Re-Attribution Type
+      description: To decide to use re-attribution data while calculating metrics. Default 'WITHOUT'
+      default: WITHOUT
+      enum:
+        - WITH
+        - WITHOUT
+        - ONLY
+    lat_on_factor:
+      type: boolean
+      order: 6
+      title: Lat on Factor
+      default: false
+      description: To decide to use lat on factors while calculating metrics. Default 'false'
