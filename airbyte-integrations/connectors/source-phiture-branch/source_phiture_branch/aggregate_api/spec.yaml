@@ -1,0 +1,36 @@
+documentationUrl: https://docsurl.com
+connectionSpecification:
+  $schema: http://json-schema.org/draft-07/schema#
+  title: Phiture Branch Spec
+  type: object
+  required:
+    - api_key
+    - app_id
+    - start_date
+  additionalProperties: true
+  properties:
+    api_key:
+      order: 0
+      type: string
+      title: API Key
+      description: API user key (https://help.branch.io/developers-hub/reference/aggregate-api#authentication)
+      airbyte_secret: true
+    app_id:
+      order: 1
+      type: string
+      title: App ID
+      description: Unique identifier for Branch app of requested data. (https://docsurl.com)
+    start_date:
+      order: 2
+      type: string
+      title: Start Date
+      description: The start of the interval time range represented as an ISO-8601 complete date.
+      examples:
+        - "%Y-%m-%d"
+    end_date:
+      order: 3
+      type: string
+      title: End Date
+      description: The end of the interval time range represented as an ISO-8601 complete date.
+      examples:
+        - "%Y-%m-%d"

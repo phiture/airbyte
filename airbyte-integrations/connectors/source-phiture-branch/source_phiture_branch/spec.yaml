@@ -4,33 +4,34 @@ connectionSpecification:
   title: Phiture Branch Spec
   type: object
   required:
-    - api_key
-    - app_id
+    - branch_key
+    - branch_secret
     - start_date
   additionalProperties: true
   properties:
-    api_key:
+    branch_key:
       order: 0
       type: string
-      title: API Key
-      description: API user key (https://help.branch.io/developers-hub/reference/aggregate-api#authentication)
+      title: Branch key
+      description: The Branch key of the app analytics information is being pulled for.
       airbyte_secret: true
-    app_id:
+    branch_secret:
       order: 1
       type: string
-      title: App ID
-      description: Unique identifier for Branch app of requested data. (https://docsurl.com)
+      title: Branch secret
+      description: The Branch secret of the app, used for authentication.
+      airbyte_secret: true
     start_date:
       order: 2
       type: string
       title: Start Date
-      description: The start of the interval time range represented as an ISO-8601 complete date.
+      description: A timestamp representing the oldest date to return data for. Timezone of the timestamp is set in your Branch Dashboard configuration. Please note that start_date cannot be earlier than 2017-10-14.
       examples:
         - "%Y-%m-%d"
     end_date:
       order: 3
       type: string
       title: End Date
-      description: The end of the interval time range represented as an ISO-8601 complete date.
+      description: The last timestamp (exclusive) to return data for. No events that triggered after the enddate will be counted in the query results. Timezone of the timestamp is set in your Branch Dashboard configuration. If no end_date is specified, the current time is used.
       examples:
         - "%Y-%m-%d"

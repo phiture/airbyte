@@ -7,23 +7,19 @@ from typing import Any, List, Mapping, Tuple
 
 from airbyte_cdk.sources import AbstractSource
 from airbyte_cdk.sources.streams import Stream
-from airbyte_cdk.sources.streams.http.requests_native_auth import TokenAuthenticator
-
 from .streams import (
-    AggregateExportAdPartnerNameTotalCount,
-    AggregateExportAdPartnerNameUniqueCount,
-    AggregateExportAdsSetsTotalCount,
-    AggregateExportAdsSetsUniqueCount,
-    AggregateExportCampaignsTotalCount,
-    AggregateExportCampaignsUniqueCount,
-    AggregateExportCreativesTotalCount,
-    AggregateExportCreativesUniqueCount,
-    AggregateExportGeneralUserDimensionsTotalCount,
-    AggregateExportGeneralUserDimensionsUniqueCount,
-    AggregateExportKeywordTotalCount,
-    AggregateExportKeywordUniqueCount,
-    AggregateExportTouchTypeTotalCount,
-    AggregateExportTouchTypeUniqueCount,
+    PostQueryInstallTotalCount,
+    PostQueryReInstallTotalCount,
+    PostQueryClickTotalCount,
+    PostQueryOpenTotalCount,
+    PostQueryImpressionTotalCount,
+    PostQueryCustomEventTotalCount,
+    PostQueryInstallUniqueCount,
+    PostQueryReInstallUniqueCount,
+    PostQueryClickUniqueCount,
+    PostQueryOpenUniqueCount,
+    PostQueryImpressionUniqueCount,
+    PostQueryCustomEventUniqueCount,
 )
 
 
@@ -45,20 +41,17 @@ class SourcePhitureBranch(AbstractSource):
 
         :param config: A Mapping of the user input configuration as defined in the connector spec.
         """
-        auth = TokenAuthenticator(token=config["api_key"], auth_method="", auth_header="Access-Token")
         return [
-            AggregateExportAdPartnerNameTotalCount(authenticator=auth, config=config),
-            AggregateExportAdPartnerNameUniqueCount(authenticator=auth, config=config),
-            AggregateExportAdsSetsTotalCount(authenticator=auth, config=config),
-            AggregateExportAdsSetsUniqueCount(authenticator=auth, config=config),
-            AggregateExportCampaignsTotalCount(authenticator=auth, config=config),
-            AggregateExportCampaignsUniqueCount(authenticator=auth, config=config),
-            AggregateExportCreativesTotalCount(authenticator=auth, config=config),
-            AggregateExportCreativesUniqueCount(authenticator=auth, config=config),
-            AggregateExportGeneralUserDimensionsTotalCount(authenticator=auth, config=config),
-            AggregateExportGeneralUserDimensionsUniqueCount(authenticator=auth, config=config),
-            AggregateExportKeywordTotalCount(authenticator=auth, config=config),
-            AggregateExportKeywordUniqueCount(authenticator=auth, config=config),
-            AggregateExportTouchTypeTotalCount(authenticator=auth, config=config),
-            AggregateExportTouchTypeUniqueCount(authenticator=auth, config=config),
+            PostQueryInstallTotalCount(config=config),
+            PostQueryReInstallTotalCount(config=config),
+            PostQueryClickTotalCount(config=config),
+            PostQueryOpenTotalCount(config=config),
+            PostQueryImpressionTotalCount(config=config),
+            PostQueryCustomEventTotalCount(config=config),
+            PostQueryInstallUniqueCount(config=config),
+            PostQueryReInstallUniqueCount(config=config),
+            PostQueryClickUniqueCount(config=config),
+            PostQueryOpenUniqueCount(config=config),
+            PostQueryImpressionUniqueCount(config=config),
+            PostQueryCustomEventUniqueCount(config=config),
         ]
