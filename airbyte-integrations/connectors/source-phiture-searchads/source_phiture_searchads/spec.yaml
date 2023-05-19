@@ -54,3 +54,9 @@ connectionSpecification:
       title: Lat on Factor
       default: false
       description: To decide to use lat on factors while calculating metrics. Default 'false'
+    currency:
+        type: string
+        order: 7
+        title: Currency
+        description: Three letter currency code that you want to see metrics based on this. Default 'USD'
+        default: USD

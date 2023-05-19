@@ -24,8 +24,6 @@ class GetReports(HttpStream, ABC):
 
     def __init__(self, config: Mapping[str, Any], report_type: str, report_level: str, **kwargs):
         super().__init__(**kwargs)
-        self._state = {}
-
         self._api_token = config["api_token"]
         self._start_date = config["start_date"]
         self._end_date = config.get("end_date")
@@ -39,6 +37,7 @@ class GetReports(HttpStream, ABC):
             self._goals_ids = list(filter(None, self._goals_ids))
             # remove leading and trailing spaces
             self._goals_ids = [int(goal_id.strip()) for goal_id in self._goals_ids]
+        self._currency = config.get("currency")
 
         self._report_type = report_type
         self._report_level = report_level
@@ -111,6 +110,7 @@ class GetReports(HttpStream, ABC):
             "endDate": stream_slice["end_date"],
             "reAttrType": self._re_attr_type,
             "latOnFactor": self._lat_on_factor,
+            "currency": self._currency,
         }
         if stream_slice.get("goal_id"):
             request_body["goalId"] = stream_slice["goal_id"]
@@ -142,18 +142,6 @@ class GetReports(HttpStream, ABC):
             yield row  # Yield the processed data row
 
     def stream_slices(self, sync_mode: SyncMode, stream_state: Mapping[str, Any] = None, **kwargs) -> Iterable[Optional[Mapping[str, Any]]]:
-        """
-        Yields a sequence of dictionaries, each representing a time window for fetching data from the source.
-        Each dictionary includes a start and end date for the time window and, if applicable, a goal ID.
-
-        Args:
-            sync_mode (SyncMode): The synchronization mode to use.
-            stream_state (Mapping[str, Any], optional): A mapping of stream state information. Defaults to None.
-            **kwargs: Additional keyword arguments.
-
-        Yields:
-            Iterable[Optional[Mapping[str, Any]]]: A sequence of dictionaries representing time windows for data fetching.
-        """
         # Initialize stream state to an empty dictionary if not provided.
         stream_state = stream_state or {}
 
