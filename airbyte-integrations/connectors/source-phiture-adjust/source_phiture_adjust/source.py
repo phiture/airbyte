@@ -7,9 +7,13 @@ from typing import Any, List, Mapping, Tuple
 from airbyte_cdk.sources import AbstractSource
 from airbyte_cdk.sources.streams import Stream
 from airbyte_cdk.sources.streams.http.auth import TokenAuthenticator
-
-from source_phiture_adjust.streams import ReportServiceConversionMetrics, ReportServiceEventMetrics, ReportServiceAdSpendMetrics, \
-    ReportServiceRevenueMetrics, ReportServiceSkadMetrics
+from source_phiture_adjust.streams import (
+    ReportServiceAdSpendMetrics,
+    ReportServiceConversionMetrics,
+    ReportServiceEventMetrics,
+    ReportServiceRevenueMetrics,
+    ReportServiceSkadMetrics,
+)
 
 
 class SourcePhitureAdjust(AbstractSource):

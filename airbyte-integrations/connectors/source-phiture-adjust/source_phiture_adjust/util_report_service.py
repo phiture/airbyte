@@ -39,6 +39,8 @@ ad_spend_metrics_list = [
     "paid_clicks",
     "paid_impressions",
     "paid_installs",
+    "installs",
+    "organic_installs",
 ]
 
 revenue_metrics_list = [

@@ -13,6 +13,7 @@ RUN apk --no-cache upgrade \
 COPY setup.py ./
 # install necessary packages to a temporary folder
 RUN pip install --prefix=/install .
+RUN pip install --prefix=/install urllib3==1.26.14
 
 # build a clean environment
 FROM base

@@ -110,6 +110,12 @@
     },
     "paid_installs": {
       "type": "string"
+    },
+    "installs": {
+      "type": "string"
+    },
+    "organic_installs": {
+      "type": "string"
     }
   },
   "type": "object"
