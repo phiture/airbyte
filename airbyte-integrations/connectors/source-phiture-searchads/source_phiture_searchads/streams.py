@@ -18,9 +18,9 @@ class GetReports(HttpStream, ABC):
     cursor_field = "day"
     time_interval = {"days": 1}
     state_checkpoint_interval = 1000
-    # the window attribution is used to re-fetch the last 7 days of data
-    #  only if the last state day is in the range of the last 7 days
-    window_attribution = {"days": 7}
+    # the window attribution is used to re-fetch the last 30 days of data
+    #  only if the last state day is in the range of the last 30 days
+    window_attribution = {"days": 30}
 
     def __init__(self, config: Mapping[str, Any], report_type: str, report_level: str, **kwargs):
         super().__init__(**kwargs)
