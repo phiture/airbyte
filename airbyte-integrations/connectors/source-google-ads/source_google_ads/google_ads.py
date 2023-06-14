@@ -1,14 +1,20 @@
 #
-# Copyright (c) 2022 Airbyte, Inc., all rights reserved.
+# Copyright (c) 2023 Airbyte, Inc., all rights reserved.
 #
 
 
+import logging
 from enum import Enum
 from typing import Any, Iterator, List, Mapping, MutableMapping
 
+import backoff
 import pendulum
+from airbyte_cdk.models import FailureType
+from airbyte_cdk.utils import AirbyteTracedException
 from google.ads.googleads.client import GoogleAdsClient
-from google.ads.googleads.v11.services.types.google_ads_service import GoogleAdsRow, SearchGoogleAdsResponse
+from google.ads.googleads.v13.services.types.google_ads_service import GoogleAdsRow, SearchGoogleAdsResponse
+from google.api_core.exceptions import ServerError, TooManyRequests
+from google.auth import exceptions
 from proto.marshal.collections import Repeated, RepeatedComposite
 
 REPORT_MAPPING = {
@@ -30,7 +36,8 @@ REPORT_MAPPING = {
     "geographic_report": "geographic_view",
     "keyword_report": "keyword_view",
 }
-API_VERSION = "v11"
+API_VERSION = "v13"
+logger = logging.getLogger("airbyte")
 
 
 class GoogleAds:
@@ -40,16 +47,32 @@ class GoogleAds:
         # `google-ads` library version `14.0.0` and higher requires an additional required parameter `use_proto_plus`.
         # More details can be found here: https://developers.google.com/google-ads/api/docs/client-libs/python/protobuf-messages
         credentials["use_proto_plus"] = True
-        self.client = GoogleAdsClient.load_from_dict(credentials, version=API_VERSION)
+        self.client = self.get_google_ads_client(credentials)
         self.ga_service = self.client.get_service("GoogleAdsService")
 
+    @staticmethod
+    def get_google_ads_client(credentials) -> GoogleAdsClient:
+        try:
+            return GoogleAdsClient.load_from_dict(credentials, version=API_VERSION)
+        except exceptions.RefreshError as e:
+            message = "The authentication to Google Ads has expired. Re-authenticate to restore access to Google Ads."
+            raise AirbyteTracedException(message=message, failure_type=FailureType.config_error) from e
+
+    @backoff.on_exception(
+        backoff.expo,
+        (ServerError, TooManyRequests),
+        on_backoff=lambda details: logger.info(
+            f"Caught retryable error after {details['tries']} tries. Waiting {details['wait']} seconds then retrying..."
+        ),
+        max_tries=5,
+    )
     def send_request(self, query: str, customer_id: str) -> Iterator[SearchGoogleAdsResponse]:
         client = self.client
         search_request = client.get_type("SearchGoogleAdsRequest")
         search_request.query = query
         search_request.page_size = self.DEFAULT_PAGE_SIZE
         search_request.customer_id = customer_id
-        yield self.ga_service.search(search_request)
+        return [self.ga_service.search(search_request)]
 
     def get_fields_metadata(self, fields: List[str]) -> Mapping[str, Any]:
         """

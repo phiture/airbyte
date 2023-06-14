@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2022 Airbyte, Inc., all rights reserved.
+# Copyright (c) 2023 Airbyte, Inc., all rights reserved.
 #
 
 import responses
@@ -23,6 +23,19 @@ def setup_responses():
     )
 
 
+def ensure_additional_property_is_boolean(root):
+    for name, prop in root.get("properties", {}).items():
+        if prop["type"] == "array" and "items" in prop:
+            ensure_additional_property_is_boolean(prop["items"])
+        if prop["type"] == "object" and "properties" in prop:
+            ensure_additional_property_is_boolean(prop)
+    if "additionalProperties" in root:
+        assert type(root["additionalProperties"]) == bool, (
+            f"`additionalProperties` expected to be of 'bool' type. "
+            f"Got: {type(root['additionalProperties']).__name__}"
+        )
+
+
 @responses.activate
 def test_discover(config):
     setup_responses()
@@ -32,6 +45,7 @@ def test_discover(config):
     schemas = [stream["json_schema"] for stream in catalog["catalog"]["streams"]]
     for schema in schemas:
         Draft4Validator.check_schema(schema)
+        ensure_additional_property_is_boolean(schema)
 
 
 def test_spec():
@@ -67,6 +81,8 @@ def test_check(config_gen):
     assert command_check(source, config_gen(region=...)) == AirbyteConnectionStatus(status=Status.SUCCEEDED)
     assert len(responses.calls) == 8
     assert url_strip_query(responses.calls[7].request.url) == "https://advertising-api.amazon.com/v2/profiles"
+
+    assert command_check(source, config_gen(look_back_window=...)) == AirbyteConnectionStatus(status=Status.SUCCEEDED)
 
 
 @responses.activate

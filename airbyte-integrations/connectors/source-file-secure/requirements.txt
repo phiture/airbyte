@@ -1,3 +1,2 @@
--e ../../bases/source-acceptance-test
--e ../source-file
+-e ../../bases/connector-acceptance-test
 -e .

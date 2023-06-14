@@ -1,4 +1,4 @@
-# See [Source Acceptance Tests](https://docs.airbyte.com/connector-development/testing-connectors/source-acceptance-tests-reference)
+# See [Connector Acceptance Tests](https://docs.airbyte.com/connector-development/testing-connectors/connector-acceptance-tests-reference)
 # for more information about how to configure these tests
 connector_image: airbyte/source-google-pagespeed-insights:dev
 acceptance_tests:
@@ -35,4 +35,8 @@ acceptance_tests:
       - config_path: "secrets/config.json"
         configured_catalog_path: "integration_tests/configured_catalog.json"
         ignored_fields:
-          pagespeed: ["lighthouseResult", "analysisUTCTimestamp"] # This differs between two runs, as they are newly generated per run
+          pagespeed:
+            - name: lighthouseResult
+              bypass_reason: "This differs between two runs, as they are newly generated per run"
+            - name: analysisUTCTimestamp
+              bypass_reason: "This differs between two runs, as they are newly generated per run"

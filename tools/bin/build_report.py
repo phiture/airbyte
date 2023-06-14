@@ -1,9 +1,14 @@
 #
-# Copyright (c) 2022 Airbyte, Inc., all rights reserved.
+# Copyright (c) 2023 Airbyte, Inc., all rights reserved.
 #
 
 """
+Report Connector Build Status to Slack
+
 All invocations of this script must be run from the Airbyte repository root.
+
+BEFORE RUNNING THIS SCRIPT:
+- Ensure you have read the documentation on how this system works: https://internal-docs.airbyte.io/Generated-Reports/Build-Status-Reports
 
 To Run tests:
 pytest ./tools/bin/build_report.py
@@ -20,16 +25,15 @@ import sys
 from typing import Dict, List, Optional
 
 import requests
-import yaml
 from slack_sdk import WebhookClient
 from slack_sdk.errors import SlackApiError
 
+
 # Global statics
-CONNECTOR_DEFINITIONS_DIR = "./airbyte-config/init/src/main/resources/seed"
-SOURCE_DEFINITIONS_YAML = f"{CONNECTOR_DEFINITIONS_DIR}/source_definitions.yaml"
-DESTINATION_DEFINITIONS_YAML = f"{CONNECTOR_DEFINITIONS_DIR}/destination_definitions.yaml"
+CONNECTOR_REGISTRY_URL = "https://connectors.airbyte.com/files/registries/v0/oss_registry.json"
 CONNECTORS_ROOT_PATH = "./airbyte-integrations/connectors"
-RELEVANT_BASE_MODULES = ["base-normalization", "source-acceptance-test"]
+RELEVANT_BASE_MODULES = ["base-normalization", "connector-acceptance-test"]
+CONNECTOR_BUILD_OUTPUT_URL = "https://dnsgjos7lj2fu.cloudfront.net/tests/summary/connectors"
 
 # Global vars
 TESTED_SOURCE = []
@@ -41,8 +45,14 @@ FAILED_LAST = []
 FAILED_2_LAST = []
 
 
+def download_and_parse_registry_json():
+    response = requests.get(CONNECTOR_REGISTRY_URL)
+    response.raise_for_status()
+    return response.json()
+
+
 def get_status_page(connector) -> str:
-    response = requests.get(f"https://dnsgjos7lj2fu.cloudfront.net/tests/summary/{connector}/index.html")
+    response = requests.get(f"{CONNECTOR_BUILD_OUTPUT_URL}/{connector}/index.html")
     if response.status_code == 200:
         return response.text
 
@@ -188,19 +198,16 @@ def get_connectors_with_release_stage(definitions_yaml: List, stages: List[str])
     return [definition["dockerRepository"] for definition in definitions_yaml if definition.get("releaseStage", "alpha") in stages]
 
 
-def read_definitions_yaml(path: str):
-    with open(path, "r") as file:
-        return yaml.safe_load(file)
-
-
 def get_connectors_with_release_stages(base_directory: str, connectors: List[str], relevant_stages=["beta", "generally_available"]):
     # TODO currently this also excludes shared libs like source-jdbc, we probably shouldn't do that, so we can get the build status of those
     #  modules as well.
     connector_label_to_connector_directory = get_docker_label_to_connector_directory(base_directory, connectors)
 
+    registry_data = download_and_parse_registry_json()
+
     connectors_with_desired_status = get_connectors_with_release_stage(
-        read_definitions_yaml(SOURCE_DEFINITIONS_YAML), relevant_stages
-    ) + get_connectors_with_release_stage(read_definitions_yaml(DESTINATION_DEFINITIONS_YAML), relevant_stages)
+        registry_data["sources"], relevant_stages
+    ) + get_connectors_with_release_stage(registry_data["destinations"], relevant_stages)
     # return appropriate directory names
     return [
         connector_label_to_connector_directory[label]
@@ -252,3 +259,12 @@ ENTRYPOINT ["python", "/airbyte/integration_code/main.py"]
 LABEL io.airbyte.version=1.0.8
 LABEL io.airbyte.name=airbyte/source-salesforce"""
             assert "airbyte/source-salesforce" == parse_dockerfile_repository_label(mock_dockerfile)
+
+        def test_download_and_parse_registry_json(self):
+            registry_data = download_and_parse_registry_json()
+            assert len(registry_data["sources"]) > 20
+            assert len(registry_data["destinations"]) > 20
+
+            # Assert that the dockerRepository is not empty
+            assert registry_data["sources"][0]["dockerRepository"]
+            assert registry_data["destinations"][0]["dockerRepository"]
