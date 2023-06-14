@@ -8,11 +8,11 @@ import pendulum
 import requests
 from airbyte_cdk.models import SyncMode
 from airbyte_cdk.sources.streams.http import HttpStream
-from source_phiture_adjust.util_report_service import (
+
+from source_phiture_adjust.fields import (
     ad_spend_metrics_list,
     conversion_metrics_list,
     dimensions,
-    event_metrics_list,
     revenue_metrics_list,
     skad_metrics_list,
 )
@@ -78,7 +78,10 @@ class ReportService(HttpStream, ABC):
     ) -> Iterable[Mapping]:
         data = response.json()
         for row in data["rows"]:
-            yield row
+            # for each key in the row, replace the space with underscore
+            # this is happening because some of the events have spaces in their names
+            # avoid: RuntimeError: dictionary keys changed during iteration
+            yield {key.replace(" ", "_"): value for key, value in row.items()}
 
     def stream_slices(self, sync_mode: SyncMode, stream_state: Mapping[str, Any] = None, **kwargs) -> Iterable[Optional[Mapping[str, Any]]]:
         # Initialize stream state to an empty dictionary if not provided.
@@ -141,4 +144,44 @@ class ReportServiceSkadMetrics(ReportService):
 
 class ReportServiceEventMetrics(ReportService):
     def __init__(self, config: Mapping[str, Any], **kwargs):
-        super().__init__(config, dimensions=dimensions, metrics=event_metrics_list, **kwargs)
+        events = config.get("additional_metrics", [])
+        event_metrics_suffix = [
+            "events",
+            "events_min",
+            "events_max",
+            "events_est",
+            "revenue",
+            "revenue_min",
+            "revenue_max",
+            "revenue_est",
+        ]
+        # for each metric name in the list of events
+        # - add a suffix to it
+        # - strip
+        # - lower
+        # IMPORTANT: do not replace space with underscore here
+        # this will be happening in the get_json_schema method
+        # and in the parse_response method
+        self.event_metrics_list = [f"{metric.strip().lower()}_{suffix}" for metric in events for suffix in event_metrics_suffix]
+        super().__init__(config, dimensions=dimensions, metrics=self.event_metrics_list, **kwargs)
+
+    def get_json_schema(self):
+        """
+        Compose json schema based on user defined event metrics.
+        """
+
+        local_json_schema = {
+            "$schema": "http://json-schema.org/schema#",
+            "type": "object",
+            "properties": {},
+        }
+
+        fields = dimensions + self.event_metrics_list
+        fields = sorted(fields)
+
+        for field in fields:
+            # for each field, replace the space with underscore
+            # this is happening because some of the events have spaces in their names
+            local_json_schema["properties"][field.replace(" ", "_")] = {"type": ["null", "string"]}
+
+        return local_json_schema

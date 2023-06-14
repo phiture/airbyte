@@ -13,41 +13,6 @@
     "app_token": {
       "type": "string"
     },
-    "attr_dependency": {
-      "properties": {
-        "adgroup_id_network": {
-          "type": "string"
-        },
-        "app_network": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "campaign_id_network": {
-          "type": "string"
-        },
-        "country_code": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "creative_id_network": {
-          "type": "string"
-        },
-        "network": {
-          "type": "string"
-        },
-        "partner": {
-          "type": "string"
-        },
-        "partner_id": {
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
     "campaign_id_network": {
       "type": "string"
     },
@@ -96,7 +61,16 @@
     "install_cost": {
       "type": "string"
     },
+    "installs": {
+      "type": "string"
+    },
     "network": {
+      "type": "string"
+    },
+    "network_installs": {
+      "type": "string"
+    },
+    "organic_installs": {
       "type": "string"
     },
     "os_name": {
@@ -109,12 +83,6 @@
       "type": "string"
     },
     "paid_installs": {
-      "type": "string"
-    },
-    "installs": {
-      "type": "string"
-    },
-    "organic_installs": {
       "type": "string"
     }
   },

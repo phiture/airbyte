@@ -13,44 +13,6 @@
     "app_token": {
       "type": "string"
     },
-    "attr_dependency": {
-      "properties": {
-        "adgroup_id_network": {
-          "type": "string"
-        },
-        "app_network": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "campaign_id_network": {
-          "type": "string"
-        },
-        "country_code": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "creative_id_network": {
-          "type": "string"
-        },
-        "network": {
-          "type": "string"
-        },
-        "partner": {
-          "type": "string"
-        },
-        "partner_id": {
-          "type": "string"
-        },
-        "source_id_network": {
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
     "campaign_id_network": {
       "type": "string"
     },

@@ -41,6 +41,7 @@ ad_spend_metrics_list = [
     "paid_installs",
     "installs",
     "organic_installs",
+    "network_installs",
 ]
 
 revenue_metrics_list = [
@@ -76,25 +77,3 @@ skad_metrics_list = [
     "conversion_5",
     "conversion_6",
 ]
-
-event_metrics = [
-    "onboarding_completed",
-    "purchase_maps",
-    "purchase_premium",
-    "sign_up",
-    "sports_selected",
-    "use_route",
-]
-
-event_metrics_suffix = [
-    "events",
-    "events_min",
-    "events_max",
-    "events_est",
-    "revenue",
-    "revenue_min",
-    "revenue_max",
-    "revenue_est",
-]
-
-event_metrics_list = [f"{metric}_{suffix}" for metric in event_metrics for suffix in event_metrics_suffix]

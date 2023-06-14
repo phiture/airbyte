@@ -82,3 +82,9 @@ connectionSpecification:
         - "USD"
         - "EUR"
         - "GBP"
+    additional_metrics:
+      order: 9
+      type: array
+      title: Additional Metrics
+      description: List of app specific metrics to be included in the report.
+      default: []
