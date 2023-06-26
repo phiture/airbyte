@@ -111,29 +111,12 @@ class CampaignsDetails(HttpSubStream, BrazeStream):
         }
 
 
-class CampaignsDataSeries(HttpSubStream, IncrementalMixin, BrazeStream):
+class CampaignsDataSeries(HttpSubStream, BrazeStream):
+    time_interval = {"days": 100}
     primary_key = ["campaign_id", "time"]
-    cursor_field = "time"
-    time_interval = {"days": 30}
-    # the window attribution is used to re-fetch the last 30 days of data
-    #  only if the last state day is in the range of the last 30 days
-    window_attribution = {"days": 30}
 
     def __init__(self, **kwargs):
         super().__init__(CampaignsDetails(**kwargs), **kwargs)
-        self._state = {}
-
-    @property
-    def state(self) -> MutableMapping[str, Any]:
-        return self._state
-
-    @state.setter
-    def state(self, value: MutableMapping[str, Any]):
-        self._state.update(value)
-
-    def current_state(self, campaign_id, default=None):
-        default = default or self.state.get(self.cursor_field)
-        return self.state.get(campaign_id, {}).get(self.cursor_field) or default
 
     def path(
         self, stream_state: Mapping[str, Any] = None, stream_slice: Mapping[str, Any] = None, next_page_token: Mapping[str, Any] = None
@@ -168,68 +151,37 @@ class CampaignsDataSeries(HttpSubStream, IncrementalMixin, BrazeStream):
 
     def stream_slices(self, sync_mode: SyncMode, stream_state: Mapping[str, Any] = None, **kwargs) -> Iterable[Optional[Mapping[str, Any]]]:
         for parent_slice in super().stream_slices(sync_mode=sync_mode):
-            if parent_slice["parent"]["first_sent"] is None and parent_slice["parent"]["last_sent"] is None:
+            if parent_slice["parent"]["created_at"] is None or parent_slice["parent"]["last_sent"] is None:
                 continue
 
-            stream_state = stream_state or {}
-            campaign_id = parent_slice["parent"][self.parent.primary_key]
-
-            if stream_state.get(campaign_id):
-                start_date = pendulum.parse(stream_state[campaign_id].get(self.cursor_field))
-                if pendulum.now().subtract(**self.window_attribution) < start_date < pendulum.now():
-                    start_date = pendulum.parse(parent_slice["parent"]["last_sent"]).subtract(**self.window_attribution)
-            else:
-                start_date = pendulum.parse(parent_slice["parent"]["first_sent"])
-
+            start_date = pendulum.parse(parent_slice["parent"]["created_at"])
             end_date = pendulum.parse(parent_slice["parent"]["last_sent"])
-
-            # if the campaign start date is before the created date,
-            #  use created_at as start_date
-            created_date = pendulum.parse(parent_slice["parent"]["created_at"])
-            if start_date < created_date:
-                start_date = created_date
 
             if start_date.to_date_string() == end_date.to_date_string():
                 end_date = end_date.add(days=1)
 
             while start_date <= end_date:
-                starting_at = start_date
-                ending_at = start_date.add(**self.time_interval)
+                starting_at = start_date.start_of("day")
+                ending_at = min(starting_at.add(days=self.time_interval["days"]).end_of("day"), end_date.end_of("day"))
 
                 # if ending day is after NOW(), set ending_at to NOW()
-                if ending_at >= pendulum.now():
-                    ending_at = pendulum.now()
+                if ending_at >= pendulum.now().utcnow():
+                    ending_at = pendulum.now().utcnow()
 
                 self.logger.info(
-                    f"Fetching {self.name} campaign_id: {campaign_id} ; time range: {starting_at.to_date_string()} - {ending_at.to_date_string()}"
+                    f"Fetching {self.name} campaign_id: {parent_slice['parent'][self.parent.primary_key]} ; time range: {start_date.to_iso8601_string()} - {ending_at.to_iso8601_string()}"
                 )
 
                 yield {
                     "parent": parent_slice["parent"],
-                    "starting_at": starting_at.to_date_string(),
-                    "ending_at": ending_at.to_date_string(),
+                    "starting_at": starting_at.to_iso8601_string(),
+                    "ending_at": ending_at.to_iso8601_string(),
                 }
-                start_date = start_date.add(**self.time_interval)
-
-    def read_records(
-        self, sync_mode: SyncMode, cursor_field: List[str] = None, stream_slice: MutableMapping[str, Any] = None, **kwargs
-    ) -> Iterable[Mapping[str, Any]]:
-        campaign_id = stream_slice and stream_slice["parent"]["campaign_id"]
-        for record in super().read_records(sync_mode=sync_mode, stream_slice=stream_slice):
-            current_state = self.current_state(campaign_id)
-            if current_state:
-                date_in_current_stream = pendulum.parse(current_state)
-                date_in_latest_record = pendulum.parse(record[self.cursor_field])
-                cursor_value = (max(date_in_current_stream, date_in_latest_record)).to_date_string()
-                self.state = {campaign_id: {self.cursor_field: cursor_value}}
-                yield record
-                continue
-            self.state = {campaign_id: {self.cursor_field: record[self.cursor_field]}}
-            yield record
+                start_date = start_date.add(days=self.time_interval["days"])
 
     def request_params(self, stream_slice: Mapping[str, Any], **kwargs) -> MutableMapping[str, Any]:
         return {
             "campaign_id": stream_slice["parent"][self.parent.primary_key],
             "length": self.time_interval["days"],
-            "ending_at": pendulum.parse(stream_slice["ending_at"]).to_date_string(),
+            "ending_at": stream_slice["ending_at"],
         }

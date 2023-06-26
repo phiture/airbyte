@@ -16,7 +16,7 @@ class BrazeStream(HttpStream, ABC):
     def __init__(self, config: Mapping[str, Any], **kwargs):
         super().__init__(**kwargs)
         self.url_base = config["instance_url"]
-        self.include_archived = config["include_archived"]
+        self.include_archived = config.get('include_archived')
 
     @property
     def url_base(self) -> str:
