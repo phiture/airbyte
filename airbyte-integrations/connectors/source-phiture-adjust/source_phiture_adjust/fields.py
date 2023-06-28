@@ -67,6 +67,7 @@ skad_metrics_list = [
     "skad_qualifiers",
     "skad_reinstalls",
     "skad_total_installs",
+    "skad_general_revenue",
     "invalid_payloads",
     "valid_conversions",
     "waus",
