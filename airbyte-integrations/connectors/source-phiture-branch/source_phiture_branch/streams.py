@@ -138,6 +138,7 @@ class PostQuery(HttpStream, ABC):
             "enable_install_recalculation": False,
             "ordered_by": "name",
             "ordered": "ascending",
+            "filters": {"attributed": ["true"]}
         }
 
     def parse_response(
