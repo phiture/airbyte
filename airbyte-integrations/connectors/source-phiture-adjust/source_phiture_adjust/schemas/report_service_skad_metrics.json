@@ -88,6 +88,9 @@
     "skad_total_installs": {
       "type": "string"
     },
+    "skad_general_revenue": {
+      "type": "string"
+    },
     "valid_conversions": {
       "type": "string"
     },

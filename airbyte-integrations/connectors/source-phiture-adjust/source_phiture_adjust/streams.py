@@ -99,9 +99,9 @@ class ReportService(HttpStream, ABC):
             start_date = pendulum.parse(self._start_date)
 
         # Determine the end date for the time window.
-        end_date = pendulum.parse(self._end_date or pendulum.now().to_date_string())
+        end_date = pendulum.parse(self._end_date or pendulum.now().utcnow().to_date_string())
 
-        while start_date <= end_date and start_date < pendulum.parse(pendulum.now().to_date_string()):
+        while start_date <= end_date:
             starting_at = start_date
             ending_at = start_date
 
