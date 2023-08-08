@@ -7,19 +7,13 @@ from typing import Any, List, Mapping, Tuple
 
 from airbyte_cdk.sources import AbstractSource
 from airbyte_cdk.sources.streams import Stream
+
 from .streams import (
-    PostQueryInstallTotalCount,
-    PostQueryReInstallTotalCount,
-    PostQueryClickTotalCount,
-    PostQueryOpenTotalCount,
-    PostQueryImpressionTotalCount,
-    PostQueryCustomEventTotalCount,
-    PostQueryInstallUniqueCount,
-    PostQueryReInstallUniqueCount,
-    PostQueryClickUniqueCount,
-    PostQueryOpenUniqueCount,
-    PostQueryImpressionUniqueCount,
-    PostQueryCustomEventUniqueCount,
+    Installs,
+    Clicks,
+    Opens,
+    CommerceEvents,
+    UserLifecycleEvent,
 )
 
 
@@ -42,16 +36,9 @@ class SourcePhitureBranch(AbstractSource):
         :param config: A Mapping of the user input configuration as defined in the connector spec.
         """
         return [
-            PostQueryInstallTotalCount(config=config),
-            PostQueryReInstallTotalCount(config=config),
-            PostQueryClickTotalCount(config=config),
-            PostQueryOpenTotalCount(config=config),
-            PostQueryImpressionTotalCount(config=config),
-            PostQueryCustomEventTotalCount(config=config),
-            PostQueryInstallUniqueCount(config=config),
-            PostQueryReInstallUniqueCount(config=config),
-            PostQueryClickUniqueCount(config=config),
-            PostQueryOpenUniqueCount(config=config),
-            PostQueryImpressionUniqueCount(config=config),
-            PostQueryCustomEventUniqueCount(config=config),
+            Installs(config=config),
+            Clicks(config=config),
+            Opens(config=config),
+            CommerceEvents(config=config),
+            UserLifecycleEvent(config=config),
         ]

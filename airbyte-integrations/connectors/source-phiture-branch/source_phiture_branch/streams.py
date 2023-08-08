@@ -4,7 +4,7 @@
 import time
 from abc import ABC
 from collections import deque
-from typing import Any, Iterable, List, Mapping, MutableMapping, Optional
+from typing import Any, Iterable, List, Mapping, MutableMapping, Optional, Union
 
 import pendulum
 import requests
@@ -14,13 +14,6 @@ from airbyte_cdk.sources.streams.http import HttpStream
 
 class PostQuery(HttpStream, ABC):
     url_base = "https://api2.branch.io/v1/"
-
-    primary_key = [
-        "timestamp",
-        "name",
-        "last_attributed_touch_data_tilde_ad_set_id",
-        "last_attributed_touch_data_tilde_keyword",
-    ]
 
     http_method = "POST"
 
@@ -32,12 +25,13 @@ class PostQuery(HttpStream, ABC):
     window_attribution = {"days": 7}
 
     def __init__(
-            self,
-            config: Mapping[str, Any],
-            data_source: str = None,
-            aggregation: str = None,
-            dimensions: List[str] = None,
-            **kwargs,
+        self,
+        config: Mapping[str, Any],
+        data_source: str = None,
+        aggregation: str = None,
+        dimensions: List[str] = None,
+        filters: dict = None,
+        **kwargs,
     ):
         super().__init__(**kwargs)
         self.requests_per_second = deque(maxlen=5)
@@ -51,6 +45,11 @@ class PostQuery(HttpStream, ABC):
         self._data_source = data_source
         self._aggregation = aggregation
         self._dimensions = dimensions
+        self._filters = filters
+
+    @property
+    def primary_key(self) -> Optional[List[str]]:
+        return [self.cursor_field] + self._dimensions
 
     def add_request(self):
         timestamp = time.time()
@@ -74,7 +73,7 @@ class PostQuery(HttpStream, ABC):
             wait_times = [
                 1 - (current_time - self.requests_per_second[0]),
                 60 - (current_time - self.requests_per_minute[0]),
-                3600 - (current_time - self.requests_per_hour[0])
+                3600 - (current_time - self.requests_per_hour[0]),
             ]
         except IndexError:
             return 60
@@ -102,15 +101,15 @@ class PostQuery(HttpStream, ABC):
         return None
 
     def path(
-            self, stream_state: Mapping[str, Any] = None, stream_slice: Mapping[str, Any] = None, next_page_token: Mapping[str, Any] = None
+        self, stream_state: Mapping[str, Any] = None, stream_slice: Mapping[str, Any] = None, next_page_token: Mapping[str, Any] = None
     ) -> str:
         return "query/analytics"
 
     def request_params(
-            self,
-            stream_state: Mapping[str, Any],
-            stream_slice: Mapping[str, Any] = None,
-            next_page_token: Mapping[str, Any] = None,
+        self,
+        stream_state: Mapping[str, Any],
+        stream_slice: Mapping[str, Any] = None,
+        next_page_token: Mapping[str, Any] = None,
     ) -> MutableMapping[str, Any]:
         if next_page_token:
             return {
@@ -120,12 +119,12 @@ class PostQuery(HttpStream, ABC):
         return {}
 
     def request_body_json(
-            self,
-            stream_state: Mapping[str, Any],
-            stream_slice: Mapping[str, Any] = None,
-            next_page_token: Mapping[str, Any] = None,
+        self,
+        stream_state: Mapping[str, Any],
+        stream_slice: Mapping[str, Any] = None,
+        next_page_token: Mapping[str, Any] = None,
     ) -> Optional[Mapping]:
-        return {
+        request_data = {
             "branch_key": self._branch_key,
             "branch_secret": self._branch_secret,
             "start_date": stream_slice["start_date"],
@@ -133,20 +132,22 @@ class PostQuery(HttpStream, ABC):
             "data_source": self._data_source,
             "aggregation": self._aggregation,
             "dimensions": self._dimensions,
-            "granularity": "day",
+            "granularity": "all",
             "zero_fill": False,
             "enable_install_recalculation": False,
             "ordered_by": "name",
             "ordered": "ascending",
-            "filters": {"attributed": ["true"]}
         }
+        if self._filters:
+            request_data["filters"].update(self._filters)
+        return request_data
 
     def parse_response(
-            self,
-            response: requests.Response,
-            stream_state: Mapping[str, Any],
-            stream_slice: Mapping[str, Any] = None,
-            next_page_token: Mapping[str, Any] = None,
+        self,
+        response: requests.Response,
+        stream_state: Mapping[str, Any],
+        stream_slice: Mapping[str, Any] = None,
+        next_page_token: Mapping[str, Any] = None,
     ) -> Iterable[Mapping]:
         # adding a request each time to avoid throttling
         self.add_request()
@@ -160,7 +161,7 @@ class PostQuery(HttpStream, ABC):
             yield record
 
     def stream_slices(
-            self, sync_mode: SyncMode, cursor_field: List[str] = None, stream_state: Mapping[str, Any] = None
+        self, sync_mode: SyncMode, cursor_field: List[str] = None, stream_state: Mapping[str, Any] = None
     ) -> Iterable[Optional[Mapping[str, Any]]]:
         stream_state = stream_state or {}
         if stream_state.get(self.cursor_field):
@@ -182,116 +183,44 @@ class PostQuery(HttpStream, ABC):
             }
             start_date = start_date.add(days=1)
 
+    def get_json_schema(self):
+        """
+        Compose json schema based on user defined metrics.
+        """
+        local_json_schema = {
+            "$schema": "http://json-schema.org/schema#",
+            "type": "object",
+            "properties": {},
+        }
+
+        fields = [self.cursor_field] + self._dimensions + [self._aggregation]
+        fields = sorted(fields)
+
+        for field in fields:
+            # for each field, replace the space with underscore
+            # this is happening because some of the events have spaces in their names
+            local_json_schema["properties"][field.replace(" ", "_")] = {"type": ["null", "string"]}
+
+        return local_json_schema
+
 
 # Data sources:
 # - eo_install
-# - eo_reinstall
-# - eo_click
+# - xx_click
 # - eo_open
-# - eo_impression
-# - eo_custom_event
+# - eo_commerce_event
+# - eo_user_lifecycle_event
 
 # Dimensions:
 # - name
-# - last_attributed_touch_data_tilde_ad_set_id
+# - last_attributed_touch_data_tilde_advertising_partner_name
 # - last_attributed_touch_data_tilde_keyword
 
 # Aggregations:
-# - total_count
 # - unique_count
 
 
-class PostQueryInstallTotalCount(PostQuery):
-    def __init__(self, config: Mapping[str, Any], **kwargs):
-        super().__init__(
-            config=config,
-            data_source="eo_install",
-            aggregation="total_count",
-            dimensions=[
-                "name",
-                "last_attributed_touch_data_tilde_ad_set_id",
-                "last_attributed_touch_data_tilde_keyword",
-            ],
-            **kwargs,
-        )
-
-
-class PostQueryReInstallTotalCount(PostQuery):
-    def __init__(self, config: Mapping[str, Any], **kwargs):
-        super().__init__(
-            config=config,
-            data_source="eo_reinstall",
-            aggregation="total_count",
-            dimensions=[
-                "name",
-                "last_attributed_touch_data_tilde_ad_set_id",
-                "last_attributed_touch_data_tilde_keyword",
-            ],
-            **kwargs,
-        )
-
-
-class PostQueryClickTotalCount(PostQuery):
-    def __init__(self, config: Mapping[str, Any], **kwargs):
-        super().__init__(
-            config=config,
-            data_source="eo_click",
-            aggregation="total_count",
-            dimensions=[
-                "name",
-                "last_attributed_touch_data_tilde_ad_set_id",
-                "last_attributed_touch_data_tilde_keyword",
-            ],
-            **kwargs,
-        )
-
-
-class PostQueryOpenTotalCount(PostQuery):
-    def __init__(self, config: Mapping[str, Any], **kwargs):
-        super().__init__(
-            config=config,
-            data_source="eo_open",
-            aggregation="total_count",
-            dimensions=[
-                "name",
-                "last_attributed_touch_data_tilde_ad_set_id",
-                "last_attributed_touch_data_tilde_keyword",
-            ],
-            **kwargs,
-        )
-
-
-class PostQueryImpressionTotalCount(PostQuery):
-    def __init__(self, config: Mapping[str, Any], **kwargs):
-        super().__init__(
-            config=config,
-            data_source="eo_impression",
-            aggregation="total_count",
-            dimensions=[
-                "name",
-                "last_attributed_touch_data_tilde_ad_set_id",
-                "last_attributed_touch_data_tilde_keyword",
-            ],
-            **kwargs,
-        )
-
-
-class PostQueryCustomEventTotalCount(PostQuery):
-    def __init__(self, config: Mapping[str, Any], **kwargs):
-        super().__init__(
-            config=config,
-            data_source="eo_custom_event",
-            aggregation="total_count",
-            dimensions=[
-                "name",
-                "last_attributed_touch_data_tilde_ad_set_id",
-                "last_attributed_touch_data_tilde_keyword",
-            ],
-            **kwargs,
-        )
-
-
-class PostQueryInstallUniqueCount(PostQuery):
+class Installs(PostQuery):
     def __init__(self, config: Mapping[str, Any], **kwargs):
         super().__init__(
             config=config,
@@ -299,44 +228,30 @@ class PostQueryInstallUniqueCount(PostQuery):
             aggregation="unique_count",
             dimensions=[
                 "name",
-                "last_attributed_touch_data_tilde_ad_set_id",
+                "last_attributed_touch_data_tilde_advertising_partner_name",
                 "last_attributed_touch_data_tilde_keyword",
             ],
+            filters={"attributed": "true"},
             **kwargs,
         )
 
 
-class PostQueryReInstallUniqueCount(PostQuery):
+class Clicks(PostQuery):
     def __init__(self, config: Mapping[str, Any], **kwargs):
         super().__init__(
             config=config,
-            data_source="eo_reinstall",
+            data_source="xx_click",
             aggregation="unique_count",
             dimensions=[
                 "name",
-                "last_attributed_touch_data_tilde_ad_set_id",
+                "last_attributed_touch_data_tilde_advertising_partner_name",
                 "last_attributed_touch_data_tilde_keyword",
             ],
             **kwargs,
         )
 
 
-class PostQueryClickUniqueCount(PostQuery):
-    def __init__(self, config: Mapping[str, Any], **kwargs):
-        super().__init__(
-            config=config,
-            data_source="eo_click",
-            aggregation="unique_count",
-            dimensions=[
-                "name",
-                "last_attributed_touch_data_tilde_ad_set_id",
-                "last_attributed_touch_data_tilde_keyword",
-            ],
-            **kwargs,
-        )
-
-
-class PostQueryOpenUniqueCount(PostQuery):
+class Opens(PostQuery):
     def __init__(self, config: Mapping[str, Any], **kwargs):
         super().__init__(
             config=config,
@@ -344,38 +259,41 @@ class PostQueryOpenUniqueCount(PostQuery):
             aggregation="unique_count",
             dimensions=[
                 "name",
-                "last_attributed_touch_data_tilde_ad_set_id",
+                "last_attributed_touch_data_tilde_advertising_partner_name",
                 "last_attributed_touch_data_tilde_keyword",
             ],
+            filters={"attributed": "true"},
             **kwargs,
         )
 
 
-class PostQueryImpressionUniqueCount(PostQuery):
+class CommerceEvents(PostQuery):
     def __init__(self, config: Mapping[str, Any], **kwargs):
         super().__init__(
             config=config,
-            data_source="eo_impression",
+            data_source="eo_commerce_event",
             aggregation="unique_count",
             dimensions=[
                 "name",
-                "last_attributed_touch_data_tilde_ad_set_id",
+                "last_attributed_touch_data_tilde_advertising_partner_name",
                 "last_attributed_touch_data_tilde_keyword",
             ],
+            filters={"attributed": "true"},
             **kwargs,
         )
 
 
-class PostQueryCustomEventUniqueCount(PostQuery):
+class UserLifecycleEvent(PostQuery):
     def __init__(self, config: Mapping[str, Any], **kwargs):
         super().__init__(
             config=config,
-            data_source="eo_custom_event",
+            data_source="eo_user_lifecycle_event",
             aggregation="unique_count",
             dimensions=[
                 "name",
-                "last_attributed_touch_data_tilde_ad_set_id",
+                "last_attributed_touch_data_tilde_advertising_partner_name",
                 "last_attributed_touch_data_tilde_keyword",
             ],
+            filters={"attributed": "true"},
             **kwargs,
         )
