@@ -139,7 +139,7 @@ class PostQuery(HttpStream, ABC):
             "ordered": "ascending",
         }
         if self._filters:
-            request_data["filters"].update(self._filters)
+            request_data["filters"] = self._filters
         return request_data
 
     def parse_response(
