@@ -4,7 +4,7 @@
 import time
 from abc import ABC
 from collections import deque
-from typing import Any, Iterable, List, Mapping, MutableMapping, Optional, Union
+from typing import Any, Iterable, List, Mapping, MutableMapping, Optional
 
 import pendulum
 import requests
@@ -199,41 +199,10 @@ class PostQuery(HttpStream, ABC):
         for field in fields:
             # for each field, replace the space with underscore
             # this is happening because some of the events have spaces in their names
-            local_json_schema["properties"][field.replace(" ", "_")] = {"type": ["null", "string"]}
+            data_type = "number" if field == self._aggregation else "string"
+            local_json_schema["properties"][field.replace(" ", "_")] = {"type": ["null", data_type]}
 
         return local_json_schema
-
-
-# Data sources:
-# - eo_install
-# - xx_click
-# - eo_open
-# - eo_commerce_event
-# - eo_user_lifecycle_event
-
-# Dimensions:
-# - name
-# - last_attributed_touch_data_tilde_advertising_partner_name
-# - last_attributed_touch_data_tilde_keyword
-
-# Aggregations:
-# - unique_count
-
-
-class Installs(PostQuery):
-    def __init__(self, config: Mapping[str, Any], **kwargs):
-        super().__init__(
-            config=config,
-            data_source="eo_install",
-            aggregation="unique_count",
-            dimensions=[
-                "name",
-                "last_attributed_touch_data_tilde_advertising_partner_name",
-                "last_attributed_touch_data_tilde_keyword",
-            ],
-            filters={"attributed": "true"},
-            **kwargs,
-        )
 
 
 class Clicks(PostQuery):
@@ -241,28 +210,8 @@ class Clicks(PostQuery):
         super().__init__(
             config=config,
             data_source="xx_click",
-            aggregation="unique_count",
-            dimensions=[
-                "name",
-                "last_attributed_touch_data_tilde_advertising_partner_name",
-                "last_attributed_touch_data_tilde_keyword",
-            ],
-            **kwargs,
-        )
-
-
-class Opens(PostQuery):
-    def __init__(self, config: Mapping[str, Any], **kwargs):
-        super().__init__(
-            config=config,
-            data_source="eo_open",
-            aggregation="unique_count",
-            dimensions=[
-                "name",
-                "last_attributed_touch_data_tilde_advertising_partner_name",
-                "last_attributed_touch_data_tilde_keyword",
-            ],
-            filters={"attributed": "true"},
+            aggregation=config["aggregation"],
+            dimensions=config["dimensions"],
             **kwargs,
         )
 
@@ -272,12 +221,55 @@ class CommerceEvents(PostQuery):
         super().__init__(
             config=config,
             data_source="eo_commerce_event",
-            aggregation="unique_count",
-            dimensions=[
-                "name",
-                "last_attributed_touch_data_tilde_advertising_partner_name",
-                "last_attributed_touch_data_tilde_keyword",
-            ],
+            aggregation=config["aggregation"],
+            dimensions=config["dimensions"],
+            filters={"attributed": "true"},
+            **kwargs,
+        )
+
+
+class Impressions(PostQuery):
+    def __init__(self, config: Mapping[str, Any], **kwargs):
+        super().__init__(
+            config=config,
+            data_source="xx_impression",
+            aggregation=config["aggregation"],
+            dimensions=config["dimensions"],
+            **kwargs,
+        )
+
+
+class Installs(PostQuery):
+    def __init__(self, config: Mapping[str, Any], **kwargs):
+        super().__init__(
+            config=config,
+            data_source="eo_install",
+            aggregation=config["aggregation"],
+            dimensions=config["dimensions"],
+            filters={"attributed": "true"},
+            **kwargs,
+        )
+
+
+class Opens(PostQuery):
+    def __init__(self, config: Mapping[str, Any], **kwargs):
+        super().__init__(
+            config=config,
+            data_source="eo_open",
+            aggregation=config["aggregation"],
+            dimensions=config["dimensions"],
+            filters={"attributed": "true"},
+            **kwargs,
+        )
+
+
+class Reinstalls(PostQuery):
+    def __init__(self, config: Mapping[str, Any], **kwargs):
+        super().__init__(
+            config=config,
+            data_source="eo_reinstall",
+            aggregation=config["aggregation"],
+            dimensions=config["dimensions"],
             filters={"attributed": "true"},
             **kwargs,
         )
@@ -288,12 +280,8 @@ class UserLifecycleEvent(PostQuery):
         super().__init__(
             config=config,
             data_source="eo_user_lifecycle_event",
-            aggregation="unique_count",
-            dimensions=[
-                "name",
-                "last_attributed_touch_data_tilde_advertising_partner_name",
-                "last_attributed_touch_data_tilde_keyword",
-            ],
+            aggregation=config["aggregation"],
+            dimensions=config["dimensions"],
             filters={"attributed": "true"},
             **kwargs,
         )

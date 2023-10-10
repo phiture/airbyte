@@ -7,6 +7,8 @@ connectionSpecification:
     - branch_key
     - branch_secret
     - start_date
+    - aggregation
+    - dimensions
   additionalProperties: true
   properties:
     branch_key:
@@ -25,13 +27,60 @@ connectionSpecification:
       order: 2
       type: string
       title: Start Date
-      description: A timestamp representing the oldest date to return data for. Timezone of the timestamp is set in your Branch Dashboard configuration. Please note that start_date cannot be earlier than 2017-10-14.
+      description: |
+        A timestamp representing the oldest date to return data for. 
+        Timezone of the timestamp is set in your Branch Dashboard configuration.
+        Please note that start_date cannot be earlier than 2017-10-14.
       examples:
         - "%Y-%m-%d"
     end_date:
       order: 3
       type: string
       title: End Date
-      description: The last timestamp (exclusive) to return data for. No events that triggered after the enddate will be counted in the query results. Timezone of the timestamp is set in your Branch Dashboard configuration. If no end_date is specified, the current time is used.
+      description: |
+        The last timestamp (exclusive) to return data for. 
+        No events that triggered after the enddate will be 
+        counted in the query results. Timezone of the timestamp 
+        is set in your Branch Dashboard configuration. 
+        If no end_date is specified, the current time is used.
       examples:
         - "%Y-%m-%d"
+    aggregation:
+      order: 4
+      type: string
+      title: Aggregation
+      description: |
+        How to count events towards the final result count. 
+        When using unique_count, each event is only counted if an event by 
+        that user has not already been seen. 
+        E.g., if 10 users each trigger 3 opens, 
+        only 10 open events will be counted.
+      enum:
+        - total_count
+        - unique_count
+    dimensions:
+      order: 5
+      type: array
+      title: Dimensions
+      description: |
+        List of event fields to use as splits for the query. 
+        Results counts are returned and grouped with other events 
+        with matching values for each key provided in "dimensions". 
+        See https://help.branch.io/developers-hub/reference/query-api#dimensions for a complete list.
+      minItems: 1
+      uniqueItems: true
+      items:
+        enum:
+          - name
+          - last_attributed_touch_data_tilde_ad_id
+          - last_attributed_touch_data_tilde_ad_name
+          - last_attributed_touch_data_tilde_ad_set_id
+          - last_attributed_touch_data_tilde_ad_set_name
+          - last_attributed_touch_data_tilde_advertising_partner_name
+          - last_attributed_touch_data_tilde_campaign
+          - last_attributed_touch_data_tilde_campaign_id
+          - last_attributed_touch_data_tilde_creative_id
+          - last_attributed_touch_data_tilde_creative_name
+          - last_attributed_touch_data_tilde_keyword
+          - user_data_geo_country_code
+        type: string

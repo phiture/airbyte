@@ -8,13 +8,7 @@ from typing import Any, List, Mapping, Tuple
 from airbyte_cdk.sources import AbstractSource
 from airbyte_cdk.sources.streams import Stream
 
-from .streams import (
-    Installs,
-    Clicks,
-    Opens,
-    CommerceEvents,
-    UserLifecycleEvent,
-)
+from .streams import Clicks, CommerceEvents, Impressions, Installs, Opens, Reinstalls, UserLifecycleEvent
 
 
 class SourcePhitureBranch(AbstractSource):
@@ -36,9 +30,11 @@ class SourcePhitureBranch(AbstractSource):
         :param config: A Mapping of the user input configuration as defined in the connector spec.
         """
         return [
-            Installs(config=config),
             Clicks(config=config),
-            Opens(config=config),
             CommerceEvents(config=config),
+            Impressions(config=config),
+            Installs(config=config),
+            Opens(config=config),
+            Reinstalls(config=config),
             UserLifecycleEvent(config=config),
         ]
