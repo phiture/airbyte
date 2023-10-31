@@ -82,5 +82,6 @@ connectionSpecification:
           - last_attributed_touch_data_tilde_creative_id
           - last_attributed_touch_data_tilde_creative_name
           - last_attributed_touch_data_tilde_keyword
+          - last_attributed_touch_data_tilde_keyword_id
           - user_data_geo_country_code
         type: string
