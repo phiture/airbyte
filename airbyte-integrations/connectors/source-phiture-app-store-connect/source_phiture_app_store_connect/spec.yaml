@@ -1,0 +1,60 @@
+documentationUrl: https://docsurl.com
+connectionSpecification:
+  $schema: http://json-schema.org/draft-07/schema#
+  title: Phiture App Store Connect Spec
+  type: object
+  required:
+    - app_id
+    - issuer_id
+    - key_id
+    - key_contents
+    - type_analytics_reports
+    - start_date
+  properties:
+    app_id:
+      order: 0
+      type: string
+      title: App ID
+      description: The app ID for the app in App Store Connect.
+    issuer_id:
+      order: 1
+      type: string
+      title: Issuer ID
+      description: The issuer ID for the app in App Store Connect.
+    key_id:
+      order: 2
+      type: string
+      title: Key ID
+      description: The key ID for the app in App Store Connect.
+    key_contents:
+      order: 3
+      type: string
+      title: Key Contents
+      description: The contents of the private key for the app in App Store Connect.
+      multiline: true
+      airbyte_secret: true
+    type_analytics_reports:
+      order: 4
+      type: array
+      title: Type Analytics Reports
+      description: The type of analytics reports to fetch.
+      uniqueItems: true
+      items:
+        type: string
+        enum:
+          - APP_USAGE
+          - APP_STORE_ENGAGEMENT
+          - COMMERCE
+          - PERFORMANCE
+    start_date:
+      order: 5
+      type: string
+      title: Start Date
+      description: The start date for the analytics reports.
+      format: date
+    end_date:
+      order: 6
+      type: string
+      title: End Date
+      description: The end date for the analytics reports.
+      format: date
