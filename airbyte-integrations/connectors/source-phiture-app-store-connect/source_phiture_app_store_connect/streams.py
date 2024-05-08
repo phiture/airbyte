@@ -8,6 +8,7 @@ import re
 from abc import ABC
 from io import StringIO
 from typing import Any, Iterable, Mapping, Optional, MutableMapping
+import logging
 
 import pendulum
 import requests
@@ -23,21 +24,33 @@ class ASCStream(HttpStream, ABC):
         super().__init__(**kwargs)
         self._start_date = config["start_date"]
         self._end_date = config.get("end_date")
+    
+    def safe_loads_json(self, response: requests.Response):
+        try:
+            return response.json()
+        except json.JSONDecodeError as e:
+            logging.error(f"Failed to parse JSON: {str(e)}")
+            return None  # Or return {}, depending on how you want to handle this
 
     def next_page_token(
         self, response: requests.Response
     ) -> Optional[Mapping[str, Any]]:
-        if response.json().get("links", {}).get("next"):
+        json_response = self.safe_loads_json(response)
+        if json_response and json_response.get("links", {}).get("next"):
             return {
-                "next": response.json()["links"]["next"],
-                "cursor": response.json()["links"]["next"].split("cursor=")[1],
+                "next": json_response["links"]["next"],
+                "cursor": json_response["links"]["next"].split("cursor=")[1],
             }
         return None
 
     def parse_response(
         self, response: requests.Response, **kwargs
     ) -> Iterable[Mapping]:
-        yield from response.json()["data"]
+        json_response = self.safe_loads_json(response)
+        if json_response:
+            yield from json_response.get("data", [])
+        else:
+            yield from []
 
     def get_json_schema(self):
         schema = super().get_json_schema()
