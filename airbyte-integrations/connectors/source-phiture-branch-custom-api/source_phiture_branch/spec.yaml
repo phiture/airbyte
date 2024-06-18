@@ -1,0 +1,110 @@
+documentationUrl: https://docsurl.com
+connectionSpecification:
+  $schema: http://json-schema.org/draft-07/schema#
+  title: Phiture Branch Spec
+  type: object
+  required:
+    - access_token
+    - start_date
+    - limit
+    - fields
+    - filter
+    - response_format
+    - timezone
+  additionalProperties: true
+  properties:
+    access_token:
+      order: 0
+      type: string
+      title: Access Token
+      description: The Access Token of the app analytics information is being pulled for.
+      airbyte_secret: true
+    start_date:
+      order: 2
+      type: string
+      title: Start Date
+      description: |
+        A timestamp representing the oldest date to return data for. 
+        Timezone of the timestamp is set in your Branch Dashboard configuration.
+        Please note that start_date cannot be earlier than 2017-10-14.
+      examples:
+        - "%Y-%m-%dT%H:%M:%S"
+    limit:
+      order: 3
+      type: integer
+      title: Limit
+      description: |
+        The maximum number of results to return.
+    filter:
+      order: 4
+      type: array
+      title: Filter
+      description: |
+        A filter requires an array with 3 specific string values: ["Cthulu Prefix", "EO Field Key", "EO Field Value"]
+      minItems: 1
+      uniqueItems: true
+      items:
+        enum:
+            - eq
+            - name
+            - PURCHASE
+    end_date:
+      order: 5
+      type: string
+      title: End Date
+      description: |
+        The last timestamp (exclusive) to return data for. 
+        No events that triggered after the enddate will be 
+        counted in the query results. Timezone of the timestamp 
+        is set in your Branch Dashboard configuration. 
+        If no end_date is specified, the current time is used.
+      examples:
+        - "%Y-%m-%dT%H:%M:%S"
+    fields:
+      order: 6
+      type: array
+      title: Fields
+      description: |
+        List of event fields to use as splits for the query. 
+        Results counts are returned and grouped with other events 
+        with matching values for each key provided in "dimensions". 
+        See https://help.branch.io/developers-hub/reference/query-api#dimensions for a complete list.
+      minItems: 1
+      uniqueItems: true
+      items:
+        enum:
+          - name
+          - customer_event_alias
+          - event_data_revenue
+          - event_data_revenue_in_usd
+          - last_attributed_touch_type
+          - last_attributed_touch_data_tilde_ad_id
+          - last_attributed_touch_data_tilde_ad_name
+          - last_attributed_touch_data_tilde_ad_set_id
+          - last_attributed_touch_data_tilde_ad_set_name
+          - last_attributed_touch_data_tilde_advertising_partner_name
+          - last_attributed_touch_data_tilde_campaign
+          - last_attributed_touch_data_tilde_campaign_id
+          - last_attributed_touch_data_tilde_creative_id
+          - last_attributed_touch_data_tilde_creative_name
+          - last_attributed_touch_data_tilde_keyword
+          - last_attributed_touch_data_tilde_keyword_id
+          - user_data_geo_country_code
+        type: string
+    response_format:
+        order: 7
+        type: string
+        title: Response Format
+        description: |
+          Format of returned data. 
+          json or csv.
+        minItems: 1
+        uniqueItems: true
+    timezone:
+        order: 8
+        type: string
+        title: Timezone
+        description: |
+          Timezone for results. Accepts tz database strings like ‘America/Los_Angeles’. 
+          Results are returned in the Branch Dashboard timezone if not provided. 
+          Will default to UTC only if Branch Dashboard timezone is not set.
