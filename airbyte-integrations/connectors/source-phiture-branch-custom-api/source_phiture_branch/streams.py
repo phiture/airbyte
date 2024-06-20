@@ -14,7 +14,7 @@ from airbyte_cdk.sources.streams.http import HttpStream
 
 
 class PostQuery(HttpStream, ABC):
-    url_base = f"https://api2.branch.io/v2/logs?app_id=1098525421886001912"
+    url_base = 'https://api2.branch.io/v2/logs?app_id=1098525421886001912'
 
     http_method = "POST"
 
@@ -38,14 +38,14 @@ class PostQuery(HttpStream, ABC):
     ):
         super().__init__(**kwargs)
         self.requests_per_second = deque(maxlen=1)
-        self.requests_per_minute = deque(maxlen=20)
-        self.requests_per_hour = deque(maxlen=75)
+        self.requests_per_minute = deque(maxlen=5)
+        self.requests_per_hour = deque(maxlen=10)
 
         self._start_date = config["start_date"]
         self._end_date = config.get("end_date")
         self._report_type = report_type
         self._fields = fields
-        self._filter = filter
+        self._filter = config.get("filter")
         self._timezone = timezone
         self._response_format = response_format
         self._limit = limit
@@ -129,58 +129,61 @@ class PostQuery(HttpStream, ABC):
             stream_slice: Mapping[str, Any] = None,
             next_page_token: Mapping[str, Any] = None
     ) -> Mapping[str, Any]:
-        print("access_token:", self._access_token)
         headers = {
-            "content-type": "application/json",
-            "Access-Token": f"{self._access_token}",
+            'Access-Token': f'{self._access_token}',
+            'accept': 'application/json',
+            'content-type': 'application/json',
         }
         if self._access_token:
-            # headers["Access-Token"] = f"{self._access_token}"
             print("Access token included in the request headers!")
         else:
             print("Warning: Access token is missing from the request headers!")
+        print("Request headers:", headers)
         return headers
 
-    def send(self, request: requests.PreparedRequest, request_kwargs: Mapping[str, Any]) -> requests.Response:
-        # Print the full request details
-        print(f"Request URL: {request.url}")
-        print(f"Request Headers: {request.headers}")
-        if request.body:
-            print(f"Request Body: {request.body}")
-
-        # Serialize the request_data dictionary to a JSON string
-        request_data = self.request_body_json(...)
-        if request_data is not None:
-            request.body = json.dumps(request_data)
-        print(f"Request Body: {request.body}")
-
-        # Send the request
-        response = requests.Session().send(request, **request_kwargs)
-        return response
+    # def send(self, request: requests.PreparedRequest, request_kwargs: Mapping[str, Any]) -> requests.Response:
+    #     # Print the full request details
+    #     print(f"Request URL: {request.url}")
+    #     print(f"Request Headers: {request.headers}")
+    #     if request.body:
+    #         print(f"Request Body: {request.body}")
+    #
+    #     # Serialize the request_data dictionary to a JSON string
+    #     request_data = self.request_body_json(...)
+    #     if request_data is not None:
+    #         request.body = json.dumps(request_data)
+    #     print(f"Request Body: {request.body}")
+    #
+    #     # Send the request
+    #     response = requests.Session().send(request, **request_kwargs)
+    #     return response
 
     def request_body_json(
             self,
             stream_state: Mapping[str, Any],
             stream_slice: Mapping[str, Any] = None,
             next_page_token: Mapping[str, Any] = None,
-    ) -> Optional[Mapping[str, Any]]:
+    ) -> Optional[Mapping]:
         request_data = {
             "report_type": self._report_type,
             "fields": self._fields,
             "limit": self._limit,
             "timezone": self._timezone,
-            "filter": [
-                "eq",
-                "name",
-                "PURCHASE"
-            ],
+            # "filter": self._filter,
             "response_format": self._response_format,
-            "start-date": stream_slice["start_date"],
-            "end-date": stream_slice["end_date"],
+            "start_date": stream_slice["start_date"],
+            "end_date": stream_slice["end_date"],
         }
-        if self._filter:
+
+        if self._filter is not None:
             request_data["filter"] = self._filter
-        return request_data
+
+        # print("Request data:", request_data)
+        # return request_data
+        # Convert the dictionary to a JSON string with double quotes
+        json_data = json.dumps(request_data)
+        print("Request body JSON data:", json_data)
+        return json.loads(json_data)
 
     def parse_response(
             self,
@@ -212,9 +215,9 @@ class PostQuery(HttpStream, ABC):
 
         end_date = pendulum.parse(self._end_date or pendulum.now().to_iso8601_string())
 
-        while start_date <= end_date and start_date <= pendulum.parse(pendulum.now().to_iso8601_string()):
+        while start_date < end_date and start_date < pendulum.now():
             starting_at = start_date.to_iso8601_string()
-            ending_at = start_date.to_iso8601_string()
+            ending_at = start_date.add(days=1).to_iso8601_string()
 
             yield {
                 "start_date": starting_at,
@@ -240,7 +243,7 @@ class PostQuery(HttpStream, ABC):
             # this is happening because some of the events have spaces in their names
             data_type = "string"
             local_json_schema["properties"][field.replace(" ", "_")] = {"type": ["null", data_type]}
-
+        print("JSON schema:", local_json_schema)
         return local_json_schema
 
 
@@ -249,7 +252,6 @@ class Clicks(PostQuery):
         super().__init__(
             config=config,
             report_type="xx_click",
-            filter=config["filter"],
             timezone=config["timezone"],
             response_format=config["response_format"],
             fields=config["fields"],
@@ -263,7 +265,6 @@ class CommerceEvents(PostQuery):
         super().__init__(
             config=config,
             report_type="eo_commerce_event",
-            filter=config["filter"],
             timezone=config["timezone"],
             response_format=config["response_format"],
             fields=config["fields"],
@@ -277,7 +278,6 @@ class Impressions(PostQuery):
         super().__init__(
             config=config,
             report_type="xx_impression",
-            filter=config["filter"],
             timezone=config["timezone"],
             response_format=config["response_format"],
             fields=config["fields"],
@@ -291,7 +291,6 @@ class Installs(PostQuery):
         super().__init__(
             config=config,
             report_type="eo_install",
-            filter=config["filter"],
             timezone=config["timezone"],
             response_format=config["response_format"],
             fields=config["fields"],
@@ -305,7 +304,6 @@ class Opens(PostQuery):
         super().__init__(
             config=config,
             report_type="eo_open",
-            filter=config["filter"],
             timezone=config["timezone"],
             response_format=config["response_format"],
             fields=config["fields"],
@@ -319,7 +317,6 @@ class Reinstalls(PostQuery):
         super().__init__(
             config=config,
             report_type="eo_reinstall",
-            filter=config["filter"],
             timezone=config["timezone"],
             response_format=config["response_format"],
             fields=config["fields"],
@@ -333,7 +330,6 @@ class UserLifecycleEvent(PostQuery):
         super().__init__(
             config=config,
             report_type="eo_user_lifecycle_event",
-            filter=config["filter"],
             timezone=config["timezone"],
             response_format=config["response_format"],
             fields=config["fields"],
@@ -346,7 +342,6 @@ class CustomEvents(PostQuery):
         super().__init__(
             config=config,
             report_type="eo_custom_event",
-            filter=config["filter"],
             timezone=config["timezone"],
             response_format=config["response_format"],
             fields=config["fields"],

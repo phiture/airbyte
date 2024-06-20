@@ -8,7 +8,6 @@ connectionSpecification:
     - start_date
     - limit
     - fields
-    - filter
     - response_format
     - timezone
   additionalProperties: true
@@ -41,13 +40,12 @@ connectionSpecification:
       title: Filter
       description: |
         A filter requires an array with 3 specific string values: ["Cthulu Prefix", "EO Field Key", "EO Field Value"]
-      minItems: 1
       uniqueItems: true
       items:
         enum:
             - eq
             - name
-            - PURCHASE
+            - Share Started
     end_date:
       order: 5
       type: string
