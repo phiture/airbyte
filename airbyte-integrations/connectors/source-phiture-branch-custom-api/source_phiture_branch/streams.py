@@ -1,6 +1,3 @@
-#
-# Copyright (c) 2022 Airbyte, Inc., all rights reserved.
-#
 import json
 import time
 from abc import ABC
@@ -21,8 +18,6 @@ class PostQuery(HttpStream, ABC):
     cursor_field = "timestamp"
     time_interval = {"days": 1}
     state_checkpoint_interval = 1000
-    # the window attribution is used to re-fetch the last 7 days of data
-    #  only if the last state day is in the range of the last 7 days
     window_attribution = {"days": 7}
 
     def __init__(
@@ -50,7 +45,6 @@ class PostQuery(HttpStream, ABC):
         self._response_format = response_format
         self._limit = limit
         self._access_token = config["access_token"]
-
 
     @property
     def primary_key(self) -> Optional[List[str]]:
@@ -84,9 +78,28 @@ class PostQuery(HttpStream, ABC):
             return 60
         return max(wait_times, default=60)
 
+    # def get_updated_state(self, current_stream_state: MutableMapping[str, Any], latest_record: Mapping[str, Any]):
+    #     current_stream_state = current_stream_state or {}
+    #     current_stream_state[self.cursor_field] = pendulum.parse(latest_record[self.cursor_field]).to_date_string()
+    #     return current_stream_state
+
     def get_updated_state(self, current_stream_state: MutableMapping[str, Any], latest_record: Mapping[str, Any]):
         current_stream_state = current_stream_state or {}
-        current_stream_state[self.cursor_field] = pendulum.parse(latest_record[self.cursor_field]).to_date_string()
+
+        # Ensure the latest_record contains the cursor field (timestamp)
+        if self.cursor_field not in latest_record:
+            # Log a warning or handle the error as needed
+            print(f"Warning: {self.cursor_field} not found in the latest record. Skipping state update.")
+            return current_stream_state
+
+        try:
+            # Parse the timestamp and update the state
+            timestamp_value = pendulum.parse(latest_record[self.cursor_field]).to_date_string()
+            current_stream_state[self.cursor_field] = timestamp_value
+        except Exception as e:
+            # Handle any parsing errors
+            print(f"Error parsing timestamp in the latest record: {e}")
+
         return current_stream_state
 
     def next_page_token(self, response: requests.Response) -> Optional[Mapping[str, Any]]:
@@ -141,23 +154,6 @@ class PostQuery(HttpStream, ABC):
         print("Request headers:", headers)
         return headers
 
-    # def send(self, request: requests.PreparedRequest, request_kwargs: Mapping[str, Any]) -> requests.Response:
-    #     # Print the full request details
-    #     print(f"Request URL: {request.url}")
-    #     print(f"Request Headers: {request.headers}")
-    #     if request.body:
-    #         print(f"Request Body: {request.body}")
-    #
-    #     # Serialize the request_data dictionary to a JSON string
-    #     request_data = self.request_body_json(...)
-    #     if request_data is not None:
-    #         request.body = json.dumps(request_data)
-    #     print(f"Request Body: {request.body}")
-    #
-    #     # Send the request
-    #     response = requests.Session().send(request, **request_kwargs)
-    #     return response
-
     def request_body_json(
             self,
             stream_state: Mapping[str, Any],
@@ -169,18 +165,11 @@ class PostQuery(HttpStream, ABC):
             "fields": self._fields,
             "limit": self._limit,
             "timezone": self._timezone,
-            # "filter": self._filter,
+            "filter": self._filter,
             "response_format": self._response_format,
             "start_date": stream_slice["start_date"],
             "end_date": stream_slice["end_date"],
         }
-
-        if self._filter is not None:
-            request_data["filter"] = self._filter
-
-        # print("Request data:", request_data)
-        # return request_data
-        # Convert the dictionary to a JSON string with double quotes
         json_data = json.dumps(request_data)
         print("Request body JSON data:", json_data)
         return json.loads(json_data)
@@ -194,13 +183,89 @@ class PostQuery(HttpStream, ABC):
     ) -> Iterable[Mapping]:
         # adding a request each time to avoid throttling
         self.add_request()
+        try:
+            initial_response = response.json()
+            print("Initial response:", initial_response)
+            export_job_status_url = initial_response.get("export_job_status_url")
+        except json.JSONDecodeError as e:
+            # # Handle malformed JSON
+            # print(f"Error parsing response: {e}")
+            # try:
+            #     export_job_status_url = initial_response["export_job_status_url"]
+            #     print("Export job status URL found in the response", export_job_status_url)
+            # except Exception as e:
+            #     print(f"Error parsing response: {e}")
+            #     return
+            return  # Early return to avoid further processing
 
-        results = response.json().get("results", [])
-        for result in results:
-            record = result.get("result", {})
-            record["timestamp"] = result["timestamp"]
-            record["report_type"] = self._report_type
-            yield record
+        if not export_job_status_url:
+            raise Exception("Export job status URL not found in the response")
+
+        download_url = self.check_export_status(export_job_status_url)
+        data = self.download_data(download_url)
+        # print("Downloaded data:", data.text)
+        # try:
+        #     print("Downloaded data as JSON:", data.json())
+        # except json.JSONDecodeError as e:
+        #     # Handle malformed JSON
+        #     print(f"Error parsing Downloaded data: {e}")
+        #
+        # # Process the downloaded data
+        # try:
+        #     if data.json() and data.json().get("name") is not None:
+        #         for result in data.json():
+        #             print("Result:", result)
+        #             record = result.get("result", {})
+        #             record["timestamp"] = result["timestamp"]
+        #             record["report_type"] = self._report_type
+        #             yield record
+        #     print("Data processed successfully!", record)
+        # except json.JSONDecodeError as e:
+        #     # Handle malformed JSON
+        #     print(f"Error parsing downloaded data: {e}")
+
+        try:
+            datas = data.json()
+            print("Downloaded data as JSON:", datas)
+            return datas
+        except json.JSONDecodeError:
+            print("Error parsing downloaded data as JSON:", data.text)
+            # Handle case where response contains multiple JSON objects
+            datas = []
+            for line in data.text.splitlines():
+                line = line.strip()
+                if line:
+                    try:
+                        datas.append(json.loads(line))
+                    except json.JSONDecodeError as e:
+                        print(f"Skipping line due to JSONDecodeError: {e}")
+            print("Downloaded data as JSON:", datas)
+            return datas
+
+    def check_export_status(self, export_job_status_url: str):
+        headers = self.request_headers({}, {})
+        while True:
+            response = requests.get(export_job_status_url, headers=headers)
+            status_response = response.json()
+
+            # Print status for debugging
+            print("Export job status response:", status_response)
+
+            if status_response.get('status') == 'complete':
+                return status_response.get('response_url')
+            elif status_response.get('status') == 'failed':
+                raise Exception("Export job failed")
+            else:
+                time.sleep(5)  # Wait for 5 seconds before checking again
+
+    def download_data(self, download_url: str):
+        headers = self.request_headers({}, {})
+        response = requests.get(download_url, headers=headers)
+        response.raise_for_status()  # Raise an exception if the request was unsuccessful
+
+        # Assuming the response content is JSON
+        data = response
+        return data
 
     def stream_slices(
             self, sync_mode: SyncMode, cursor_field: List[str] = None, stream_state: Mapping[str, Any] = None
@@ -251,7 +316,7 @@ class Clicks(PostQuery):
     def __init__(self, config: Mapping[str, Any], **kwargs):
         super().__init__(
             config=config,
-            report_type="xx_click",
+            report_type="eo_click",
             timezone=config["timezone"],
             response_format=config["response_format"],
             fields=config["fields"],
@@ -277,7 +342,7 @@ class Impressions(PostQuery):
     def __init__(self, config: Mapping[str, Any], **kwargs):
         super().__init__(
             config=config,
-            report_type="xx_impression",
+            report_type="eo_impression",
             timezone=config["timezone"],
             response_format=config["response_format"],
             fields=config["fields"],
