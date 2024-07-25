@@ -1,13 +1,13 @@
-FROM python:3.9.11-alpine3.15 as base
+FROM python:3.9.13-alpine3.15 AS base
 
 # build and load all requirements
-FROM base as builder
+FROM base AS builder
 WORKDIR /airbyte/integration_code
 
 # upgrade pip to the latest version
-RUN apk --no-cache upgrade \
-    && pip install --upgrade pip \
-    && apk --no-cache add tzdata build-base
+RUN apk --no-cache upgrade
+RUN pip install --upgrade pip
+RUN apk --no-cache add tzdata build-base libffi-dev openssl-dev
 
 
 COPY setup.py ./
