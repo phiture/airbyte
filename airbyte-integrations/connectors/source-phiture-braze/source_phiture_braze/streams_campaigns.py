@@ -183,5 +183,5 @@ class CampaignsDataSeries(HttpSubStream, BrazeStream):
         return {
             "campaign_id": stream_slice["parent"][self.parent.primary_key],
             "length": self.time_interval["days"],
-            "ending_at": stream_slice["ending_at"],
+            "ending_at": f'{stream_slice["ending_at"]}{self.timezone}',
         }
