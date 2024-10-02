@@ -113,7 +113,7 @@ class CanvasDetails(HttpSubStream, BrazeStream):
 
 
 class CanvasDataSeries(HttpSubStream, BrazeStream):
-    time_interval = {"days": 13}
+    time_interval = {"days": 14}
     primary_key = ["canvas_id", "time"]
 
     def __init__(self, **kwargs):
@@ -204,7 +204,7 @@ class CanvasDataSeries(HttpSubStream, BrazeStream):
     def request_params(self, stream_slice: Mapping[str, Any], **kwargs) -> MutableMapping[str, Any]:
         return {
             "canvas_id": stream_slice["parent"][self.parent.primary_key],
-            "starting_at": f'{stream_slice["starting_at"]}{self.timezone}',
+            "length": self.time_interval["days"],
             "ending_at": f'{stream_slice["ending_at"]}{self.timezone}',
             "include_variant_breakdown": "true",
             "include_step_breakdown": "true",
