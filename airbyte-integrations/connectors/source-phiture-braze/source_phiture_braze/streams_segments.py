@@ -128,8 +128,14 @@ class SegmentsDataSeries(HttpSubStream, BrazeStream):
             if parent_slice["parent"]["created_at"] is None or parent_slice["parent"]["updated_at"] is None:
                 continue
 
-            start_date = pendulum.parse(parent_slice["parent"]["created_at"])
-            end_date = pendulum.parse(parent_slice["parent"]["updated_at"])
+            start_date = pendulum.parse(parent_slice["parent"]["created_at"]).in_timezone("UTC")
+            end_date = pendulum.parse(parent_slice["parent"]["updated_at"]).in_timezone("UTC")
+
+            # let's add a buffer zone:
+            # - subtract 1 day from start_date
+            # - add 1 day to end_date
+            start_date = start_date.subtract(days=3)
+            end_date = end_date.add(days=3)
 
             if start_date.to_date_string() == end_date.to_date_string():
                 end_date = end_date.add(days=1)
@@ -138,18 +144,28 @@ class SegmentsDataSeries(HttpSubStream, BrazeStream):
                 starting_at = start_date.start_of("day")
                 ending_at = min(starting_at.add(days=self.time_interval["days"]).end_of("day"), end_date.end_of("day"))
 
+                # Ensure ending_at ends in 23:59:59 with the appropriate timezone
+                ending_at = ending_at.set(hour=23, minute=59, second=59)
+
                 # if ending day is after NOW(), set ending_at to NOW()
                 if ending_at >= pendulum.now().utcnow():
                     ending_at = pendulum.now().utcnow()
 
+                starting_at_str = starting_at.to_iso8601_string()
+                ending_at_str = ending_at.to_iso8601_string()
+                if "Z" in starting_at_str:
+                    starting_at_str = starting_at_str.replace("Z", self.timezone)
+                if "Z" in ending_at_str:
+                    ending_at_str = ending_at_str.replace("Z", self.timezone)
+
                 self.logger.info(
-                    f"Fetching {self.name} segment_id: {parent_slice['parent'][self.parent.primary_key]} ; time range: {starting_at.to_iso8601_string()} - {ending_at.to_iso8601_string()}"
+                    f"Fetching {self.name} segment_id: {parent_slice['parent'][self.parent.primary_key]} ; time range: {starting_at_str} - {ending_at_str}"
                 )
 
                 yield {
                     "parent": parent_slice["parent"],
-                    "starting_at": starting_at.to_iso8601_string(),
-                    "ending_at": ending_at.to_iso8601_string(),
+                    "starting_at": starting_at_str,
+                    "ending_at": ending_at_str,
                 }
                 start_date = start_date.add(days=self.time_interval["days"])
 
@@ -157,5 +173,5 @@ class SegmentsDataSeries(HttpSubStream, BrazeStream):
         return {
             "segment_id": stream_slice["parent"][self.parent.primary_key],
             "length": self.time_interval["days"],
-            "ending_at": f'{stream_slice["ending_at"]}{self.timezone}',
+            "ending_at": f'{stream_slice["ending_at"]}',
         }
